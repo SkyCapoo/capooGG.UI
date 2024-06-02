@@ -430,4 +430,556 @@ gg.clearResults()
 gg.toast("背視角距離修改成功")
 end
 function gamemode1()
-local t = {"liblibGameApp.so:bss",
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x1506D0, 0xC0}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = 3}})
+gg.toast("生存模式修改成功")
+end
+function gamemode2()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x1506D0, 0xC0}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = 1}})
+gg.toast("生存創造修改成功")
+end
+function gamemode3()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x1506D0, 0xC0}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = 5}})
+gg.toast("玩法模式修改成功")
+end
+function gamemode4()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x1506D0, 0xC0}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = 4}})
+gg.toast("玩法創造修改成功")
+end
+
+function perspective1()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x264230,0x1A0,0x348,0x318,0x198,0x2A8}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = 0}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x2459E0, 0x20, 0x100, 0x0, 0x178, 0x2A8}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = 0}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x121728,0x38,0x5C}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = 0}})
+gg.toast("主視角修改成功")
+end
+
+function perspective2()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x264230,0x1A0,0x348,0x318,0x198,0x2A8}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = 1}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x2459E0, 0x20, 0x100, 0x0, 0x178, 0x2A8}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = 1}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x121728,0x38,0x5C}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = 1}})
+gg.toast("背視角修改成功")
+end
+function perspective3()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x264230,0x1A0,0x348,0x318,0x198,0x2A8}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = 2}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x2459E0, 0x20, 0x100, 0x0, 0x178, 0x2A8}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = 2}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x121728,0x38,0x5C}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = 2}})
+gg.toast("正視角修改成功")
+end
+function perspective4()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x264230,0x1A0,0x348,0x318,0x198,0x2A8}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = 3}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x2459E0, 0x20, 0x100, 0x0, 0x178, 0x2A8}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = 3}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x121728,0x38,0x5C}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = 3}})
+gg.toast("360度視角修改成功")
+end
+
+function perspective5()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x264230,0x1A0,0x348,0x318,0x198,0x2A8}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = 4}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x2459E0, 0x20, 0x100, 0x0, 0x178, 0x2A8}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = 4}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x121728,0x38,0x5C}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = 4}})
+gg.toast("俯視角修改成功")
+end
+
+function perspective6()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x264230,0x1A0,0x348,0x318,0x198,0x2A8}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = 8}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x2459E0, 0x20, 0x100, 0x0, 0x178, 0x2A8}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = 8}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x121728,0x38,0x5C}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = 8}})
+gg.toast("視角靈魂出竅修改成功")
+end
+
+function movespeed()
+AA3 = gg.prompt({"输入加速倍数"}
+,{[1]=50},{[1]="number"})[1]
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x264230, 0x1C8, 0x1C0, 0xB0}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 16, value = AA3, freeze = true}})
+gg.toast("移動速度修改成功")
+gg.clearResults()
+end
+
+function setstar()
+AA3 = gg.prompt({"输入星星數量"}
+,{[1]=50},{[1]="number"})[1]
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x264230,0x1A0,0x1E0,0x160,0x1F0}
+local ttt = S_Pointer(t, tt, true)
+AA3 = AA3*38+945804460
+gg.addListItems({{address = ttt, flags = 4, value = AA3, freeze = true}})
+gg.toast("星星修改成功")
+gg.clearResults()
+end
+
+function runspeed()
+AA3 = gg.prompt({"输入跳高倍数"}
+,{[1]=100},{[1]="number"})[1]
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x264230,0x1A0,0x1E0,0xC0}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 16, value = AA3, freeze = true}})
+gg.toast("跳躍高度修改成功")
+gg.clearResults()
+end
+
+
+function noclip1()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x264230, 0x1C8, 0x198, 0xA8}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = -9999}})
+gg.toast("穿牆開啟成功")
+end
+function noclip2()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x264230, 0x1C8, 0x198, 0xA8}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = 180}})
+gg.toast("穿牆關閉成功")
+end
+function slowfalld1()
+local t = {"liblibGameApp.so", "Cd"}
+local tt = {0x63C30, 0x158, 0xB8, 0x1B4}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 16, value = 1, freeze = true}})
+gg.toast("緩降開啟成功")
+end
+
+function slowfalld2()
+local t = {"liblibGameApp.so", "Cd"}
+local tt = {0x63C30, 0x158, 0xB8, 0x1B4}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 16, value = -1, freeze = false}})
+gg.setValues({{address = ttt, flags = 16, value = 8}})
+gg.toast("緩降關閉成功")
+end
+
+
+function antoFlyupd1()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x264230, 0x1C8, 0x198, 0x12C}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 16, value = 60, freeze = true}})
+gg.toast("飛升開啟成功")
+end
+
+function antoFlyupds1()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x264230, 0x1C8, 0x198, 0x12C}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 16, value = 60, freeze = false}})
+gg.setValues({{address = ttt, flags = 16, value = -7}})
+gg.toast("飛升關閉成功")
+end
+
+
+
+
+
+function perspectivef1()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x157078,0x2E8,0x408}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 16, value = 0}})
+gg.toast("透視開啟成功")
+end
+
+
+function perspectivef2()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x157078,0x2E8,0x408}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 16, value = 30000}})
+gg.toast("透視關閉成功")
+end
+
+
+_ENV["悬浮窗图标"] = 'https://www.pnglog.com/7CSPjJ.png'
+--写图片文件直链
+
+_ENV["标题"] = 'SkyCapoo - UI'
+
+
+_ENV["分页"] = {
+	--导航栏分页名字和图标，添加表即可加页数，需要与功能配置页面数量对应
+	'防閃/公告',
+	'PvP功能',
+	'聯機功能',
+	'房主功能',
+	'美化功能',
+	'輔助設置',
+	--'设置',--这样添加新页面
+
+}
+
+
+init()    --传递变量勿动
+
+uistart({ --每一个功能页面需要有上边分页名字对应，多出来的不显示，少了需要补充
+	{     --1
+		CAtext('公告', '#005BFF', '14sp'),
+
+
+
+		CAtext('SkyCapoo', '#ffffff', '12sp', true),
+
+		CAbutton(
+			'日期時間',
+			function()
+				a() --调用了前置函数例子function a
+			end),
+
+		CAbutton(
+			'輔助作者',
+			function()
+				gg.alert('https://youtube.com/@capoo_scriptmaker?si=E-4LwQYEMpwlTLfm')
+			end,
+			0xff0062ff), --第三参数颜色
+
+
+		CAtext('内存分區'),
+
+		CAswitch(
+			"雙開防閃",
+			function()
+			 c()
+            gg.alert('防閃已開啟')
+			end,
+			function()
+            gg.alert('防閃已關閉')
+			end,
+			'進遊戲之前開'),
+
+		CAswitch(
+			"檢測進程",
+			function()
+               b()
+			end,
+			function()
+            gg.alert('檢測關閉')
+			end),
+
+
+
+
+	}, { --2
+
+		CAtext('PVP功能', '#005BFF', '14sp'),
+		CAbox({ '殺戮光環',
+			CAtext('PVP大佬', '#ffffff', '12sp', true),
+			CAbutton(
+				'HITBOX僅玩家',
+				function()
+                   hitbox()
+				end),
+		}),
+
+
+		CAtext('分區'),
+
+		CAcheck({
+			{
+				"連跳",
+				function()
+                  infjump1()
+				end,
+				function()
+                  infjump2()
+				end
+			}, {
+			"飛天",
+			function()
+              fly1()
+			end,
+			function()
+              fly2()
+			end
+		}, {
+			"飛檢測",
+			function()
+              nopflytask1()
+			end,
+			function()
+              nopflytask2()
+			end
+		}, {
+			"平飛",
+			function()
+             XyFly1()
+			end,
+			function()
+             XyFly2()
+			end
+		},
+
+		}),
+		CAswitch(
+			"PVP超廣角",
+			function()
+               pvpvioce1()
+			end,
+			function()
+               pvpvioce2()
+			end,
+			'奔跑觸發'),
+			
+}, { --3
+
+     CAtext('聯機功能', '#005BFF', '14sp'),
+     CAbox({
+         "偽房主",
+			CAtext('房間環境', '#ffffff', '12sp', true),
+			CAbutton(
+				'單機房間',
+				function()
+                   Fakehost1()
+				end),
+			CAbutton(
+				'開發者',
+				function()
+                   Fakehost2()
+				end),
+			CAbutton(
+				'房間成員',
+				function()
+                   Fakehost3()
+				end),
+			CAbutton(
+				'房間房主',
+				function()
+                   Fakehost4()
+				end),
+		}),
+     CAbox({
+         "遊戲模式",
+			CAtext('修改模式', '#ffffff', '12sp', true),
+			CAbutton(
+				'生存模式',
+				function()
+                   gamemode1()
+				end),
+			CAbutton(
+				'生存創造',
+				function()
+                   gamemode2()
+				end),
+			CAbutton(
+				'玩法模式',
+				function()
+                   gamemode3()
+				end),
+			CAbutton(
+				'玩法創造',
+				function()
+                   gamemode4()
+				end),
+		}),
+     CAbox({
+         "視角",
+			CAtext('修改視角', '#ffffff', '12sp', true),
+			CAbutton(
+				'主視角',
+				function()
+                   perspective1()
+				end),
+			CAbutton(
+				'背視角',
+				function()
+                   perspective2()
+				end),
+			CAbutton(
+				'正視角',
+				function()
+                   perspective3()
+				end),
+			CAbutton(
+				'360度視角',
+				function()
+                   perspective4()
+				end),
+			CAbutton(
+				'俯視角',
+				function()
+                   perspective5()
+				end),
+			CAbutton(
+				'視角靈魂出竅',
+				function()
+                   perspective6()
+				end),
+		}),
+      CAtext('綜合功能分區'),
+		CAcheck({
+			{
+			"人物穿牆",
+				function()
+                  noclip1()
+				end,
+				function()
+                  noclip2()
+				end
+			}, {
+			"人物飛升",
+			function()
+            antoFlyupd1()
+			end,
+			function()
+            antoFlyupds1()
+			end
+		}, {
+			"人物緩降",
+			function()
+             slowfalld1()
+			end,
+			function()
+             slowfalld2()
+			end
+		}, {
+			"人物透視",
+			function()
+             perspectivef1()
+			end,
+			function()
+             perspectivef2()
+			end
+		},
+
+		}),
+
+		CAtext('自定義修改區'),
+
+CAbutton(
+				'移動速度',
+				function()
+                   movespeed()
+				end),
+CAbutton(
+				'跳躍高度',
+				function()
+                   runspeed()
+				end),
+CAbutton(
+				'星星數量',
+				function()
+                   setstar()
+				end),
+CAbutton(
+				'上帝視角',
+				function()
+                   godvoice()
+				end),
+				
+
+		
+
+}, { --4
+
+
+
+
+}, { --5
+
+
+
+
+
+}, { --6
+
+	CAswitch(
+		"退出",
+		function()
+			Lock.unUi()
+			gg.alert("🐳作者YT:SkyCapoo🐳\n🐳作者bilibili:SkyCapoo🐳\n.....辅助已停止运行.....❤️💛💚💙💜") 
+          print("🐳作者YT:SkyCapoo🐳\n🐳作者bilibili:SkyCapoo🐳\n🔆成功关闭，欢迎下次使用")
+          gg.playMusic("stop")
+        	os.exit()
+		end,
+		function()
+
+		end),
+
+
+
+
+}, { --7
+
+},
+})
+
+Lock.Ui(invoke, nil, function(err) print(err) end)
