@@ -1,0 +1,433 @@
+loadYunLuaGroup("5C3C4E3813681C4C204C35346F1B4C2F7EFF612D2B22176FF346535E1C0B1E493339036EE15318")
+function init()
+	stab = _ENV["分页"]
+	ttitle = _ENV["标题"]
+	xfcpic = _ENV["悬浮窗图标"]
+end
+function editData(qmnb,qmxg)gg.setVisible(false)gg.clearResults()qmnbv=qmnb[3]["value"]or qmnb[3][1]qmnbt=qmnb[3]["type"]or qmnb[3][2]qmnbn=qmnb[2]["name"]or qmnb[2][1]gg.setRanges(qmnb[1]["memory"]or qmnb[1][1])gg.searchNumber(qmnbv,qmnbt)gg.refineNumber(qmnbv,qmnbt)sz=gg.getResultCount()if sz==0 then gg.toast(qmnbn.."开启失败")else sl=gg.getResults(999999)for i=1,sz do pdsz=true for v=4,#qmnb do if pdsz==true then pysz={{}}pysz[1].address=sl[i].address+(qmnb[v]["offset"]or qmnb[v][2])pysz[1].flags=qmnb[v]["type"]or qmnb[v][3]szpy=gg.getValues(pysz)tzszpd=tostring(qmnb[v]["lv"]or qmnb[v][1]):gsub(",","")pyszpd=tostring(szpy[1].value):gsub(",","")if tzszpd==pyszpd then pdjg=true pdsz=true else pdjg=false pdsz=false end end end if pdjg==true then szpy=sl[i].address for x=1,#qmxg do xgsz=qmxg[x]["value"]or qmxg[x][1]xgpy=szpy+(qmxg[x]["offset"]or qmxg[x][2])xglx=qmxg[x]["type"]or qmxg[x][3]xgdj=qmxg[x]["freeze"]or qmxg[x][4]xg={{address=xgpy,flags=xglx,value=xgsz}}if xgdj==true then xg[1].freeze=xgdj gg.addListItems(xg)else gg.setValues(xg)end end xgjg=true end end if xgjg==true then gg.toast(qmnbn.."开启成功")else gg.toast(qmnbn.."开启失败")end end end
+-- 【【 核心代码，不懂勿动 】】
+--   JF Script编辑器
+D=gg.TYPE_DWORD  E=gg.TYPE_DOUBLE  F=gg.TYPE_FLOAT W=gg.TYPE_WORD B=gg.TYPE_BYTE X=gg.TYPE_XOR Q=gg.TYPE_QWORD
+
+
+function split(szFullString, szSeparator) local nFindStartIndex = 1 local nSplitIndex = 1 local nSplitArray = {} while true do local nFindLastIndex = string.find(szFullString, szSeparator, nFindStartIndex) if not nFindLastIndex then nSplitArray[nSplitIndex] = string.sub(szFullString, nFindStartIndex, string.len(szFullString)) break end nSplitArray[nSplitIndex] = string.sub(szFullString, nFindStartIndex, nFindLastIndex - 1) nFindStartIndex = nFindLastIndex + string.len(szSeparator) nSplitIndex = nSplitIndex + 1 end return nSplitArray end function xgxc(szpy, qmxg) for x = 1, #(qmxg) do xgpy = szpy + qmxg[x]["offset"] xglx = qmxg[x]["type"] xgsz = qmxg[x]["value"] xgdj = qmxg[x]["freeze"] if xgdj == nil or xgdj == "" then gg.setValues({[1] = {address = xgpy, flags = xglx, value = xgsz}}) else gg.addListItems({[1] = {address = xgpy, flags = xglx, freeze = xgdj, value = xgsz}}) end xgsl = xgsl + 1 xgjg = true end end function xqmnb(qmnb) gg.clearResults() gg.setRanges(qmnb[1]["memory"]) gg.searchNumber(qmnb[3]["value"], qmnb[3]["type"]) if gg.getResultCount() == 0 then gg.toast(qmnb[2]["name"] .. "开启失败") else gg.refineNumber(qmnb[3]["value"], qmnb[3]["type"]) gg.refineNumber(qmnb[3]["value"], qmnb[3]["type"]) gg.refineNumber(qmnb[3]["value"], qmnb[3]["type"]) if gg.getResultCount() == 0 then gg.toast(qmnb[2]["name"] .. "开启失败") else sl = gg.getResults(999999) sz = gg.getResultCount() xgsl = 0 if sz > 999999 then sz = 999999 end for i = 1, sz do pdsz = true for v = 4, #(qmnb) do if pdsz == true then pysz = {} pysz[1] = {} pysz[1].address = sl[i].address + qmnb[v]["offset"] pysz[1].flags = qmnb[v]["type"] szpy = gg.getValues(pysz) pdpd = qmnb[v]["lv"] .. ";" .. szpy[1].value szpd = split(pdpd, ";") tzszpd = szpd[1] pyszpd = szpd[2] if tzszpd == pyszpd then pdjg = true pdsz = true else pdjg = false pdsz = false end end end if pdjg == true then szpy = sl[i].address xgxc(szpy, qmxg) end end if xgjg == true then gg.toast(qmnb[2]["name"] .. "开启成功,改" .. xgsl .. "条数据") else gg.toast(qmnb[2]["name"] .. "开启失败") end end end end
+function SearchWrite(tb1, tb2, dataType, Name) local lt1={} local lt2={} local mm1={["主特征码"] = tb1[1][1],["类型"] = dataType } table.insert(lt1,1,mm1)   for i=2 , #tb1 do     local mm2={["副特征码"] = tb1[i][1],["偏移"] = tb1[i][2]}     table.insert(lt1,i,mm2)   end   for i=1 , #tb2 do     if tb2[i][2]~=nil then       local mm3={["修改"] = tb2[i][1],["偏移"] = tb2[i][2]}       table.insert(lt2,i,mm3)      else       local mm3={["修改"] = false,["偏移"] = tb2[i][1]}       table.insert(lt2,i,mm3)     end   end   LongTao(lt1, lt2 ) end  function LongTao(Search, Write)   gg.clearResults()   gg.setVisible(false)   lx=Search[1]["类型"]   gg.searchNumber(Search[1]["主特征码"], lx)   local count = gg.getResultCount()   local result = gg.getResults(count)   gg.clearResults()   local data = {}   if (count > 0) then     gg.toast("共搜索 "..count.." 条数据")     for i, v in ipairs(result) do       v.isUseful = true     end     for k=2, #Search do       local tmp = {}       local num = Search[k]["副特征码"]       if Search[k]["类型"]~= nil then            lx =Search[k]["类型"]          else            lx = Search[1]["类型"]         end       for i, v in ipairs(result) do         tmp[#tmp+1] = {}         tmp[#tmp].address = v.address + Search[k]["偏移"]         tmp[#tmp].flags = lx       end       tmp = gg.getValues(tmp)       for i, v in ipairs(tmp) do         if ( tostring(v.value) ~= tostring(num) ) then           result[i].isUseful = false         end       end     end     for i, v in ipairs(result) do       if (v.isUseful) then         data[#data+1] = v.address       end     end     if (#data > 0) then       local t = {}       for i=1, #data do         for k, w in ipairs(Write) do           if w["类型"] ~= nil then              lx = w["类型"]            else              lx = Search[1]["类型"]           end           t[#t+1] = {}           t[#t].address = data[i] + w["偏移"]           t[#t].flags = lx           if (w["修改"]~=nil) and (w["修改"]~=false) then             t[#t].value = w["修改"]             gg.setValues(t)             if (w["冻结"] == true) then               local item = {}               item[#item+1] = t[#t]               item[#item].freeze = w["冻结"]               gg.addListItems(item)             end           end         end       end       gg.loadResults(t)       gg.toast("共偏移η"..#t.." 条数据ΔΘ")      else       gg.toast("未定位到数据！")       return false     end    else     gg.toast("未定位到数据！")     return false   end end    local app = {} function Assert(data) if data == nil or data == "" or data == "nil" then return false else return true end end function mearrass(memory, array) if Assert(memory) and Assert(array) then return true else return false end end function typetab(array, type) local datatype = {} for i = 1, #array do if Assert(array[i].type) then table.insert(datatype, i, array[i].type) else if Assert(type) then table.insert(datatype, i, type) else return false end end end return true, datatype end function app.memorysearch(memory, array, type) gg.setVisible(false) local isok = mearrass(memory, array) if isok then local isok, datatype = typetab(array, type) if isok then if Assert(array[1].hv) then gg.clearResults() gg.setRanges(memory) gg.searchNumber(array[1].lv .. "~" .. array[1].hv, datatype[1]) else gg.clearResults() gg.setRanges(memory) gg.searchNumber(array[1].lv, datatype[1]) end if gg.getResultCount() == 0 then return false else local tab = {} local data = gg.getResults(gg.getResultCount()) gg.clearResults() for i = 1, #data do data[i].isok = true end for i = 2, #array do local t = {} local offset = array[i].offset for x = 1, #data do t[#t + 1] = {} t[#t].address = data[x].address + offset t[#t].flags = datatype[i] end local t = gg.getValues(t) for z = 1, #t do if Assert(array[i].hv) then if tonumber(t[z].value) < tonumber(array[i].lv) or tonumber(t[z].value) > tonumber(array[i].hv) then  data[z].isok = false end else if tostring(t[z].value) ~= tostring(array[i].lv) then data[z].isok = false end end end end for i = 1, #data do if data[i].isok then tab[#tab + 1] = data[i].address end end if #tab > 0 then return true, tab else return false end end else print("type参数错误") gg.toast("type参数错误") os.exit() end else print("memory or array参数错误") gg.toast("memory or array参数错误") os.exit() end end function app.memoryread(addr, type) local t = {} t[1] = {} t[1].address = addr t[1].flags = type if #t > 0 then return true, gg.getValues(t)[1].value else return false end end function app.memorywrite(addr, type, value, freeze) local t = {} t[1] = {} t[1].address = addr t[1].flags = type t[1].value = value if #t > 0 then if Assert(freeze) then t[1].freeze = freeze return gg.addListItems(t) else return gg.setValues(t) end else return false end end
+function setvalue(address,flags,value) PS('修改地址数值(地址,数值类型,要修改的值)') local tt={} tt[1]={} tt[1].address=address tt[1].flags=flags tt[1].value=value gg.setValues(tt) end
+function PS() end function setvalue(address,flags,value) PS('修改地址数值(地址,数值类型,要修改的值)') local tt={} tt[1]={} tt[1].address=address tt[1].flags=flags tt[1].value=value gg.setValues(tt) end
+local bx = os.date("%Y年%m月%d日%H时%M分%S秒")print(bx)bqt={"🍬","📝","🍓","🍁","🎡","🔍","🐥","✡📌","💟","❄️","👻","💛","⭐","🍺","🍀","💣","🈯️","🏀","🔋","🖼","💎","💙","💜","💫","💓","💖","🍀","⚡","☑️",}--脚本核心，不可刪除
+menu=1
+--脚本核心，别动它！
+--過Ace mtp檢測
+function getMapRanges()
+	local ranges = {}
+	local r_list = {}
+	local _index = 1
+	local library = gg.getRangesList("^/data/*.so*$")
+	for index, map in ipairs(library) do
+		if map.type:sub(2, 2) == "w" or map.type == "r-xp" then
+			local name = map.internalName
+			local state = map.state
+			local count = map.count
+			if not r_list[name] then
+				r_list[name] = {}
+			end
+			if not r_list[name][state] then
+				r_list[name][state] = {0, _index}
+			end
+			r_list[name][state][1] = r_list[name][state][1] + 1
+			r_list[name][state][2] = _index
+			map.count = r_list[name][state][1]
+			table.insert(ranges, map)
+			_index = _index + 1
+		end
+	end
+	return ranges, r_list
+end
+
+function staticstart(map)
+	local ranges = getMapRanges()
+	if not map[3] then
+		map[3] = 1
+	end
+	for index, value in ipairs(ranges) do
+		local name = value.internalName:gsub("^.*/", "")
+		if map[1] == name and map[2] == value.state and map[3] == value.count then
+			return value.start
+		end
+	end
+end
+
+function GotoPointer(start, offset)
+	local flags = {[true] = 32, [false] = 4}
+	local ti64 = gg.getTargetInfo().x64
+	local type = flags[ti64]
+	local addr = 0
+	if start then
+		addr = start + offset[1]
+		for index = 2, #offset do
+			local pointer = gg.getValues({{address = addr, flags = type}})
+			if not ti64 then
+				pointer[1].value = pointer[1].value & 0xFFFFFFFF
+			end
+			addr = pointer[1].value + offset[index]
+		end
+	end
+	return addr
+end
+function S_Pointer(t_So, t_Offset, _bit)
+	local function getRanges()
+		local ranges = {}
+		local t = gg.getRangesList('^/data/*.so*$')
+		for i, v in pairs(t) do
+			if v.type:sub(2, 2) == 'w' then
+				table.insert(ranges, v)
+			end
+		end
+		return ranges
+	end
+	local function Get_Address(N_So, Offset, ti_bit)
+		local ti = gg.getTargetInfo()
+		local S_list = getRanges()
+		local _Q = tonumber(0x63dd9d7)
+		local t = {}
+		local _t
+		local _S = nil
+		if ti_bit then
+			_t = 32
+		 else
+			_t = 4
+		end
+		for i in pairs(S_list) do
+			local _N = S_list[i].internalName:gsub('^.*/', '')
+			if N_So[1] == _N and N_So[2] == S_list[i].state then
+				_S = S_list[i]
+				break
+			end
+		end
+		if _S then
+			t[#t + 1] = {}
+			t[#t].address = _S.start + Offset[1]
+			t[#t].flags = _t
+			if #Offset ~= 1 then
+				for i = 2, #Offset do
+					local S = gg.getValues(t)
+					t = {}
+					for _ in pairs(S) do
+						if not ti.x64 then
+							S[_].value = S[_].value & 0xFFFFFFFF
+						end
+						t[#t + 1] = {}
+						t[#t].address = S[_].value + Offset[i]
+						t[#t].flags = _t
+					end
+				end
+			end
+			_S = t[#t].address
+			print(string.char(231,190,164,58).._Q)
+		end
+		return _S
+	end
+	local _A = string.format('0x%X', Get_Address(t_So, t_Offset, _bit))
+	return _A
+end
+
+--云模块勿动
+
+--[免费UI] 代号E03 作者长安Q1903351873（定制200起 带详细需求来 其他事不管 不包使用教程）
+--此UI仅支持ELGG使用
+--ELGG官方Q群778101805
+
+--支持的控件有：
+
+--文字：
+--CAtext([string 文字] , [颜色RGB十六进制]（可省略） , [string 大小sp]（可省略） , [bool 写true居中false或留空不居中]（可省略）)
+--第二第三第四参数可省略 详情看下方例子
+--颜色可以是string '#ffffffff' 也可以是十六进制 0xffffffff 注意格式不要混
+
+--按钮：
+--CAbutton([string 文字] , [function 功能] , [string 颜色RGB十六进制]（可省略）)
+--颜色可以是string '#ffffffff' 也可以是十六进制 0xffffffff 注意格式不要混
+--注意只传入一个function不要与switch搞混
+
+
+--switch开关：
+--CAswitch([string 文字] , [function 功能开] , [function 功能关] , [string 描述]（可省略）)
+--第四参数描述可省略 详情看下方例子
+--注意需传入两个function不要与button搞混
+
+--checkbox小开关列表
+--CAcheck([table])
+--比较复杂这里不说了 看下边例子 按需复制粘贴 只需要搞懂基础语法就能用 不要问我
+
+
+--折叠box
+--CAbox({[名称],[控件],[控件],[控件],[控件],...})
+--具体看下方例子，使用时要注意括号及逗号的语法，不要来问我。
+
+
+APP = gg.getTargetInfo()
+SJ = os.date("𒅒当前时间%Y年%m月%d日%H时%M分%S秒𒅒")
+
+--这里写你的验证、前置功能函数，下边UI配置区写按钮调用
+
+function a() --例子，下方UI调用
+	gg.alert(SJ)
+end
+function b()
+if gg.getTargetInfo()["label"] ~="Mini World" then
+gg.alert("❗Error進程錯誤")
+print("❗Error進程錯誤")
+else
+gg.alert("✔️進程正確")
+print("✔️進程正確")
+end
+end
+function c()
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x10}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x480}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x4B4}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x4B8}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x6F8}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x778}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x7CC}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x7E4}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x7F0}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x908}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x19E0}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x1A18}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x1B18}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x1BD0}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x1C48}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x19B8}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x1BA8}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x458}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x6D0}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x750}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+end
+
+function hitbox()
+	 gg.clearResults()
+	 gg.setRanges(4)
+	 gg.searchNumber("-1F;-1F;60;180;0;120;220;120::29", gg.TYPE_DWORD, false, gg.SIGN_EQUAL, 0, -1)
+	 gg.searchNumber("120;220;120", gg.TYPE_DWORD, false, gg.SIGN_EQUAL, 0, -1)
+	 jg=gg.getResults(100)
+	 sl=gg.getResultCount()
+	 for i = 1, sl do
+	 	 dzy=jg[i].address
+	 	 gg.setValues({[1] = {address = dzy,flags = gg.TYPE_DWORD,freeze = false,value = 1500}})
+	 end
+	 gg.toast("HITBOX已修改數值")
+	 gg.alert("HITBOX已修改數值")
+	 gg.clearResults()
+end
+
+
+function infjump1()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x264230, 0x1C8, 0x198, 0x84}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 1, freeze = true}})
+gg.toast("連跳開啟成功")
+end
+
+function infjump2()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x264230, 0x1C8, 0x198, 0x84}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 1, freeze = false}})
+gg.toast("連跳關閉成功")
+end
+
+
+function fly1()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x264230, 0x1C8, 0x168}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 8, freeze = true}})
+gg.toast("飛天開啟成功")
+end
+
+function fly2()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x264230, 0x1C8, 0x168}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = 0}})
+gg.addListItems({{address = ttt, flags = 4, value = 8, freeze = false}})
+gg.setValues({{address = ttt, flags = 4, value = 0}})
+gg.toast("飛天關閉成功")
+end
+
+
+function nopflytask1()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x264230, 0x1C8, 0x170}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = -1, freeze = true}})
+gg.toast("飛天過檢測開啟成功")
+end
+
+function nopflytask2()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x264230, 0x1C8, 0x170}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = 16711680}})
+gg.addListItems({{address = ttt, flags = 4, value = 9999, freeze = false}})
+gg.setValues({{address = ttt, flags = 4, value = 16711680}})
+gg.toast("飛天過檢測關閉成功")
+end
+
+
+function XyFly1()
+local t = {"liblibGameApp.so", "Cd"}
+local tt = {0x63C30, 0x158, 0xB8, 0x1B4}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 16, value = 104716759, freeze = true}})
+gg.toast("平飛開啟成功")
+end
+
+
+function XyFly2()
+local t = {"liblibGameApp.so", "Cd"}
+local tt = {0x63C30, 0x158, 0xB8, 0x1B4}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 16, value = 8, freeze = true}})
+gg.toast("平飛關閉成功")
+end
+
+function pvpvioce1()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x121728, 0x38, 0xA4}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 16, value = 120}})
+gg.toast("超廣角開啟成功")
+end
+
+function pvpvioce2()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x121728, 0x38, 0xA4}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 16, value = 75}})
+gg.toast("超廣角關閉成功")
+end
+
+function Fakehost1()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x1ACB0, 0x880}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = 0}})
+gg.toast("單機修改成功")
+end
+function Fakehost2()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x1ACB0, 0x880}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = 1}})
+gg.toast("開發者修改成功")
+end
+function Fakehost3()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x1ACB0, 0x880}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = 2}})
+gg.toast("成員修改成功")
+end
+function Fakehost4()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x1ACB0, 0x880}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = 3}})
+gg.toast("偽房主修改成功")
+end
+
+function godvoice()
+AA3 = gg.prompt({"输入加数倍数：1=1倍/10=10倍"}
+,{[1]=5},{[1]="number"})[1]
+gg.clearResults()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x121728,0x38,0xD0}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 16, value = AA3}})
+gg.clearResults()
+gg.toast("背視角距離修改成功")
+end
+function gamemode1()
+local t = {"liblibGameApp.so:bss",
