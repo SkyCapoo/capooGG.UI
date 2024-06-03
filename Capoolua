@@ -177,9 +177,11 @@ function b()
 if gg.getTargetInfo()["label"] ~="Mini World" then
 gg.alert("❗Error進程錯誤")
 print("❗Error進程錯誤")
+gg.toast("❗Error進程錯誤")
 else
 gg.alert("✔️進程正確")
 print("✔️進程正確")
+gg.toast("✔️進程正確")
 end
 end
 function c()
@@ -299,6 +301,8 @@ function hitbox()
 	 gg.alert("HITBOX已修改數值")
 	 gg.clearResults()
 end
+
+
 function infjump1()
 local t = {"liblibGameApp.so:bss", "Cb"}
 local tt = {0x264230, 0x1C8, 0x198, 0x84}
@@ -415,7 +419,6 @@ local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = 3}})
 gg.toast("偽房主修改成功")
 end
-
 function godvoice()
 AA3 = gg.prompt({"输入加数倍数：1=1倍/10=10倍"}
 ,{[1]=5},{[1]="number"})[1]
@@ -668,6 +671,115 @@ gg.setValues({{address = ttt, flags = 16, value = 30000}})
 gg.toast("透視關閉成功")
 end
 
+ikun=0
+function autohead1()
+ai = 0
+repeat
+ai = ai + AA3s
+gg.sleep(10) 
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x121728,0x38,0x8}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 16, value =ai}})
+until (ai > 360)
+if (ikun >0) then
+return
+else
+return autohead1()
+end end
+
+function autohead2()
+ikun=1
+gg.toast("準心旋轉關閉成功")
+end
+
+function PlayerSkin()
+skin=gg.prompt({"皮肤的代码1胖达2齐天小圣3兔美美4迷斯拉5琉璃奖6乔治7墨家小飞8安妮9德古拉10叮叮当11荒野猎人12羽姬14乔-15篮球队长16啦啦队长20锦衣卫21花小楼22莉莉丝23月无双24叶小龙25二狼神26鱼小乐27迷俊俊28幻音29幻0式30柳仙儿31帕普奇32米娜33雪人34嘟嘟啵啵35啵啵36嘟嘟37梦歌38斩浪39天使40暗灵50乔克51小艾52秦天柱53威震天54慕斯55金悠悠56喜团团57林千树58大黄蜂59花幽幽60星灵61雪劳尔68铃音69清弦70紫悦71宇宙公主72柔柔女孩73月亮公主74钢索75飞镖76嚎叫77达奇78塔琳娜79森林隐者80兔子拉比81碧琪82卡洛尔83余小环84章小丸85熊小吉86星光熠熠87云宝88音韵公主89初慕90冲云霄96大无畏91利爪92富余人物2/93富余人物3/94富余人物4/95副余人物5/91富余人物6/97富余人物7/98富余人物8/99富余人物9/100富余人物10/101富球球62爱丽丝63龟太郎64红蜘蛛65热破66惊破天67余人物11/102圣婴103牛魔王104灵瑶105小红帽106迷小酷107狼少年108天仙子雅109天仙子颂110红玫瑰少女111橘子112绣球花少年查李斯113泡泡114朝露繁花115冰公主116红桃117白光莹118灰姑娘克里斯丁119灵公主120小龙人麒休121妙妙122白天鹅123时稀123时希124洁莉125快客小窝126野人127黑天鹅128青蛙王子130白雪公主131汉森132格雷特136哈鲁138春雨139青夏140秋果141小蓝142童梦仙踪143凌美琪144凌美雪145游乐王子146璎落147雷光148凛冬149珍奇女孩150苹果嘉儿女孩151阿拉灯152匹诺曹153塔莎154殷小敏155施巧灵156彩俐公主158络特159瑶月仙子160玉团儿161号手妮塔162鼓手尼普163龙响无双164拾玖165糖心小熊166星月小梦167星团公主玻璃169莺初171空候172倪羽儿173谢知礼174开斯特175奥利维亚178极兽特工沃夫•银179灵公主180龙空空181火鸡专家托克182贝瑞184莎莎186云裳187元祥儿188颜廷怀189舞狮游龙190蜜多多191沈一弦192云胭193苍鸿196米兰达197帝皇侠198虎心玉199虎啸丰200艾利菲201泰森202芙洛丝"},{[1]=1},{[1]="number"})[1]
+gg.clearResults()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BB8, 0x6C}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = skin}})
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BB8, 0x70}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+gg.toast("皮膚修改成功")
+end
+function playerphotoframe()
+txk1 = gg.prompt({"头像框代码[清凉一夏:20222.........]♡这个修改的自己看不见的，别人能看见。可以联机哦♡([头像框永久]20201-头像框-单身汪，[头像框永久]20202-头像框-莉莉丝，[头像框永久]20203-头像框-鬼斧神工，[头像框永久]20204-头像框-绘影大师，[头像框永久]20205-头像框-建筑大师，[头像框永久]20206-头像框-漫画大师，[头像框永久]20207-头像框-明日之星，[头像框永久]20208-头像框-写作大师，[头像框永久]20209-头像框-宣传委员，[头像框永久]20210-头像框-迷你主播，[头像框永久]20211-头像框-工坊管家，[头像框永久]20212-头像框-志愿者，[头像框永久]20213-头像框-2017，[头像框永久]20214-头像框-二郎神，[头像框永久]20215-头像框-招财猫，[头像框永久]20216-头像框-环保筑梦师，[头像框永久]20217-头像框-迷你世界2周年，[头像框永久]20218-头像框-小船长，[头像框永久]20219-头像框-劳动节，[头像框永久]20220-头像框-鉴赏家，[头像框永久]20221-头像框-儿童节，[头像框永久]20222-头像框-清凉一夏，[头像框永久]20223-头像框-花好月圆，[头像框永久]20224-头像框-侠客之心，[头像框永久]20225-头像框-护眼行动，[头像框永久]20226-头像框-小恶魔，[头像框永久]20227-头像框-圆桌骑士，[头像框永久]20228-头像框-圣诞节，[头像框永久]20229-头像框-2018，[头像框永久]20230-头像框-赛事成就，[头像框永久]20231-头像框-斩浪，[头像框永久]20232-头像框-迷你世界3周年，[头像框永久]20233-头像框-世界守护计划专属，[头像框永久]20234-头像框-初级大神，[头像框永久]20235-头像框-中级大神，[头像框永久]20236-头像框-高级大神，[头像框永久]20237-头像框-复活节，[头像框永久]20238-头像框-友谊之手，[头像框永久]20239-头像框-端午节，[头像框永久]20240-头像框-读书万卷，[头像框永久]20241-头像框-东部联盟，[头像框永久]20242-头像框-西部联盟，[头像框永久]20243-头像框-迷你编程，[头像框永久]20244-头像框-920全民创造节，[头像框永久]20245-头像框-乔克，[头像框永久]20246-头像框-圣诞心意，[头像框永久]20247-头像框-2019年度头像框，[头像框永久]20248-头像框-慕斯，[头像框永久]20249-头像框-金鼠贺岁，[头像框永久]20250-头像框-龙凤呈祥，[头像框永久]20251-头像框-喜团团，[头像框永久]20252-头像框-雪豹守护者，[头像框永久]20253-头像框-迷你4周年，[头像框永久]20254-头像框-齐天小圣，[头像框永久]20255-头像框-繁星共创营，[头像框永久]20256-头像框-甜棕拥护者，[头像框永久]20257-头像框-咸棕拥护者，[头像框永久]20258-头像框-阳光守护，[头像框永久]20259-玩法大作战专属，[头像框永久]20260-抖音专属头像框，[头像框永久]20261-玉兔心愿，[头像框永久]20262-QQ版专属头像框，[头像框永久]20263-慧眼达人，[头像框永久]20264-2020，[头像框永久]20265-2020，[头像框永久]20266-冬之声，[头像框永久]20267-梅之影，[头像框永久]20268-圣诞雪松[头像框永久]20269-雨林征服者，[头像框永久]20270-金牛贺岁，[头像框永久]20271-官版专属头像框，[头像框永久]20272-星光同在，[头像框永久]20273-天籁之窗，[头像框永久]20274-2020人气作者，[头像框永久]20275-2020新锐作者，[头像框永久]20276-2020优秀作者，[头像框永久]20277-金符星球，[头像框永久]20278-蓝电石星球，[头像框永久]20279-梦幻星球，[头像框永久]20280-海焰星球，[头像框永久]20281-绮丽星球，[头像框永久]20282-守望敦煌，[头像框永久]20283-迷你世界5周年，[头像框永久]20284-可爱猫咪，[头像框永久]20285-秋田&柴犬，[头像框永久]20286-福气猫头鹰，[头像框永久]20287-智慧狐狸，[头像框永久]20288-憨憨熊猫，[头像框永久]20289-花之时，[头像框永久]20290-复苏之声，[头像框永久]20291-踏春出游，[头像框永久]20292-妙妙，[头像框永久]33001-樱桃，[头像框永久]33002-旧城，[头像框永久]33003-粉咩羊，[头像框永久]33004-萌虎妹，[头像框永久]33005-墨道，[头像框永久]33006-糖果团，[头像框永久]33007-小烤拉，[头像框永久]33008-小仙仙，[头像框永久]33009-羊家堡，[头像框永久]33010-忆涵，[头像框永久]33023-脆脆法棒，[头像框永久]33024-鲜甜蘑菇"},{[1] = 20210},{[1] = "number"})[1] 
+gg.clearResults()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x3AED0, 0x20}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = txk1, freeze = true}})
+gg.toast("頭相框修改成功")
+end
+
+function sizexyz()
+playersize = gg.prompt({"输入模型大小（1是正常大小）"}
+,{[1]=5},{[1]="number"})[1]
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x264230,0x1A0,0x320}
+local ttt = S_Pointer(t, tt,true)
+gg.setValues({{address = ttt, flags = 16, value = playersize, freeze = true}})
+gg.toast("人物大小修改成功")
+end
+
+
+function invisible1()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x264230, 0x1C8, 0x198, 0x12C}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 16, value = 1000, freeze = true}})
+gg.sleep(1800)
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x264230, 0x1C8, 0x198, 0x12C}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 16, value = 1000, freeze = false}})
+gg.setValues({{address = ttt, flags = 16, value = -7}})
+gg.sleep(10)
+
+local t = {"liblibGameApp.so", "Cd"}
+local tt = {0x63C30, 0x158, 0xB8, 0x1B4}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 16, value = 104716760.0, freeze = true}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x264230,0x1A0,0x320}
+local ttt = S_Pointer(t, tt,true)
+gg.setValues({{address = ttt, flags = 16, value = -240, freeze = true}})
+gg.toast("隱身開啟成功")
+end
+
+
+function invisible2()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x264230,0x1A0,0x320}
+local ttt = S_Pointer(t, tt,true)
+gg.setValues({{address = ttt, flags = 16, value = 1, freeze = true}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x264230, 0x1C8, 0x198, 0x12C}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 16, value = -1000, freeze = true}})
+gg.sleep(2500)
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x264230, 0x1C8, 0x198, 0x12C}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 16, value = -1000, freeze = false}})
+gg.setValues({{address = ttt, flags = 16, value = -7}})
+gg.sleep(10)
+
+local t = {"liblibGameApp.so", "Cd"}
+local tt = {0x63C30, 0x158, 0xB8, 0x1B4}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 16, value = 8, freeze = true}})
+
+
+gg.toast("隱身關閉成功")
+end
+
 _ENV["悬浮窗图标"] = 'https://www.pnglog.com/7CSPjJ.png'
 --写图片文件直链
 
@@ -695,7 +807,7 @@ uistart({ --每一个功能页面需要有上边分页名字对应，多出来�
 
 
 
-		CAtext('SkyCapoo', '#ffffff', '12sp', true),
+		CAtext('SkyCapoo', '#FFD306', '12sp', true),
 
 		CAbutton(
 			'日期時間',
@@ -797,6 +909,15 @@ uistart({ --每一个功能页面需要有上边分页名字对应，多出来�
                pvpvioce2()
 			end,
 			'奔跑觸發'),
+      	CAswitch(
+			"人物隱身",
+			function()
+               invisible1()
+			end,
+			function()
+               invisible2()
+			end,
+			'確保頭上沒方塊'),
 			
 }, { --3
 
@@ -923,41 +1044,76 @@ uistart({ --每一个功能页面需要有上边分页名字对应，多出来�
 
 		CAtext('自定義修改區'),
 
+		CAswitch(
+			"準心旋轉",
+			function()
+			AA3s = gg.prompt({"输入旋轉速度"}
+             ,{[1]=10},{[1]="number"})[1]
+             gg.toast("準心旋轉開啟成功")
+             ikun=0
+               autohead1()
+			end,
+			function()
+               autohead2()
+			end,
+			'自動旋轉'),
+			
 CAbutton(
 				'移動速度',
 				function()
                    movespeed()
-				end),
+				end,
+			'#FF9224'),
 CAbutton(
 				'跳躍高度',
 				function()
                    runspeed()
-				end),
+				end,
+			'#FF9224'),
 CAbutton(
 				'星星數量',
 				function()
                    setstar()
-				end),
+				end,
+			'#FF77FF'),
+CAbutton(
+				'人物大小',
+				function()
+                   sizexyz()
+				end,
+			'#FF77FF'),
 CAbutton(
 				'上帝視角',
 				function()
                    godvoice()
-				end),
+				end,
+			'#F9F900'),
 				
 
 		
 
 }, { --4
-
-
+     CAtext('房主功能', '#005BFF', '14sp'),
 
 
 }, { --5
 
+     CAtext('美化功能', '#005BFF', '14sp'),
+  CAtext('美化區','#FF77FF', '12sp', true),
+CAbutton(
+				'聯機皮膚',
+				function()
+                   PlayerSkin()
+				end,
+			'#FF77FF'),
 
-
-
-
+ CAtext('真實有效區','#F9F900', '12sp', true),
+CAbutton(
+				'自定義頭相框',
+				function()
+                   playerphotoframe()
+				end,
+			'#F9F900'),
 }, { --6
 
 	CAswitch(
@@ -972,8 +1128,6 @@ CAbutton(
 		function()
 
 		end),
-
-
 
 
 }, { --7
