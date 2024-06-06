@@ -17,7 +17,7 @@ function PS() end function setvalue(address,flags,value) PS('修改地址数值(
 local bx = os.date("%Y年%m月%d日%H时%M分%S秒")print(bx)bqt={"🍬","📝","🍓","🍁","🎡","🔍","🐥","✡📌","💟","❄️","👻","💛","⭐","🍺","🍀","💣","🈯️","🏀","🔋","🖼","💎","💙","💜","💫","💓","💖","🍀","⚡","☑️",}--脚本核心，不可刪除
 menu=1
 --脚本核心，别动它！
---過Ace mtp檢測
+--過双开檢測
 function getMapRanges()
 	local ranges = {}
 	local r_list = {}
@@ -356,8 +356,6 @@ gg.addListItems({{address = ttt, flags = 4, value = 9999, freeze = false}})
 gg.setValues({{address = ttt, flags = 4, value = 16711680}})
 gg.toast("飛天過檢測關閉成功")
 end
-
-
 function XyFly1()
 local t = {"liblibGameApp.so", "Cd"}
 local tt = {0x63C30, 0x158, 0xB8, 0x1B4}
@@ -908,6 +906,29 @@ gg.setValues({{address = ttt, flags = 16, value = attack}})
 gg.toast("攻擊力修改成功")
 end
 
+function changeday() 
+Day = gg.prompt({"1~23999=1/23999~47999=2 输入天数:"}
+,{[1]=24000},{[1]="number"})[1]
+gg.clearResults()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x1506D0,0x1F8}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = Day}})
+gg.clearResults()
+end
+
+function changetime() 
+TIME = gg.prompt({"1000=7時 输入時间:"}
+,{[1]=1000},{[1]="number"})[1]
+gg.clearResults()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x1506D0,0x1FC}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = TIME}})
+gg.clearResults()
+end
+
+
 _ENV["悬浮窗图标"] = 'https://www.pnglog.com/7CSPjJ.png'
 --写图片文件直链
 
@@ -1254,6 +1275,18 @@ CAbutton(
                    teleport()
 				end,
 			'#FF77FF'),
+CAbutton(
+				'修改天數',
+				function()
+                   changeday()
+				end,
+			'#FF77FF'),
+CAbutton(
+				'修改時間',
+				function()
+                   changetime()
+				end,
+			'#FF77FF'),
 
 }, { --5
 
@@ -1265,8 +1298,7 @@ CAbutton(
                    PlayerSkin()
 				end,
 			'#FF77FF'),
-
- CAtext('真實有效區','#F9F900', '12sp', true),
+CAtext('真實有效區','#F9F900', '12sp', true),
 CAbutton(
 				'自定義頭相框',
 				function()
@@ -1279,13 +1311,13 @@ CAbutton(
 }, { --6
 
 	CAswitch(
-		"退出",
+		"退出輔助",
 		function()
 			Lock.unUi()
 			gg.alert("🐳作者YT:SkyCapoo🐳\n🐳作者bilibili:SkyCapoo🐳\n.....辅助已停止运行.....❤️💛💚💙💜") 
           print("🐳作者YT:SkyCapoo🐳\n🐳作者bilibili:SkyCapoo🐳\n🔆成功关闭，欢迎下次使用")
           gg.playMusic("stop")
-        	os.exit()
+        	gg.exit()
 		end,
 		function()
 
@@ -1298,3 +1330,5 @@ CAbutton(
 })
 
 Lock.Ui(invoke, nil, function(err) print(err) end)
+--os.exit()停止腳本
+--gg.exit()退出修改器
