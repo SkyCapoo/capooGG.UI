@@ -170,20 +170,70 @@ gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
 end
 
 function hitbox()
-	 gg.clearResults()
-	 gg.setRanges(4)
-	 gg.searchNumber("-1F;-1F;60;180;0;120;220;120::29", gg.TYPE_DWORD, false, gg.SIGN_EQUAL, 0, -1)
-	 gg.searchNumber("120;220;120", gg.TYPE_DWORD, false, gg.SIGN_EQUAL, 0, -1)
-	 jg=gg.getResults(100)
-	 sl=gg.getResultCount()
-	 for i = 1, sl do
-	 	 dzy=jg[i].address
-	 	 gg.setValues({[1] = {address = dzy,flags = gg.TYPE_DWORD,freeze = false,value = 1500}})
-	 end
+function bf(qmnb,qmxg)
+gg.setVisible(false)
+gg.clearResults()
+qmnbv=qmnb[3]["value"]or qmnb[3][1]qmnbt=qmnb[3]["type"]or qmnb[3][2]qmnbn=qmnb[2]["name"]or qmnb[2][1]gg.setRanges(qmnb[1]["memory"]or qmnb[1][1])
+gg.searchNumber(qmnbv,qmnbt)
+gg.refineNumber(qmnbv,qmnbt)
+sz=gg.getResultCount()
+if sz==0 then
+gg.toast(qmnbn.."开启失败，请尝试重启游戏")
+else
+sl=gg.getResults(999999)
+for i=1,sz do
+pdsz=true
+for v=4,#qmnb do
+if pdsz==true then
+pysz={{}}pysz[1].address=sl[i].address+(qmnb[v]["offset"]or qmnb[v][2])pysz[1].flags=qmnb[v]["type"]or qmnb[v][3]szpy=gg.getValues(pysz)tzszpd=tostring(qmnb[v]["lv"]or qmnb[v][1]):gsub(",","")
+pyszpd=tostring(szpy[1].value):gsub(",","")
+if tzszpd==pyszpd then 
+pdjg=true pdsz=true
+else
+pdjg=false
+pdsz=false
+end
+end
+end
+if pdjg==true then
+szpy=sl[i].address
+for x=1,#qmxg do
+xgsz=qmxg[x]["value"]or qmxg[x][1]xgpy=szpy+(qmxg[x]["offset"]or qmxg[x][2])xglx=qmxg[x]["type"]or qmxg[x][3]xgdj=qmxg[x]["freeze"]or qmxg[x][4]xg={{address=xgpy,flags=xglx,value=xgsz}}
+if xgdj==true then
+xg[1].freeze=xgdj
+gg.addListItems(xg)
+else
+gg.setValues(xg)
+end
+end
+xgjg=true
+end 
+end
+if xgjg==true then
+gg.toast(qmnbn.."开启成功,共注入 2 条冻结数据")
+else 
+gg.toast(qmnbn.."开启失败，请尝试重启游戏")
+end
+end
+end
+bf(
+{
+{4},
+{"碰撞箱"}, 
+{773094113340, gg.TYPE_QWORD},
+{220, 16, gg.TYPE_DWORD}, 
+},
+{
+{1500, 12, gg.TYPE_DWORD, true},
+{1500, 16, gg.TYPE_DWORD, true},
+{1500, 20, gg.TYPE_DWORD, true},
+}
+)
 	 gg.toast("HITBOX已修改數值")
 	 gg.alert("HITBOX已修改數值")
 	 gg.clearResults()
 end
+
 function infjump1()
 local t = {"liblibGameApp.so:bss", "Cb"}
 local tt = {0x264230, 0x1C8, 0x198, 0x84}
