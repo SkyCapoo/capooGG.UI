@@ -1,9 +1,4 @@
 loadYunLuaGroup("5C3C4E3813681C4C204C35346F1B4C2F7EFF612D2B22176FF346535E1C0B1E493339036EE15318")
-function init()
-	stab = _ENV["分页"]
-	ttitle = _ENV["标题"]
-	xfcpic = _ENV["悬浮窗图标"]
-end
 pcall(
 	load(
 		gg.makeRequest(
@@ -11,6 +6,12 @@ pcall(
 		).content
 	)
 )
+
+function init()
+	stab = _ENV["分页"]
+	ttitle = _ENV["标题"]
+	xfcpic = _ENV["悬浮窗图标"]
+end
 
 
 --云模块勿动
@@ -183,8 +184,6 @@ function hitbox()
 	 gg.alert("HITBOX已修改數值")
 	 gg.clearResults()
 end
-
-
 function infjump1()
 local t = {"liblibGameApp.so:bss", "Cb"}
 local tt = {0x264230, 0x1C8, 0x198, 0x84}
@@ -458,7 +457,6 @@ gg.addListItems({{address = ttt, flags = 16, value = AA3, freeze = true}})
 gg.toast("移動速度修改成功")
 gg.clearResults()
 end
-
 function setstar()
 AA3 = gg.prompt({"输入星星數量"}
 ,{[1]=50},{[1]="number"})[1]
@@ -793,7 +791,7 @@ gg.toast("攻擊力修改成功")
 end
 
 function changeday() 
-Day = gg.prompt({"1~23999=1/23999~47999=2 输入天数:"}
+Day = gg.prompt({"1~23999=1/23999~47999=2 输入天數:"}
 ,{[1]=24000},{[1]="number"})[1]
 gg.clearResults()
 local t = {"liblibGameApp.so:bss", "Cb"}
@@ -801,10 +799,11 @@ local tt = {0x1506D0,0x1F8}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = Day}})
 gg.clearResults()
+gg.toast("天數修改成功")
 end
 
 function changetime() 
-TIME = gg.prompt({"1000=7時 输入時间:"}
+TIME = gg.prompt({"1000=7時 输入時間:"}
 ,{[1]=1000},{[1]="number"})[1]
 gg.clearResults()
 local t = {"liblibGameApp.so:bss", "Cb"}
@@ -812,6 +811,7 @@ local tt = {0x1506D0,0x1FC}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = TIME}})
 gg.clearResults()
+gg.toast("時間修改成功")
 end
 
 function handitemID()
@@ -836,6 +836,7 @@ gg.addListItems({{address = ttt, flags = 4, value = 257, freeze = true }})
 gg.clearResults()
 count=30.0+(154.0*1)-154.0
 so({"坐骑",132.0,4,16},{{180.0,4,16},{count,36,16}},{{257,96,4,1},{MountID1,304,4,1}})
+gg.toast("第一格坐騎添加/修改成功")
 end
 function onMountID1()
 ooid1 = gg.prompt({"『請輸入第一格坐騎代碼』3456-舞獅貓貓3471-深淵咆哮3480-皎月仙宮3486-繽紛幻想3492-浮游山海3485-冰雪傳說3514-遠古巨人3459-星河天馬3462-桃香扇 4503-鹿王本生4200-哮天犬3504-混亂黑龍3497－鏡花水月4507－精靈南瓜車4510－竹蜻蜓4518－烈空戰甲4521－星河戰甲4526－環海洛洛空龍尼 洛洛3434-敏捷小飛鼠3435-機智小飛鼠3436-麒麟3437-普通麒麟3438-祥瑞麒麟3439-小陸行鳥3440-迅捷象躍動鳥3441-歡樂躍動陸行小鳥342 白象3444-盛典白象3445-海豹水手3446-海豹船長3447-超能海豹3448-擎天柱(遊戲版本過低)3449-擎天柱3450-威震天(遊戲版本過低)3451-威 震天3452-大黃蜂(遊戲版過低)3453-大黃蜂3454-貓寶寶3455-福袋貓貓3456-舞獅貓貓3457-天馬寶寶3458-神聖天馬3459-星河天馬3460-青竹坐檯3461- 富貴金轎3462-桃香扇緣3463-紅蜘蛛(遊戲版本過低)3464-紅蜘蛛3465-熱破(遊戲版本過低)3466-熱破3467-驚破天(遊戲版本過低)3468-驚 破天3469-大地領主3470-炎獄魔龍3471-深淵咆哮3472-鋼鎖3473-鋼鎖3474-飛標3475-飛標3476-嚎叫3477-嚎叫3478-月明星3479-玉兔桃花3480  -皎月仙宮3481-兔子先生拉比3482-兔子先生拉比3483-暖冬祝福3484-聖夜驚喜3485-冰雪傳說3486-繽紛幻想3487-繽紛幻想3488-福運哞哞3489-福運哞 3490-攀崖觀日3491-北辰螢火3492-浮游山海3493-牛魔王3494-牛魔王3495-步步生蓮3496-飛花踏雪3497-鏡花水月"}
@@ -844,15 +845,10 @@ local t = {"liblibGameApp.so:bss", "Cb"}
 local tt = {0x414110,0xD0,0x420,0x2F0,0x28,0x124}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 4, value = 257, freeze = true }})
-local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x414110,0x78,0xD8,0xB8,0xB8,0x4F4}
-local ttt = S_Pointer(t, tt, true)
-gg.addListItems({{address = ttt, flags = 4, value = ooid1, freeze = true }})
-local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x136B8,0x180,0xB8,0x70,0x28,0x124}
-local ttt = S_Pointer(t, tt, true)
-gg.addListItems({{address = ttt, flags = 4, value = 257, freeze = true }})
+count=30.0+(154.0*1)-154.0
+so({"坐骑",132.0,4,16},{{180.0,4,16},{count,36,16}},{{257,96,4,1},{ooid1,304,4,1}})
 gg.clearResults()
+gg.toast("第一格坐騎添加/修改成功")
 end
 
 function MountUIID1()
@@ -891,6 +887,7 @@ function MountUIID1()
 "✨💠帝皇战龙💠✨",
 "✨💠虎虎生威💠✨",
 "✨💠旺财💠✨",
+"✨💠米蘭達💠✨", 
 "✨💠帝皇侠💠✨", 
 "✨💠自定義💠✨", 
 "✨🎡 返 回  🎡✨",},2018,os.date("📌坐騎第一格添加--[只限大廳修改]"))
@@ -928,8 +925,9 @@ if  callMount1==31 then MountID1= 4554 MountInformation1() end
 if  callMount1==32 then MountID1= 4562 MountInformation1() end
 if  callMount1==33 then MountID1= 4566 MountInformation1() end
 if  callMount1==34 then MountID1= 4556 MountInformation1() end
-if  callMount1==35 then MountID1= 4570 MountInformation1() end
-if  callMount1==36 then onMountID1() end
+if  callMount1==35 then MountID1= 4568 MountInformation1() end
+if  callMount1==36 then MountID1= 4570 MountInformation1() end
+if  callMount1==37 then onMountID1() end
 XGCK=-1
 end
 
@@ -941,6 +939,7 @@ gg.addListItems({{address = ttt, flags = 4, value = 257, freeze = true }})
 gg.clearResults()
 count=30.0+(154.0*2)-154.0
 so({"坐骑",132.0,4,16},{{180.0,4,16},{count,36,16}},{{257,96,4,1},{MountID2,304,4,1}})
+gg.toast("第二格坐騎添加/修改成功")
 end
 function onMountID2()
 ooid2 = gg.prompt({"『請輸入第二格坐騎代碼』3456-舞獅貓貓3471-深淵咆哮3480-皎月仙宮3486-繽紛幻想3492-浮游山海3485-冰雪傳說3514-遠古巨人3459-星河天馬3462-桃香扇 4503-鹿王本生4200-哮天犬3504-混亂黑龍3497－鏡花水月4507－精靈南瓜車4510－竹蜻蜓4518－烈空戰甲4521－星河戰甲4526－環海洛洛空龍尼 洛洛3434-敏捷小飛鼠3435-機智小飛鼠3436-麒麟3437-普通麒麟3438-祥瑞麒麟3439-小陸行鳥3440-迅捷象躍動鳥3441-歡樂躍動陸行小鳥342 白象3444-盛典白象3445-海豹水手3446-海豹船長3447-超能海豹3448-擎天柱(遊戲版本過低)3449-擎天柱3450-威震天(遊戲版本過低)3451-威 震天3452-大黃蜂(遊戲版過低)3453-大黃蜂3454-貓寶寶3455-福袋貓貓3456-舞獅貓貓3457-天馬寶寶3458-神聖天馬3459-星河天馬3460-青竹坐檯3461- 富貴金轎3462-桃香扇緣3463-紅蜘蛛(遊戲版本過低)3464-紅蜘蛛3465-熱破(遊戲版本過低)3466-熱破3467-驚破天(遊戲版本過低)3468-驚 破天3469-大地領主3470-炎獄魔龍3471-深淵咆哮3472-鋼鎖3473-鋼鎖3474-飛標3475-飛標3476-嚎叫3477-嚎叫3478-月明星3479-玉兔桃花3480  -皎月仙宮3481-兔子先生拉比3482-兔子先生拉比3483-暖冬祝福3484-聖夜驚喜3485-冰雪傳說3486-繽紛幻想3487-繽紛幻想3488-福運哞哞3489-福運哞 3490-攀崖觀日3491-北辰螢火3492-浮游山海3493-牛魔王3494-牛魔王3495-步步生蓮3496-飛花踏雪3497-鏡花水月"}
@@ -949,17 +948,11 @@ local t = {"liblibGameApp.so:bss", "Cb"}
 local tt = {0x414110,0xD0,0x420,0x2F0,0x28,0x124}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 4, value = 257, freeze = true }})
-local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x414110,0x78,0xD8,0xB8,0xB8,0x4F4}
-local ttt = S_Pointer(t, tt, true)
-gg.addListItems({{address = ttt, flags = 4, value = ooid2, freeze = true }})
-local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x136B8,0x180,0xB8,0x70,0x28,0x124}
-local ttt = S_Pointer(t, tt, true)
-gg.addListItems({{address = ttt, flags = 4, value = 257, freeze = true }})
+count=30.0+(154.0*1)-154.0
+so({"坐骑",132.0,4,16},{{180.0,4,16},{count,36,16}},{{257,96,4,1},{ooid2,304,4,1}})
 gg.clearResults()
+gg.toast("第二格坐騎添加/修改成功")
 end
-
 function MountUIID2()
  callMount2=  gg.choice({
 "✨💠化石龙💠✨",
@@ -996,6 +989,7 @@ function MountUIID2()
 "✨💠帝皇战龙💠✨",
 "✨💠虎虎生威💠✨",
 "✨💠旺财💠✨",
+"✨💠米蘭達💠✨", 
 "✨💠帝皇侠💠✨", 
 "✨💠自定義💠✨", 
 "✨🎡 返 回  🎡✨",},2018,os.date("📌坐騎第二格添加--[只限大廳修改]"))
@@ -1033,8 +1027,9 @@ if  callMount2==31 then MountID2= 4554 MountInformation2() end
 if  callMount2==32 then MountID2= 4562 MountInformation2() end
 if  callMount2==33 then MountID2= 4566 MountInformation2() end
 if  callMount2==34 then MountID2= 4556 MountInformation2() end
-if  callMount2==35 then MountID2= 4570 MountInformation2() end
-if  callMount2==36 then onMountID2() end
+if  callMount2==35 then MountID2= 4568 MountInformation2() end
+if  callMount2==36 then MountID2= 4570 MountInformation2() end
+if  callMount2==37 then onMountID2() end
 XGCK=-1
 end
 
@@ -1046,6 +1041,7 @@ gg.addListItems({{address = ttt, flags = 4, value = 257, freeze = true }})
 gg.clearResults()
 count=30.0+(154.0*3)-154.0
 so({"坐骑",132.0,4,16},{{180.0,4,16},{count,36,16}},{{257,96,4,1},{MountID3,304,4,1}})
+gg.toast("第三格坐騎添加/修改成功")
 end
 function onMountID3()
 ooid3 = gg.prompt({"『請輸入第三格坐騎代碼』3456-舞獅貓貓3471-深淵咆哮3480-皎月仙宮3486-繽紛幻想3492-浮游山海3485-冰雪傳說3514-遠古巨人3459-星河天馬3462-桃香扇 4503-鹿王本生4200-哮天犬3504-混亂黑龍3497－鏡花水月4507－精靈南瓜車4510－竹蜻蜓4518－烈空戰甲4521－星河戰甲4526－環海洛洛空龍尼 洛洛3434-敏捷小飛鼠3435-機智小飛鼠3436-麒麟3437-普通麒麟3438-祥瑞麒麟3439-小陸行鳥3440-迅捷象躍動鳥3441-歡樂躍動陸行小鳥342 白象3444-盛典白象3445-海豹水手3446-海豹船長3447-超能海豹3448-擎天柱(遊戲版本過低)3449-擎天柱3450-威震天(遊戲版本過低)3451-威 震天3452-大黃蜂(遊戲版過低)3453-大黃蜂3454-貓寶寶3455-福袋貓貓3456-舞獅貓貓3457-天馬寶寶3458-神聖天馬3459-星河天馬3460-青竹坐檯3461- 富貴金轎3462-桃香扇緣3463-紅蜘蛛(遊戲版本過低)3464-紅蜘蛛3465-熱破(遊戲版本過低)3466-熱破3467-驚破天(遊戲版本過低)3468-驚 破天3469-大地領主3470-炎獄魔龍3471-深淵咆哮3472-鋼鎖3473-鋼鎖3474-飛標3475-飛標3476-嚎叫3477-嚎叫3478-月明星3479-玉兔桃花3480  -皎月仙宮3481-兔子先生拉比3482-兔子先生拉比3483-暖冬祝福3484-聖夜驚喜3485-冰雪傳說3486-繽紛幻想3487-繽紛幻想3488-福運哞哞3489-福運哞 3490-攀崖觀日3491-北辰螢火3492-浮游山海3493-牛魔王3494-牛魔王3495-步步生蓮3496-飛花踏雪3497-鏡花水月"}
@@ -1054,15 +1050,10 @@ local t = {"liblibGameApp.so:bss", "Cb"}
 local tt = {0x414110,0xD0,0x420,0x2F0,0x28,0x124}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 4, value = 257, freeze = true }})
-local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x414110,0x78,0xD8,0xB8,0xB8,0x4F4}
-local ttt = S_Pointer(t, tt, true)
-gg.addListItems({{address = ttt, flags = 4, value = ooid3, freeze = true }})
-local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x136B8,0x180,0xB8,0x70,0x28,0x124}
-local ttt = S_Pointer(t, tt, true)
-gg.addListItems({{address = ttt, flags = 4, value = 257, freeze = true }})
+count=30.0+(154.0*1)-154.0
+so({"坐骑",132.0,4,16},{{180.0,4,16},{count,36,16}},{{257,96,4,1},{ooid3,304,4,1}})
 gg.clearResults()
+gg.toast("第三格坐騎添加/修改成功")
 end
 
 function MountUIID3()
@@ -1101,6 +1092,7 @@ function MountUIID3()
 "✨💠帝皇战龙💠✨",
 "✨💠虎虎生威💠✨",
 "✨💠旺财💠✨",
+"✨💠米蘭達💠✨", 
 "✨💠帝皇侠💠✨", 
 "✨💠自定義💠✨", 
 "✨🎡 返 回  🎡✨",},2018,os.date("📌坐騎第三格添加--[只限大廳修改]"))
@@ -1138,8 +1130,9 @@ if  callMount3==31 then MountID3= 4554 MountInformation3() end
 if  callMount3==32 then MountID3= 4562 MountInformation3() end
 if  callMount3==33 then MountID3= 4566 MountInformation3() end
 if  callMount3==34 then MountID3= 4556 MountInformation3() end
-if  callMount3==35 then MountID3= 4570 MountInformation3() end
-if  callMount3==36 then onMountID3() end
+if  callMount3==35 then MountID3= 4568 MountInformation3() end
+if  callMount3==36 then MountID3= 4570 MountInformation3() end
+if  callMount3==37 then onMountID3() end
 XGCK=-1
 end
 
@@ -1151,6 +1144,7 @@ gg.addListItems({{address = ttt, flags = 4, value = 257, freeze = true }})
 gg.clearResults()
 count=30.0+(154.0*4)-154.0
 so({"坐骑",132.0,4,16},{{180.0,4,16},{count,36,16}},{{257,96,4,1},{MountID4,304,4,1}})
+gg.toast("第四格坐騎添加/修改成功")
 end
 function onMountID4()
 ooid4 = gg.prompt({"『請輸入第四格坐騎代碼』3456-舞獅貓貓3471-深淵咆哮3480-皎月仙宮3486-繽紛幻想3492-浮游山海3485-冰雪傳說3514-遠古巨人3459-星河天馬3462-桃香扇 4503-鹿王本生4200-哮天犬3504-混亂黑龍3497－鏡花水月4507－精靈南瓜車4510－竹蜻蜓4518－烈空戰甲4521－星河戰甲4526－環海洛洛空龍尼 洛洛3434-敏捷小飛鼠3435-機智小飛鼠3436-麒麟3437-普通麒麟3438-祥瑞麒麟3439-小陸行鳥3440-迅捷象躍動鳥3441-歡樂躍動陸行小鳥342 白象3444-盛典白象3445-海豹水手3446-海豹船長3447-超能海豹3448-擎天柱(遊戲版本過低)3449-擎天柱3450-威震天(遊戲版本過低)3451-威 震天3452-大黃蜂(遊戲版過低)3453-大黃蜂3454-貓寶寶3455-福袋貓貓3456-舞獅貓貓3457-天馬寶寶3458-神聖天馬3459-星河天馬3460-青竹坐檯3461- 富貴金轎3462-桃香扇緣3463-紅蜘蛛(遊戲版本過低)3464-紅蜘蛛3465-熱破(遊戲版本過低)3466-熱破3467-驚破天(遊戲版本過低)3468-驚 破天3469-大地領主3470-炎獄魔龍3471-深淵咆哮3472-鋼鎖3473-鋼鎖3474-飛標3475-飛標3476-嚎叫3477-嚎叫3478-月明星3479-玉兔桃花3480  -皎月仙宮3481-兔子先生拉比3482-兔子先生拉比3483-暖冬祝福3484-聖夜驚喜3485-冰雪傳說3486-繽紛幻想3487-繽紛幻想3488-福運哞哞3489-福運哞 3490-攀崖觀日3491-北辰螢火3492-浮游山海3493-牛魔王3494-牛魔王3495-步步生蓮3496-飛花踏雪3497-鏡花水月"}
@@ -1158,16 +1152,10 @@ ooid4 = gg.prompt({"『請輸入第四格坐騎代碼』3456-舞獅貓貓3471-�
 local t = {"liblibGameApp.so:bss", "Cb"}
 local tt = {0x414110,0xD0,0x420,0x2F0,0x28,0x124}
 local ttt = S_Pointer(t, tt, true)
-gg.addListItems({{address = ttt, flags = 4, value = 257, freeze = true }})
-local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x414110,0x78,0xD8,0xB8,0xB8,0x4F4}
-local ttt = S_Pointer(t, tt, true)
-gg.addListItems({{address = ttt, flags = 4, value = ooid4, freeze = true }})
-local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x136B8,0x180,0xB8,0x70,0x28,0x124}
-local ttt = S_Pointer(t, tt, true)
-gg.addListItems({{address = ttt, flags = 4, value = 257, freeze = true }})
+count=30.0+(154.0*1)-154.0
+so({"坐骑",132.0,4,16},{{180.0,4,16},{count,36,16}},{{257,96,4,1},{ooid4,304,4,1}})
 gg.clearResults()
+gg.toast("第四格坐騎添加/修改成功")
 end
 
 function MountUIID4()
@@ -1206,6 +1194,7 @@ function MountUIID4()
 "✨💠帝皇战龙💠✨",
 "✨💠虎虎生威💠✨",
 "✨💠旺财💠✨",
+"✨💠米蘭達💠✨", 
 "✨💠帝皇侠💠✨", 
 "✨💠自定義💠✨", 
 "✨🎡 返 回  🎡✨",},2018,os.date("📌坐騎第四格添加--[只限大廳修改]"))
@@ -1243,8 +1232,9 @@ if  callMount4==31 then MountID4= 4554 MountInformation4() end
 if  callMount4==32 then MountID4= 4562 MountInformation4() end
 if  callMount4==33 then MountID4= 4566 MountInformation4() end
 if  callMount4==34 then MountID4= 4556 MountInformation4() end
-if  callMount4==35 then MountID4= 4570 MountInformation4() end
-if  callMount4==36 then onMountID4() end
+if  callMount4==35 then MountID4= 4568 MountInformation4() end
+if  callMount4==36 then MountID4= 4570 MountInformation4() end
+if  callMount4==37 then onMountID4() end
 XGCK=-1
 end
 
@@ -1256,6 +1246,7 @@ gg.addListItems({{address = ttt, flags = 4, value = 257, freeze = true }})
 gg.clearResults()
 count=30.0+(154.0*5)-154.0
 so({"坐骑",132.0,4,16},{{180.0,4,16},{count,36,16}},{{257,96,4,1},{MountID5,304,4,1}})
+gg.toast("第五格坐騎添加/修改成功")
 end
 function onMountID5()
 ooid5 = gg.prompt({"『請輸入第五格坐騎代碼』3456-舞獅貓貓3471-深淵咆哮3480-皎月仙宮3486-繽紛幻想3492-浮游山海3485-冰雪傳說3514-遠古巨人3459-星河天馬3462-桃香扇 4503-鹿王本生4200-哮天犬3504-混亂黑龍3497－鏡花水月4507－精靈南瓜車4510－竹蜻蜓4518－烈空戰甲4521－星河戰甲4526－環海洛洛空龍尼 洛洛3434-敏捷小飛鼠3435-機智小飛鼠3436-麒麟3437-普通麒麟3438-祥瑞麒麟3439-小陸行鳥3440-迅捷象躍動鳥3441-歡樂躍動陸行小鳥342 白象3444-盛典白象3445-海豹水手3446-海豹船長3447-超能海豹3448-擎天柱(遊戲版本過低)3449-擎天柱3450-威震天(遊戲版本過低)3451-威 震天3452-大黃蜂(遊戲版過低)3453-大黃蜂3454-貓寶寶3455-福袋貓貓3456-舞獅貓貓3457-天馬寶寶3458-神聖天馬3459-星河天馬3460-青竹坐檯3461- 富貴金轎3462-桃香扇緣3463-紅蜘蛛(遊戲版本過低)3464-紅蜘蛛3465-熱破(遊戲版本過低)3466-熱破3467-驚破天(遊戲版本過低)3468-驚 破天3469-大地領主3470-炎獄魔龍3471-深淵咆哮3472-鋼鎖3473-鋼鎖3474-飛標3475-飛標3476-嚎叫3477-嚎叫3478-月明星3479-玉兔桃花3480  -皎月仙宮3481-兔子先生拉比3482-兔子先生拉比3483-暖冬祝福3484-聖夜驚喜3485-冰雪傳說3486-繽紛幻想3487-繽紛幻想3488-福運哞哞3489-福運哞 3490-攀崖觀日3491-北辰螢火3492-浮游山海3493-牛魔王3494-牛魔王3495-步步生蓮3496-飛花踏雪3497-鏡花水月"}
@@ -1264,15 +1255,10 @@ local t = {"liblibGameApp.so:bss", "Cb"}
 local tt = {0x414110,0xD0,0x420,0x2F0,0x28,0x124}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 4, value = 257, freeze = true }})
-local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x414110,0x78,0xD8,0xB8,0xB8,0x4F4}
-local ttt = S_Pointer(t, tt, true)
-gg.addListItems({{address = ttt, flags = 4, value = ooid5, freeze = true }})
-local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x136B8,0x180,0xB8,0x70,0x28,0x124}
-local ttt = S_Pointer(t, tt, true)
-gg.addListItems({{address = ttt, flags = 4, value = 257, freeze = true }})
+count=30.0+(154.0*1)-154.0
+so({"坐骑",132.0,4,16},{{180.0,4,16},{count,36,16}},{{257,96,4,1},{ooid5,304,4,1}})
 gg.clearResults()
+gg.toast("第五格坐騎添加/修改成功")
 end
 
 function MountUIID5()
@@ -1311,6 +1297,7 @@ function MountUIID5()
 "✨💠帝皇战龙💠✨",
 "✨💠虎虎生威💠✨",
 "✨💠旺财💠✨",
+"✨💠米蘭達💠✨", 
 "✨💠帝皇侠💠✨", 
 "✨💠自定義💠✨", 
 "✨🎡 返 回  🎡✨",},2018,os.date("📌坐騎第五格添加--[只限大廳修改]"))
@@ -1348,8 +1335,9 @@ if  callMount5==31 then MountID5= 4554 MountInformation5() end
 if  callMount5==32 then MountID5= 4562 MountInformation5() end
 if  callMount5==33 then MountID5= 4566 MountInformation5() end
 if  callMount5==34 then MountID5= 4556 MountInformation5() end
-if  callMount5==35 then MountID5= 4570 MountInformation5() end
-if  callMount5==36 then onMountID5() end
+if  callMount5==35 then MountID5= 4568 MountInformation5() end
+if  callMount5==36 then MountID5= 4570 MountInformation5() end
+if  callMount5==37 then onMountID5() end
 XGCK=-1
 end
 function MountsUI() 
@@ -1368,6 +1356,70 @@ if xg2==4 then xgms="第四格坐騎" MountUIID4() end---第四格坐騎
 if xg2==5 then xgms="第五格坐騎" MountUIID5() end----第五格坐騎
 XGCK=-1
 end
+
+function itemschangehack()
+XY = gg.prompt({"请输入要改的物品代码\n输入12239恢复"},{[1]=10500},{[1]="number"})[1]
+gg.toast(so({"噴漆改物",12240,4,4},{{200,-0x1B0,4},{2,0x8,4}},{{XY,-0x280,4,1}})) gg.toast("噴漆修改成功")end
+
+
+function setworldtoolitemblocks()
+x = gg.prompt({"请输入你要改的编辑器填充物代码,三个祭台140,141,142,三个圣遗物587,588,589,卡图方块1049,老版本炸药桶835,刷怪方块1080"},{[1]=835},{[1]="number"})[1]
+gg.searchNumber("104", gg.TYPE_DOUBLE, false, gg.SIGN_EQUAL, 0, -1, 0)
+gg.processResume()--搜索值
+gg.refineNumber("104", gg.TYPE_DOUBLE, false, gg.SIGN_EQUAL, 0, -1, 0)
+gg.processResume()--移动值
+gg.refineNumber("104", gg.TYPE_DOUBLE, false, gg.SIGN_EQUAL, 0, -1, 0)
+gg.processResume()--移动值
+gg.refineNumber("104", gg.TYPE_DOUBLE, false, gg.SIGN_EQUAL, 0, -1, 0)
+gg.processResume()--移动值
+revert = gg.getResults(10000, nil, nil, nil, nil, nil, nil, nil, nil)
+gg.editAll(x, gg.TYPE_DOUBLE)
+revert = gg.getResults(10000, nil, nil, nil, nil, nil, nil, nil, nil)--修改值
+gg.editAll(x, gg.TYPE_DOUBLE)--修改值
+
+gg.clearResults()--退出值
+gg.processResume()--退出值
+gg.toast("填充物修改成功")
+end
+
+
+ikun2=0
+function autodohead1()
+ai2 = -180
+repeat
+ai2 = ai2 + AA3s2
+gg.sleep(20) 
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x264230,0x368,0x88}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 16, value = ai2, freeze = true}})
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x264230,0x250,0x50}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 16, value = ai2, freeze = true}})
+until (ai2 > 180)
+if (ikun2 >0) then
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x264230,0x368,0x88}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 16, value = ai2, freeze = false}})
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x264230,0x250,0x50}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 16, value = ai2, freeze = false}})
+return
+else
+return autodohead1()
+end end
+
+function autohead2()
+ikun2=1
+
+gg.toast("轉頭旋轉關閉成功")
+return
+end
+
+
 
 _ENV["悬浮窗图标"] = 'https://www.pnglog.com/7CSPjJ.png'
 --写图片文件直链
@@ -1446,7 +1498,7 @@ uistart({ --每一个功能页面需要有上边分页名字对应，多出来�
 			CAbutton(
 				'HITBOX僅玩家',
 				function()
-                   hitbox()
+                      hitbox()
 				end),
 		}),
 
@@ -1629,7 +1681,6 @@ uistart({ --每一个功能页面需要有上边分页名字对应，多出来�
 			end
 		},
 		
-
 		}),
 CAbutton(
 				'手中物品ID',
@@ -1649,6 +1700,19 @@ CAbutton(
 			end,
 			function()
                autohead2()
+			end,
+			'自動旋轉'),
+		CAswitch(
+			"轉頭旋轉",
+			function()
+AA3s2 = gg.prompt({"输入旋轉速度"}
+             ,{[1]=10},{[1]="number"})[1]
+             gg.toast("轉頭旋轉開啟成功")
+             ikun2=0
+               autodohead1()
+			end,
+			function()
+               autodohead2()
 			end,
 			'自動旋轉'),
 			
@@ -1682,7 +1746,12 @@ CAbutton(
                    godvoice()
 				end,
 			'#F9F900'),
-				
+CAbutton(
+				'編輯器填充物',
+				function()
+                   setworldtoolitemblocks()
+				end,
+			'#F9F900'),
 
 		
 
@@ -1743,7 +1812,12 @@ CAbutton(
                    PlayerSkin()
 				end,
 			'#FF77FF'),
-
+CAbutton(
+				'噴漆改物',
+				function()
+                   itemschangehack()
+				end,
+			'#FF77FF'),
  CAtext('真實有效區','#F9F900', '12sp', true),
 CAbutton(
 				'自定義頭相框',
