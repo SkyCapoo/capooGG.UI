@@ -1412,7 +1412,7 @@ else
 return autodohead1()
 end end
 
-function autohead2()
+function autodohead2()
 ikun2=1
 
 gg.toast("轉頭旋轉關閉成功")
