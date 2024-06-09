@@ -1,6 +1,6 @@
-print("loading UI")
+gg.toast("loading UI")
 loadYunLuaGroup("5C3C4E3813681C4C204C35346F1B4C2F7EFF612D2B22176FF346535E1C0B1E493339036EE15318")
-print("正在整理核心代碼-請耐心等待")
+gg.toast("正在整理核心代碼-請耐心等待")
 pcall(
 	load(
 		gg.makeRequest(
@@ -8,7 +8,7 @@ pcall(
 		).content
 	)
 )
-print("代碼整合完畢. . .")
+gg.toast("代碼整合完畢. . .")
 function init()
 	stab = _ENV["分页"]
 	ttitle = _ENV["标题"]
