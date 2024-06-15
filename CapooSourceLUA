@@ -1481,21 +1481,21 @@ gg.sleep(20)
 local t = {"liblibGameApp.so:bss", "Cb"}
 local tt = {0x2642E0,0x368,0x8C}
 local ttt = S_Pointer(t, tt, true)
-gg.addListItems({{address = ttt, flags = 16, value = ai2, freeze = true}})
+gg.addListItems({{address = ttt, flags = 16, value = ai3, freeze = true}})
 local t = {"liblibGameApp.so:bss", "Cb"}
 local tt = {0x2642E0,0x250,0x54}
 local ttt = S_Pointer(t, tt, true)
-gg.addListItems({{address = ttt, flags = 16, value = ai2, freeze = true}})
+gg.addListItems({{address = ttt, flags = 16, value = ai3, freeze = true}})
 until (ai3 > 180)
 if (ikun3 >0) then
 local t = {"liblibGameApp.so:bss", "Cb"}
 local tt = {0x2642E0,0x368,0x8C}
 local ttt = S_Pointer(t, tt, true)
-gg.addListItems({{address = ttt, flags = 16, value = ai2, freeze = false}})
+gg.addListItems({{address = ttt, flags = 16, value = ai3, freeze = false}})
 local t = {"liblibGameApp.so:bss", "Cb"}
 local tt = {0x2642E0,0x250,0x54}
 local ttt = S_Pointer(t, tt, true)
-gg.addListItems({{address = ttt, flags = 16, value = ai2, freeze = false}})
+gg.addListItems({{address = ttt, flags = 16, value = ai3, freeze = false}})
 return
 else
 return autodoheads1()
