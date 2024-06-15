@@ -227,9 +227,9 @@ bf(
 {220, 16, gg.TYPE_DWORD}, 
 },
 {
-{1500, 12, gg.TYPE_DWORD, true},
-{1500, 16, gg.TYPE_DWORD, true},
-{1500, 20, gg.TYPE_DWORD, true},
+{1500, 12, gg.TYPE_DWORD, false},
+{1500, 16, gg.TYPE_DWORD, false},
+{1500, 20, gg.TYPE_DWORD, false},
 }
 )
 	 gg.toast("HITBOX已修改數值")
