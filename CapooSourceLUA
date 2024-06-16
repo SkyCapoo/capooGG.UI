@@ -1,7 +1,6 @@
 gg.toast("loading UI")
 loadYunLuaGroup("5C3C4E3813681C4C204C35346F1B4C2F7EFF612D2B22176FF346535E1C0B1E493339036EE15318")
 gg.toast("正在整理核心代碼-請耐心等待")
-gg.alert("正在處理代碼-請耐心等待")
 pcall(
 	load(
 		gg.makeRequest(
@@ -394,7 +393,6 @@ local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = 4}})
 gg.toast("玩法創造修改成功")
 end
-
 function perspective1()
 local t = {"liblibGameApp.so:bss", "Cb"}
 local tt = {0x2642E0,0x1A0,0x348,0x318,0x198,0x2A8}
@@ -511,6 +509,7 @@ gg.addListItems({{address = ttt, flags = 16, value = AA3, freeze = true}})
 gg.toast("移動速度修改成功")
 gg.clearResults()
 end
+
 function setstar()
 AA3 = gg.prompt({"输入星星數量"}
 ,{[1]=50},{[1]="number"})[1]
@@ -629,7 +628,21 @@ gg.toast("準心旋轉關閉成功")
 end
 
 function PlayerSkin()
-skin=gg.prompt({"皮肤的代码1胖达2齐天小圣3兔美美4迷斯拉5琉璃奖6乔治7墨家小飞8安妮9德古拉10叮叮当11荒野猎人12羽姬14乔-15篮球队长16啦啦队长20锦衣卫21花小楼22莉莉丝23月无双24叶小龙25二狼神26鱼小乐27迷俊俊28幻音29幻0式30柳仙儿31帕普奇32米娜33雪人34嘟嘟啵啵35啵啵36嘟嘟37梦歌38斩浪39天使40暗灵50乔克51小艾52秦天柱53威震天54慕斯55金悠悠56喜团团57林千树58大黄蜂59花幽幽60星灵61雪劳尔68铃音69清弦70紫悦71宇宙公主72柔柔女孩73月亮公主74钢索75飞镖76嚎叫77达奇78塔琳娜79森林隐者80兔子拉比81碧琪82卡洛尔83余小环84章小丸85熊小吉86星光熠熠87云宝88音韵公主89初慕90冲云霄96大无畏91利爪92富余人物2/93富余人物3/94富余人物4/95副余人物5/91富余人物6/97富余人物7/98富余人物8/99富余人物9/100富余人物10/101富球球62爱丽丝63龟太郎64红蜘蛛65热破66惊破天67余人物11/102圣婴103牛魔王104灵瑶105小红帽106迷小酷107狼少年108天仙子雅109天仙子颂110红玫瑰少女111橘子112绣球花少年查李斯113泡泡114朝露繁花115冰公主116红桃117白光莹118灰姑娘克里斯丁119灵公主120小龙人麒休121妙妙122白天鹅123时稀123时希124洁莉125快客小窝126野人127黑天鹅128青蛙王子130白雪公主131汉森132格雷特136哈鲁138春雨139青夏140秋果141小蓝142童梦仙踪143凌美琪144凌美雪145游乐王子146璎落147雷光148凛冬149珍奇女孩150苹果嘉儿女孩151阿拉灯152匹诺曹153塔莎154殷小敏155施巧灵156彩俐公主158络特159瑶月仙子160玉团儿161号手妮塔162鼓手尼普163龙响无双164拾玖165糖心小熊166星月小梦167星团公主玻璃169莺初171空候172倪羽儿173谢知礼174开斯特175奥利维亚178极兽特工沃夫•银179灵公主180龙空空181火鸡专家托克182贝瑞184莎莎186云裳187元祥儿188颜廷怀189舞狮游龙190蜜多多191沈一弦192云胭193苍鸿196米兰达197帝皇侠198虎心玉199虎啸丰200艾利菲201泰森202芙洛丝"},{[1]=1},{[1]="number"})[1]
+skin=gg.prompt({"皮肤的代码:0無角色[還原]1胖达2齐天小圣3兔美美4迷斯拉5琉璃奖6乔治7墨家小飞8安妮9德古拉10叮叮当11荒野猎人12羽姬14乔-15篮球队长16啦啦队长20锦衣卫21花小楼22莉莉丝23月无双24叶小龙25二狼神26鱼小乐27迷俊俊28幻音29幻0式30柳仙儿31帕普奇32米娜33雪人34嘟嘟啵啵35啵啵36嘟嘟37梦歌38斩浪39天使40暗灵50乔克51小艾52秦天柱53威震天54慕斯55金悠悠56喜团团57林千树58大黄蜂59花幽幽60星灵61雪劳尔68铃音69清弦70紫悦71宇宙公主72柔柔女孩73月亮公主74钢索75飞镖76嚎叫77达奇78塔琳娜79森林隐者80兔子拉比81碧琪82卡洛尔83余小环84章小丸85熊小吉86星光熠熠87云宝88音韵公主89初慕90冲云霄96大无畏91利爪92富余人物2/93富余人物3/94富余人物4/95副余人物5/91富余人物6/97富余人物7/98富余人物8/99富余人物9/100富余人物10/101富球球62爱丽丝63龟太郎64红蜘蛛65热破66惊破天67余人物11/102圣婴103牛魔王104灵瑶105小红帽106迷小酷107狼少年108天仙子雅109天仙子颂110红玫瑰少女111橘子112绣球花少年查李斯113泡泡114朝露繁花115冰公主116红桃117白光莹118灰姑娘克里斯丁119灵公主120小龙人麒休121妙妙122白天鹅123时稀123时希124洁莉125快客小窝126野人127黑天鹅128青蛙王子130白雪公主131汉森132格雷特136哈鲁138春雨139青夏140秋果141小蓝142童梦仙踪143凌美琪144凌美雪145游乐王子146璎落147雷光148凛冬149珍奇女孩150苹果嘉儿女孩151阿拉灯152匹诺曹153塔莎154殷小敏155施巧灵156彩俐公主158络特159瑶月仙子160玉团儿161号手妮塔162鼓手尼普163龙响无双164拾玖165糖心小熊166星月小梦167星团公主玻璃169莺初171空候172倪羽儿173谢知礼174开斯特175奥利维亚178极兽特工沃夫•银179灵公主180龙空空181火鸡专家托克182贝瑞184莎莎186云裳187元祥儿188颜廷怀189舞狮游龙190蜜多多191沈一弦192云胭193苍鸿196米兰达197帝皇侠198虎心玉199虎啸丰200艾利菲201泰森202芙洛丝"},{[1]=1},{[1]="number"})[1]
+if skin < '1' then
+gg.clearResults()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x6C}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = skin}})
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x70}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = 0}})
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = false}})
+gg.setValues({{address = ttt, flags = 4, value = 0}})
+gg.toast("皮膚還原成功")
+else
 gg.clearResults()
 local t = {"liblibGameApp.so:bss", "Cb"}
 local tt = {0x42BF8, 0x6C}
@@ -640,6 +653,7 @@ local tt = {0x42BF8, 0x70}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
 gg.toast("皮膚修改成功")
+end
 end
 
 
@@ -662,8 +676,6 @@ local ttt = S_Pointer(t, tt,true)
 gg.setValues({{address = ttt, flags = 16, value = playersize, freeze = true}})
 gg.toast("人物大小修改成功")
 end
-
-
 function invisible1()
 local t = {"liblibGameApp.so:bss", "Cb"}
 local tt = {0x2642E0, 0x1C8, 0x198, 0x12C}
@@ -903,6 +915,7 @@ so({"坐骑",132.0,4,16},{{180.0,4,16},{count,36,16}},{{257,96,4,1},{ooid1,304,4
 gg.clearResults()
 gg.toast("第一格坐騎添加/修改成功")
 end
+
 function MountUIID1()
  callMount1=  gg.choice({
 "✨💠化石龙💠✨",
@@ -982,7 +995,6 @@ if  callMount1==36 then MountID1= 4570 MountInformation1() end
 if  callMount1==37 then onMountID1() end
 XGCK=-1
 end
-
 function MountInformation2()
 local t = {"liblibGameApp.so:bss", "Cb"}
 local tt = {0x4141E0,0xD0,0x420,0x2F0,0x28,0x124}
@@ -1528,6 +1540,367 @@ local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 16, value = 175, freeze = false}})
 gg.toast("頭部貼身關閉成功")
 end
+
+function Role1()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x48}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 1, value = 1, freeze = true}})
+end
+
+function Role2()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x48}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 2, value = 1, freeze = true}})
+end
+
+function Role3()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x48}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 2, value = 3, freeze = true}})
+end
+
+function Role4()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x48}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 2, value = 4, freeze = true}})
+end
+
+function Role5()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x48}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 2, value = 5, freeze = true}})
+end
+
+function Role6()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x48}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 2, value = 6, freeze = true}})
+end
+
+function Role7()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x48}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 2, value = 7, freeze = true}})
+end
+
+function Role8()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x48}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 2, value = 8, freeze = true}})
+end
+
+function Role9()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x48}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 2, value = 9, freeze = true}})
+end
+
+function Role10()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x48}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 2, value = 10, freeze = true}})
+end
+
+function Role11()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x48}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 2, value = 11, freeze = true}})
+end
+
+function Role12()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x48}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 2, value = 12, freeze = true}})
+end
+
+function Role13()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x48}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 2, value = 13, freeze = true}})
+end
+
+function Role14()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x48}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 2, value = 0}})
+gg.addListItems({{address = ttt, flags = 2, value = 0, freeze = false}})
+end
+
+
+function changeRole1()
+CGa = gg.choice({
+	 "⭐️酋长",
+	 "⭐️卡卡",
+	 "⭐️史提芬教授",
+	 "⭐️隊長湯姆",
+	 "⭐️助教彼得",
+	 "⭐️熊孩子",
+	 "⭐️酋长夫人",
+	 "⭐️妮妮",
+	 "⭐️特工罗拉",
+	 "⭐️小淘气辛蒂",
+	 "⭐️十字人",
+	 "⭐️全裸定制",
+	 "⭐️全灰模型",
+	 "⭐️無角色[還原]",
+	 "⭕️返回主页⭕️",
+}, nil, "開啟後進入房間就行了")
+if CGa==1 then
+	 Role1()
+end
+if CGa==2 then
+	 Role2()
+end
+if CGa==3 then
+	 Role3()
+end
+if CGa==4 then
+	 Role4()
+end
+if CGa==5 then
+	 Role5()
+end
+if CGa==6 then
+	 Role6()
+end
+if CGa==7 then
+	 Role7()
+end
+if CGa==8 then
+	 Role8()
+end
+if CGa==9 then
+	 Role9()
+end
+if CGa==10 then
+	 Role10()
+end
+if CGa==11 then
+	 Role11()
+end
+if CGa==12 then
+	 Role12()
+end
+if CGa==13 then
+	 Role13()
+end
+if CGa==14 then
+	 Role14()
+end
+FX1=-1
+end
+function changename()
+e = io.open("/sdcard/Capoo名字配置文件.txt", "rb") if e ==nil then mznb 
+="" else
+e = io.open("/sdcard/Capoo名字配置文件.txt"):read("*a") mznb = e:match("🍀(.-)🍀") if e == "" then mznb = "" end end
+
+mnmc2 = ":w"
+mnmcc = gg.prompt({"房主能彩名，修改後進入房間才有效果"}
+,{[1]=mznb},{[1]="text"})[1]
+--32
+if not mnmcc then return end
+mnmc = ":"..mnmcc
+io.open("/sdcard/Capoo名字配置文件.txt", "w") io.open("/sdcard/Capoo名字配置文件.txt", "w"):write("🍀" .. mnmcc.. "🍀"):close()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x49}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 1, value = mnmc2}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x4A}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 1, value = mnmc2}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x4B}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 1, value = mnmc2}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x4C}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 1, value = mnmc2}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x4D}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 1, value = mnmc2}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x4E}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 1, value = mnmc2}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x4F}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 1, value = mnmc2}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x50}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 1, value = mnmc2}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x51}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 1, value = mnmc2}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x52}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 1, value = mnmc2}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x53}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 1, value = mnmc2}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x54}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 1, value = mnmc2}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x55}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 1, value = mnmc2}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x56}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 1, value = mnmc2}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x57}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 1, value = mnmc2}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x58}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 1, value = mnmc2}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x59}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 1, value = mnmc2}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x5A}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 1, value = mnmc2}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x5B}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 1, value = mnmc2}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x5C}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 1, value = mnmc2}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x5D}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 1, value = mnmc2}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x5E}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 1, value = mnmc2}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x5F}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 1, value = mnmc2}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x60}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 1, value = mnmc2}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x61}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 1, value = mnmc2}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x62}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 1, value = mnmc2}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x63}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 1, value = mnmc2}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x64}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 1, value = mnmc2}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x65}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 1, value = mnmc2}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x66}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 1, value = mnmc2}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x67}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 1, value = mnmc2}})
+
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42BF8, 0x68}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 1, value = mnmc2}})
+gg.clearResults()
+gg.searchNumber(":wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww", gg.TYPE_BYTE, false, gg.SIGN_EQUAL, 0, -1, 0)
+
+revert = gg.getResults(200, nil, nil, nil, nil, nil, nil, nil, nil)
+gg.editAll(mnmc, gg.TYPE_BYTE)
+gg.toast("临时改名开启成功")
+if gg.getResultCount() == 0 then
+gg.toast("临时改名开启失败")
+else
+end
+end
+function Pets1()
+petb = gg.prompt({"请输入宠物代码 远古叮叮-3511 房主闪退-3512-请输入宠物代码10001-小泡沫.10002-泡泡团子.10003-四泡团.10004-小孩子.10005-的叶团子.10006-豪华团.10007-小石子.10008-岩石团.10009-巨岩团.10010-小火量.10011-暖暖团.10012-报火团.10013-小HT.10014-跳跳蛙.10015-忍忍娃.10016-小免机.10017-免叫.10018-玉免机.10019-迷你注.10020-旺旺.10021-旺旺警长.10022-小龙蛋10023-黑龙重10024-黑龙糕10025-小菲鹏.10026-球糟鹏10027-全羽鹅网.10028-小灵球.10029-幽酬球.10030-重灵王球.10031-小黑猫.10032-焦炭猫.10033-黑飘远.10034-小球节.10035-球球豹.10036-球豹王子.10037-小擦报.10038-奏乐猴.10039-梵音猴.10040-小孔雀.10041-雏孔雀.10042-丰羽孔雀 虚空幻境-猛3516 虚空幻境-速3515 远古叮叮-3511 房主闪退-3513  爆爆蛋-3109  恢复-10001"}, {[1] = 10023 }, {[1] = "number" }
+)[1] qmnb = {
+{["memory"] = 4},
+{["name"] = "修改寵物"},
+{["value"] = 4294977297,["type"] = 32},
+{["lv"] = 1,["offset"] = -16,["type"] = 4},
+{["lv"] = 1,["offset"] = -8,["type"] = 4},
+{["lv"] = 1,["offset"] = 4,["type"] = 4},
+}
+qmxg = {
+{["value"] = petb,["offset"] = 8,["type"] = 4},
+}
+xqmnb(qmnb) 
+end
+
 _ENV["悬浮窗图标"] = 'https://www.pnglog.com/7CSPjJ.png'
 --写图片文件直链
 
@@ -1592,6 +1965,11 @@ uistart({ --每一个功能页面需要有上边分页名字对应，多出来�
 			function()
             gg.alert('檢測關閉')
 			end),
+
+
+
+
+
 	}, { --2
 
 		CAtext('PVP功能', '#005BFF', '14sp'),
@@ -1937,12 +2315,25 @@ CAbutton(
 				end,
 			'#FF77FF'),
 CAbutton(
+				'修改寵物',
+				function()
+                   Pets1()
+				end,
+			'#FF77FF'),
+CAbutton(
 				'噴漆改物',
 				function()
                    itemschangehack()
 				end,
 			'#FF77FF'),
  CAtext('真實有效區','#F9F900', '12sp', true),
+CAbutton(
+				'聯機改名',
+				function()
+                   changename()
+				end,
+			'#F9F900'),
+
 CAbutton(
 				'自定義頭相框',
 				function()
@@ -1955,7 +2346,12 @@ CAbutton(
                    MountsUI()
 				end,
 			'#F9F900'),
-
+CAbutton(
+				'聯機角色',
+				function()
+                   changeRole1()
+				end,
+			'#F9F900'),
 
 }, { --6
 
