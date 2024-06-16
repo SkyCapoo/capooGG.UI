@@ -15,7 +15,12 @@ function init()
 	xfcpic = _ENV["悬浮窗图标"]
 end
 gg.toast("正在注入🔓")
-
+if gg.getTargetInfo()["versionName"] ~="1.7.10" then
+gg.toast("❗Error版本錯誤，注入失敗")
+print("❗Error版本錯誤，注入失敗")
+Lock.unUi()
+os.exit()
+end
 --云模块勿动
 
 --[免费UI] 代号E03 作者长安Q1903351873（定制200起 带详细需求来 其他事不管 不包使用教程）
