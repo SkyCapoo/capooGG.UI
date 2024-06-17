@@ -2059,7 +2059,7 @@ local angleAddra = {tttxa,tttya}
 local angleAddrb = {tttxb,tttyb}
 local aimPos = {tttx,ttty,tttz}
 local playerPos = {tttoox,tttooy,tttooz}
-if (shutactionaimbot == "60") then
+if (shutactionaimbot == "1") then
 gg.addListItems({{address = angleAddra[1],flags = 16,value = setAngleX, freeze = false},{address = angleAddra[2],flags = 16,value = setAngleY, freeze = false}})
 gg.addListItems({{address = angleAddrb[1],flags = 16,value = setAngleX, freeze = false},{address = angleAddrb[2],flags = 16,value = setAngleY, freeze = false}})
 os.exit()
