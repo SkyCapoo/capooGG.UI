@@ -2231,6 +2231,7 @@ uistart({ --每一个功能页面需要有上边分页名字对应，多出来�
                fpsaimbot2()
 			end,
 			'自動瞄準'),
+         CAswitch(
 			"動作自瞄",
 			function()
                Actionaimbot1()
