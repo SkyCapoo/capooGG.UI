@@ -404,6 +404,7 @@ local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = 4}})
 gg.toast("玩法創造修改成功")
 end
+
 function perspective1()
 local t = {"liblibGameApp.so:bss", "Cb"}
 local tt = {0x2642E0,0x1A0,0x348,0x318,0x198,0x2A8}
@@ -484,7 +485,6 @@ local t = {"liblibGameApp.so:bss", "Cb"}
 local tt = {0x245A90, 0x20, 0x100, 0x0, 0x178, 0x2A8}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = 4}})
-
 local t = {"liblibGameApp.so:bss", "Cb"}
 local tt = {0x1217D8,0x38,0x5C}
 local ttt = S_Pointer(t, tt, true)
@@ -968,7 +968,7 @@ function MountUIID1()
 "✨💠米蘭達💠✨", 
 "✨💠帝皇侠💠✨", 
 "✨💠自定義💠✨", 
-"✨🎡 返 回  🎡✨",},2018,os.date("📌坐騎第一格添加--[只限大廳修改]"))
+"✨🎡 返 回  🎡✨",},2018,os.date("📌坐騎第一格添加--[只限房主和雲服修改]"))
 if  callMount1==1 then MountID1= 3432 MountInformation1() end
 if  callMount1==2 then MountID1= 3435 MountInformation1() end
 if  callMount1==3 then MountID1= 3438 MountInformation1() end
@@ -1071,7 +1071,7 @@ function MountUIID2()
 "✨💠米蘭達💠✨", 
 "✨💠帝皇侠💠✨", 
 "✨💠自定義💠✨", 
-"✨🎡 返 回  🎡✨",},2018,os.date("📌坐騎第二格添加--[只限大廳修改]"))
+"✨🎡 返 回  🎡✨",},2018,os.date("📌坐騎第二格添加--[只限房主和雲服修改]"))
 if  callMount2==1 then MountID2= 3432 MountInformation2() end
 if  callMount2==2 then MountID2= 3435 MountInformation2() end
 if  callMount2==3 then MountID2= 3438 MountInformation2() end
@@ -1174,7 +1174,7 @@ function MountUIID3()
 "✨💠米蘭達💠✨", 
 "✨💠帝皇侠💠✨", 
 "✨💠自定義💠✨", 
-"✨🎡 返 回  🎡✨",},2018,os.date("📌坐騎第三格添加--[只限大廳修改]"))
+"✨🎡 返 回  🎡✨",},2018,os.date("📌坐騎第三格添加--[只限房主和雲服修改]"))
 if  callMount3==1 then MountID3= 3432 MountInformation3() end
 if  callMount3==2 then MountID3= 3435 MountInformation3() end
 if  callMount3==3 then MountID3= 3438 MountInformation3() end
@@ -1276,7 +1276,7 @@ function MountUIID4()
 "✨💠米蘭達💠✨", 
 "✨💠帝皇侠💠✨", 
 "✨💠自定義💠✨", 
-"✨🎡 返 回  🎡✨",},2018,os.date("📌坐騎第四格添加--[只限大廳修改]"))
+"✨🎡 返 回  🎡✨",},2018,os.date("📌坐騎第四格添加--[只限房主和雲服修改]"))
 if  callMount4==1 then MountID4= 3432 MountInformation4() end
 if  callMount4==2 then MountID4= 3435 MountInformation4() end
 if  callMount4==3 then MountID4= 3438 MountInformation4() end
@@ -1316,7 +1316,6 @@ if  callMount4==36 then MountID4= 4570 MountInformation4() end
 if  callMount4==37 then onMountID4() end
 XGCK=-1
 end
-
 function MountInformation5()
 local t = {"liblibGameApp.so:bss", "Cb"}
 local tt = {0x4141E0,0xD0,0x420,0x2F0,0x28,0x124}
@@ -1379,7 +1378,7 @@ function MountUIID5()
 "✨💠米蘭達💠✨", 
 "✨💠帝皇侠💠✨", 
 "✨💠自定義💠✨", 
-"✨🎡 返 回  🎡✨",},2018,os.date("📌坐騎第五格添加--[只限大廳修改]"))
+"✨🎡 返 回  🎡✨",},2018,os.date("📌坐騎第五格添加--[只限房主和雲服修改]"))
 if  callMount5==1 then MountID5= 3432 MountInformation5() end
 if  callMount5==2 then MountID5= 3435 MountInformation5() end
 if  callMount5==3 then MountID5= 3438 MountInformation5() end
@@ -1427,7 +1426,7 @@ xg2= gg.choice({
     "☯️第四格坐騎添加/修改☯️",   
     "☯️第五格坐騎添加/修改☯️",
     " ☯️🔷 ✖️返 回 ✖️🔷☯️ ",
-},2018,os.date("格數坐騎添加"))
+},2018,os.date("格數坐騎修以/添加--[只限房主和雲服修改]"))
 if xg2==1 then xgms="第一格坐騎" MountUIID1() end--第一格坐騎
 if xg2==2 then xgms="第二格坐騎" MountUIID2() end---第二格坐騎
 if xg2==3 then xgms="第三格坐騎" MountUIID3() end---第三格坐騎
@@ -1438,7 +1437,7 @@ end
 
 function itemschangehack()
 XY = gg.prompt({"请输入要改的物品代码\n输入12239恢复"},{[1]=10500},{[1]="number"})[1]
-gg.toast(so({"噴漆改物",12240,4,4},{{200,-0x1B0,4},{2,0x8,4}},{{XY,-0x280,4,1}})) gg.toast("噴漆修改成功")end
+gg.toast(so({"噴漆改物",12240,4,4},{{200,-432,4},{2,0x8,4}},{{XY,-640,4,1}})) gg.toast("噴漆修改成功")end
 
 
 function setworldtoolitemblocks()
@@ -1913,8 +1912,6 @@ gg.toast("临时改名开启失败")
 else
 end
 end
-
-
 function Pets1()
 petb = gg.prompt({"请输入宠物代码 远古叮叮-3511 房主闪退-3512-请输入宠物代码10001-小泡沫.10002-泡泡团子.10003-四泡团.10004-小孩子.10005-的叶团子.10006-豪华团.10007-小石子.10008-岩石团.10009-巨岩团.10010-小火量.10011-暖暖团.10012-报火团.10013-小HT.10014-跳跳蛙.10015-忍忍娃.10016-小免机.10017-免叫.10018-玉免机.10019-迷你注.10020-旺旺.10021-旺旺警长.10022-小龙蛋10023-黑龙重10024-黑龙糕10025-小菲鹏.10026-球糟鹏10027-全羽鹅网.10028-小灵球.10029-幽酬球.10030-重灵王球.10031-小黑猫.10032-焦炭猫.10033-黑飘远.10034-小球节.10035-球球豹.10036-球豹王子.10037-小擦报.10038-奏乐猴.10039-梵音猴.10040-小孔雀.10041-雏孔雀.10042-丰羽孔雀 虚空幻境-猛3516 虚空幻境-速3515 远古叮叮-3511 房主闪退-3513  爆爆蛋-3109  恢复-10001"}, {[1] = 10023 }, {[1] = "number" }
 )[1] qmnb = {
@@ -1930,8 +1927,9 @@ qmxg = {
 }
 xqmnb(qmnb) 
 end
+
 function fpsaimbot1()
-    minijuid = gg.prompt({"输入自瞄目標迷你号"},{[1]="1000"},{[1]="number"})[1]
+    minijuid = gg.prompt({"输入自瞄目標迷你號,迷你號不需改成十位數"},{[1]="1000"},{[1]="number"})[1]
 minijuid = minijuid + 1000000000
 shutaim = 0
 gg.setRanges(4)
@@ -2004,7 +2002,7 @@ shutaim = 1
 end
 
 function Actionaimbot1()
-    minijuid = gg.prompt({"输入自瞄目標迷你号"},{[1]="1000"},{[1]="number"})[1]
+    minijuid = gg.prompt({"输入自瞄目標迷你號,迷你號不需改成十位數"},{[1]="1000"},{[1]="number"})[1]
  minijuid = minijuid + 1000000000
 shutactionaimbot = 0
 gg.setRanges(4)
@@ -2083,6 +2081,91 @@ function Actionaimbot2()
 shutactionaimbot = 1
 
 end
+
+function changeteam()
+teams = gg.prompt({"⬜0-白隊,🟥1-紅隊,🟦2-藍隊,🟩3綠隊,🟨4黃隊,🟧5橙隊,🟪6紫隊,👁️999旁觀者"}
+,{[1]=1},{[1]="number"})[1]
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x10CCC8,0x48,0x4A8,0x70}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 1, value = teams}})
+end
+
+
+function player_TPCollision1()
+stoptppd = 0
+if datauploadTime == nil then
+datauploadTime = gg.prompt({"输入傳送間隙時間"},{[1]="1"},{[1]="number"})[1]
+gg.toast("傳送光環開啟成功")
+end
+    local gameportal = gg.getRangesList("liblibGameApp.so:bss")[1].start
+    local playerself_addr = GotoPointer(gameportal + 0x7B50, {0x88, 0xC0})
+    while true do
+    local Table = {}
+    for lid = 0, 39 do
+         addr = playerself_addr + lid * 0x8
+        addrX = GotoPointer(addr + 0x0 )
+       testAs = GetValue(addrX + 0xB0,4)
+         if testAs ~= 2 then
+            return player_TPCollision1() end
+         if (stoptppd == "1") then
+         os.exit()
+          return end
+        Table[#Table + 1] = addr
+        one_x = GetValue(addrX + 0x14,4)
+        one_y = GetValue(addrX + 0x18,4)
+        one_z = GetValue(addrX + 0x1c,4)
+        miniUID = GetValue(addrX + 0x0,4)
+--自己的座標
+gg.sleep(datauploadTime)
+gg.toast("迷你號:"..miniUID)
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x2642E0, 0x1C8, 0x198, 0xBC}
+local tttXX = S_Pointer(t, tt, true)
+
+local tt = {0x2642E0, 0x1C8, 0x198, 0xC0}
+local tttYY = S_Pointer(t, tt, true)
+
+local tt = {0x2642E0, 0x1C8, 0x198, 0xC4}
+local tttZZ = S_Pointer(t, tt, true)
+
+local TPLocation = {tttXX,tttYY,tttZZ}
+gg.setValues({{address = TPLocation[1],flags = 4,value = one_x},{address = TPLocation[2],flags = 4,value = one_y},{address = TPLocation[3],flags = 4,value = one_z}})
+    end
+    return Table, GotoPointer(playerself_addr)
+end
+end
+
+
+function player_TPCollision2()
+stoptppd = 1
+datauploadTime = nil
+gg.toast("傳送光環關閉成功")
+end
+
+function ca1() 
+a9aa=o5v
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x14B40,0xA48,0xC0,0x2D0,0x90}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = a9a}})
+gg.toast(a9aa.."人房間修改成功")
+end
+
+function changeroomplayerquantity()
+SHff = gg.choice({
+   "𒅒🔰開10人房間🔰𒅒",
+   "𒅒🔰開20人房間🔰𒅒",
+   "𒅒🔰開30人房間🔰𒅒",
+   "𒅒🔰️開40人房間🔰𒅒",
+},2018,os.date("𒅒開启成功后直接開房間就行了,建议每次開房間前都開一次这功能𒅒"))
+if SHff==1 then a9a=7 o5v=10 ca1()end
+if SHff==2 then a9a=8 o5b=20 ca1()end
+if SHff==3 then a9a=9 o5v=30 ca1()end
+if SHff==4 then a9a=10 o5v=40 ca1()end
+XGCK=-1
+end
+
 
 _ENV["悬浮窗图标"] = 'https://www.pnglog.com/7CSPjJ.png'
 --写图片文件直链
@@ -2163,6 +2246,15 @@ uistart({ --每一个功能页面需要有上边分页名字对应，多出来�
 				function()
                    hitbox()
 				end),
+			CAswitch(
+			"傳送光環",
+			function()
+               player_TPCollision1()
+			end,
+			function()
+               player_TPCollision2()
+			end,
+			'單區域傳送'),
 		}),
 
 
@@ -2231,7 +2323,7 @@ uistart({ --每一个功能页面需要有上边分页名字对应，多出来�
                fpsaimbot2()
 			end,
 			'自動瞄準'),
-         CAswitch(
+	CAswitch(
 			"動作自瞄",
 			function()
                Actionaimbot1()
@@ -2503,7 +2595,18 @@ CAbutton(
                    changetime()
 				end,
 			'#FF77FF'),
-
+CAbutton(
+				'修改隊伍',
+				function()
+                   changeteam()
+				end,
+			'#FF77FF'),
+CAbutton(
+				'修改隊伍',
+				function()
+                   changeroomplayerquantity()
+				end,
+			'#FF77FF'),
 }, { --5
 
      CAtext('美化功能', '#005BFF', '14sp'),
