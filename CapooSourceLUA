@@ -2602,7 +2602,7 @@ CAbutton(
 				end,
 			'#FF77FF'),
 CAbutton(
-				'修改隊伍',
+				'開房人數',
 				function()
                    changeroomplayerquantity()
 				end,
