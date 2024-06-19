@@ -2146,7 +2146,7 @@ end
 function ca1() 
 a9aa=o5v
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x14B40,0xA48,0xC0,0x2D0,0x90}
+local tt = {0x434600,0x2B8,0x70,0x2D0,0x90}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = a9a}})
 gg.toast(a9aa.."人房間修改成功")
