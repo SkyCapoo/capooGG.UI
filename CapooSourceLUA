@@ -175,7 +175,7 @@ local tt = {0x750}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
 
-if ttt = nil then
+if ttt == nil then
 gg.alert("❗Error進程錯誤")
 print("❗Error進程錯誤")
 gg.toast("❗Error進程錯誤")
