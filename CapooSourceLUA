@@ -2224,6 +2224,7 @@ function playermvAimbot1()
 readthevalueff = gg.prompt({"输入自瞄範圍,1=1格方塊","排除的隊伍(⬜0-白隊,🟥1-紅隊,🟦2-藍隊,🟩3綠隊,🟨4黃隊,🟧5橙隊,🟪6紫隊,👁️999旁觀者)"},{[1]="8",[2]="-1"},{[1]="number",[2]="number"})
 theMaxdistance = readthevalueff[1] * 100
 noaimtean = readthevalueff[2]
+ikummvstopaim = 0
 -- 準心XY
 gg.toast("靠近玩家動作自瞄已成功")
 local t = {"liblibGameApp.so:bss", "Cb"}
