@@ -1,13 +1,7 @@
 gg.toast("loading UI")
 loadYunLuaGroup("5C3C4E3813681C4C204C35346F1B4C2F7EFF612D2B22176FF346535E1C0B1E493339036EE15318")
 gg.toast("正在整理核心代碼-請耐心等待")
-pcall(
-	load(
-		gg.makeRequest(
-			"https://raw.githubusercontent.com/SkyCapoo/v/main/Corecode"
-		).content
-	)
-)
+loadYunLua("1B681E51261138106A126B580379F36A0F4221473E21540472FF7CF961500D430E0071FF5A3C035AED798CC1C282D169F7077AC284DC71C79BB1")
 gg.toast("代碼整合完畢. . .")
 function init()
 	stab = _ENV["分页"]
