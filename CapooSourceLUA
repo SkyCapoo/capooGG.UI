@@ -8,6 +8,7 @@ function init()
 	ttitle = _ENV["标题"]
 	xfcpic = _ENV["悬浮窗图标"]
 end
+
 gg.toast("正在注入🔓")
 if gg.getTargetInfo()["label"] ~="Mini World" then
 print("❗Error進程錯誤，注入失敗")
