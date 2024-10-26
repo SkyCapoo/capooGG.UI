@@ -1,26 +1,114 @@
+-- 腳本信息
+local scriptName = [=====[ Mod menu for Mini World]=====]
+local scriptVersion = '2.3'
+local scriptAuthor = 'SkyCapoo'
+local startToast = ''
+-- 0 - 無檢查；1 - 檢查包名；2 - 檢查包名和版本
+local checkTarget = 1 
+
+-- 目標遊戲信息
+local targetName = [=====[Mini World]=====]
+local targetPkg = 'com.playmini.miniworld'
+local targetVersion = [=====[1.7.11]=====]
+local targetBuild = 67339
 gg.toast("loading UI")
 loadYunLuaGroup("5C3C4E3813681C4C204C35346F1B4C2F7EFF612D2B22176FF346535E1C0B1E493339036EE15318")
+
 gg.toast("正在整理核心代碼-請耐心等待")
-loadYunLua("1B681E51261138106D063E21554C372D1247363E3C7FE594DCDAC781A5A6FD78AEFF13531400475FB3E922286DA8E42460F313273D4BE37CD7274FFA58F2")
+pcall(
+	load(
+		gg.makeRequest(
+			"https://raw.githubusercontent.com/SkyCapoo/v/main/Corecode"
+		).content
+	)
+)
+
 gg.toast("代碼整合完畢. . .")
 function init()
 	stab = _ENV["分页"]
 	ttitle = _ENV["标题"]
 	xfcpic = _ENV["悬浮窗图标"]
 end
-
 gg.toast("正在注入🔓")
+local processes = gg.getListItems()
+local gameProcess = nil
+local gameProcessName = "mini world" -- 確保這是《迷你世界》的進程名稱
+
+-- 使用 gg.getTargetInfo() 來獲取當前選中的進程信息
+local targetInfo = gg.getTargetInfo()
+local selectedProcess = targetInfo.label or ""
+if string.find(selectedProcess:lower(), gameProcessName) then
+else
+    -- 遍歷進程列表，尋找包含 "miniworld" 的進程名稱
+    for _, process in ipairs(processes) do
+        if process.name ~= nil and string.find(process.name:lower(), gameProcessName) then
+            gameProcess = process
+            break
+        end
+    end
+
+    -- 如果找到《迷你世界》進程，則選擇它
+    if gameProcess then
+        gg.setSelectedProcess(gameProcess.process)
+    else
+        gg.alert("未找到包含 '" .. gameProcessName .. "' 的進程")
+        Lock.unUi()
+        gg.exit()
+    end
+end
+
+
+-- 初始化
+gg.require('96.0', 15993)
+
+-- 顯示啟動訊息
+if startToast ~= '' then startToast = '\n'..startToast end
+gg.toast(scriptName..' v'..scriptVersion..' by '..scriptAuthor..startToast)
+
+-- 進程檢查
+function checkProcess()
 if gg.getTargetInfo()["label"] ~="Mini World" then
 print("❗Error進程錯誤，注入失敗")
 gg.toast("❗Error進程錯誤，注入失敗")
 Lock.unUi()
 gg.exit()
 end
-if gg.getTargetInfo()["versionName"] ~="1.7.10" then
+if gg.getTargetInfo()["versionName"] ~= targetVersion then
+gg.alert("❗版本不是" .. targetVersion .."，注入失敗")
 gg.toast("❗Error版本錯誤，注入失敗")
-print("❗Error版本錯誤，注入失敗")
 Lock.unUi()
 gg.exit()
+end
+    if checkTarget ~= 0 then
+        local info = gg.getTargetInfo()
+        local check = false
+        local current = false
+        if checkTarget >= 1 then
+            check = targetPkg
+            current = info.packageName
+        end
+        if checkTarget >= 2 then
+            check = check..' '..targetVersion..' ('..targetBuild..')'
+            current = current..' '..info.versionName..' ('..info.versionCode..')'
+        end
+        if check ~= current then
+            gg.alert('此腳本適用於 "'..targetName..'" ['..check..']。\n當前選擇的進程為 "'..info.label..'" ['..current..']。\n腳本將退出。')
+            Lock.unUi()
+            gg.exit()
+        end
+    end
+end
+checkProcess()  -- 檢查當前進程是否符合目標遊戲
+
+function readString(address, length)
+    local char = {}
+    for i = 0, length - 1 do
+        local value = GetValue(address + i * 0x1, 1)
+        if value ~= 0 then
+            char[#char + 1] = value & 0xFF
+        else break end
+    end
+    return string.char(table.unpack(char))
 end
 --云模块勿动
 
@@ -64,121 +152,38 @@ SJ = os.date("𒅒当前时间%Y年%m月%d日%H时%M分%S秒𒅒")
 function a() --例子，下方UI调用
 	gg.alert(SJ)
 end
+
+
 function b()
-if gg.getTargetInfo()["label"] ~="Mini World" then
-gg.alert("❗Error進程錯誤")
-print("❗Error進程錯誤")
-gg.toast("❗Error進程錯誤")
-return end 
-local t = {"libanogs.so:bss", "Cb"}
-local tt = {0x10}
-local ttt = S_Pointer(t, tt, true)
-gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+local processes = gg.getListItems()
+local gameProcess = nil
+local gameProcessName = "mini world" -- 確保這是《迷你世界》的進程名稱
 
-local t = {"libanogs.so:bss", "Cb"}
-local tt = {0x480}
-local ttt = S_Pointer(t, tt, true)
-gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+-- 使用 gg.getTargetInfo() 來獲取當前選中的進程信息
+local targetInfo = gg.getTargetInfo()
+local selectedProcess = targetInfo.label or ""
 
-local t = {"libanogs.so:bss", "Cb"}
-local tt = {0x4B4}
-local ttt = S_Pointer(t, tt, true)
-gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
-
-local t = {"libanogs.so:bss", "Cb"}
-local tt = {0x4B8}
-local ttt = S_Pointer(t, tt, true)
-gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
-
-local t = {"libanogs.so:bss", "Cb"}
-local tt = {0x6F8}
-local ttt = S_Pointer(t, tt, true)
-gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
-
-local t = {"libanogs.so:bss", "Cb"}
-local tt = {0x778}
-local ttt = S_Pointer(t, tt, true)
-gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
-
-local t = {"libanogs.so:bss", "Cb"}
-local tt = {0x7CC}
-local ttt = S_Pointer(t, tt, true)
-gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
-
-local t = {"libanogs.so:bss", "Cb"}
-local tt = {0x7E4}
-local ttt = S_Pointer(t, tt, true)
-gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
-
-local t = {"libanogs.so:bss", "Cb"}
-local tt = {0x7F0}
-local ttt = S_Pointer(t, tt, true)
-gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
-
-local t = {"libanogs.so:bss", "Cb"}
-local tt = {0x908}
-local ttt = S_Pointer(t, tt, true)
-gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
-
-local t = {"libanogs.so:bss", "Cb"}
-local tt = {0x19E0}
-local ttt = S_Pointer(t, tt, true)
-gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
-
-local t = {"libanogs.so:bss", "Cb"}
-local tt = {0x1A18}
-local ttt = S_Pointer(t, tt, true)
-gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
-
-local t = {"libanogs.so:bss", "Cb"}
-local tt = {0x1B18}
-local ttt = S_Pointer(t, tt, true)
-gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
-
-local t = {"libanogs.so:bss", "Cb"}
-local tt = {0x1BD0}
-local ttt = S_Pointer(t, tt, true)
-gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
-
-local t = {"libanogs.so:bss", "Cb"}
-local tt = {0x1C48}
-local ttt = S_Pointer(t, tt, true)
-gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
-
-local t = {"libanogs.so:bss", "Cb"}
-local tt = {0x19B8}
-local ttt = S_Pointer(t, tt, true)
-gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
-
-local t = {"libanogs.so:bss", "Cb"}
-local tt = {0x1BA8}
-local ttt = S_Pointer(t, tt, true)
-gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
-
-local t = {"libanogs.so:bss", "Cb"}
-local tt = {0x458}
-local ttt = S_Pointer(t, tt, true)
-gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
-
-local t = {"libanogs.so:bss", "Cb"}
-local tt = {0x6D0}
-local ttt = S_Pointer(t, tt, true)
-gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
-
-local t = {"libanogs.so:bss", "Cb"}
-local tt = {0x750}
-local ttt = S_Pointer(t, tt, true)
-gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
-
-if ttt == nil then
-gg.alert("❗Error進程錯誤")
-print("❗Error進程錯誤")
-gg.toast("❗Error進程錯誤")
+-- 如果當前選中的進程不是《迷你世界》，則選擇它
+if string.find(selectedProcess:lower(), gameProcessName) then
+    gg.alert("當前已選擇的進程是迷你世界: " .. selectedProcess)
 else
-gg.alert("✔️進程正確")
-print("✔️進程正確")
-gg.toast("✔️進程正確")
+    -- 遍歷進程列表，尋找包含 "miniworld" 的進程名稱
+    for _, process in ipairs(processes) do
+        if process.name ~= nil and string.find(process.name:lower(), gameProcessName) then
+            gameProcess = process
+            break
+        end
+    end
+
+    -- 如果找到《迷你世界》進程，則選擇它
+    if gameProcess then
+        gg.setSelectedProcess(gameProcess.process)
+        gg.alert("已選擇迷你世界進程: " .. gameProcess.name)
+    else
+        gg.alert("未找到包含 '" .. gameProcessName .. "' 的進程")
+    end
 end
+
 end
 
 
@@ -352,116 +357,114 @@ end
 
 function infjump1()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0, 0x1C8, 0x198, 0x84}
+local tt = {0x2646A0, 0x1C8, 0x198, 0x84}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 4, value = 1, freeze = true}})
-gg.toast("連跳開啟成功")
+gg.toast("連跳已開啟")
 end
 
 function infjump2()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0, 0x1C8, 0x198, 0x84}
+local tt = {0x2646A0, 0x1C8, 0x198, 0x84}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 4, value = 1, freeze = false}})
-gg.toast("連跳關閉成功")
+gg.toast("連跳已關閉")
 end
-
-
 function fly1()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0, 0x1C8, 0x168}
+local tt = {0x2646A0, 0x1C8, 0x168}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 4, value = 8, freeze = true}})
-gg.toast("飛天開啟成功")
+gg.toast("飛天已開啟")
 end
 
 function fly2()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0, 0x1C8, 0x168}
+local tt = {0x2646A0, 0x1C8, 0x168}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = 0}})
 gg.addListItems({{address = ttt, flags = 4, value = 8, freeze = false}})
 gg.setValues({{address = ttt, flags = 4, value = 0}})
-gg.toast("飛天關閉成功")
+gg.toast("飛天已關閉")
 end
 
 
 function nopflytask1()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0, 0x1C8, 0x170}
+local tt = {0x2646A0, 0x1C8, 0x170}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 4, value = -1, freeze = true}})
-gg.toast("飛天過檢測開啟成功")
+gg.toast("飛天過檢測已開啟")
 end
 
 function nopflytask2()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0, 0x1C8, 0x170}
+local tt = {0x2646A0, 0x1C8, 0x170}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = 16711680}})
 gg.addListItems({{address = ttt, flags = 4, value = 9999, freeze = false}})
 gg.setValues({{address = ttt, flags = 4, value = 16711680}})
-gg.toast("飛天過檢測關閉成功")
+gg.toast("飛天過檢測已關閉")
 end
 
 
 function XyFly1()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x4CF6D0,0x3C0,0x443}
+local tt = {0x7B290,0xF0,0x190,0xB8,0x1B9}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 16, value = 104716759, freeze = true}})
-gg.toast("平飛開啟成功")
+gg.toast("平飛已開啟")
 end
 
 
 function XyFly2()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x4CF6D0,0x3C0,0x443}
+local tt = {0x7B290,0xF0,0x190,0xB8,0x1B9}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 16, value = 8, freeze = true}})
-gg.toast("平飛關閉成功")
+gg.toast("平飛已關閉")
 end
 
 function pvpvioce1()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x1217D8, 0x38, 0xA4}
+local tt = {0x121B98, 0x38, 0xA4}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 16, value = 120}})
-gg.toast("超廣角開啟成功")
+gg.toast("超廣角已開啟")
 end
 
 function pvpvioce2()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x1217D8, 0x38, 0xA4}
+local tt = {0x121B98, 0x38, 0xA4}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 16, value = 75}})
-gg.toast("超廣角關閉成功")
+gg.toast("超廣角已關閉")
 end
 
 function Fakehost1()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x1ACF0, 0x880}
+local tt = {0x1B0B0, 0x880}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = 0}})
 gg.toast("單機修改成功")
 end
 function Fakehost2()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x1ACF0, 0x880}
+local tt = {0x1B0B0, 0x880}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = 1}})
 gg.toast("開發者修改成功")
 end
 function Fakehost3()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x1ACF0, 0x880}
+local tt = {0x1B0B0, 0x880}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = 2}})
 gg.toast("成員修改成功")
 end
 function Fakehost4()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x1ACF0, 0x880}
+local tt = {0x1B0B0, 0x880}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = 3}})
 gg.toast("偽房主修改成功")
@@ -472,7 +475,7 @@ AA3 = gg.prompt({"输入加数倍数：1=1倍/10=10倍"}
 ,{[1]=5},{[1]="number"})[1]
 gg.clearResults()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x1217D8,0x38,0xD0}
+local tt = {0x121B98,0x38,0xD0}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 16, value = AA3}})
 gg.clearResults()
@@ -480,28 +483,28 @@ gg.toast("背視角距離修改成功")
 end
 function gamemode1()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x150780, 0xC0}
+local tt = {0x150B40, 0xC0}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = 3}})
 gg.toast("生存模式修改成功")
 end
 function gamemode2()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x150780, 0xC0}
+local tt = {0x150B40, 0xC0}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = 1}})
 gg.toast("生存創造修改成功")
 end
 function gamemode3()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x150780, 0xC0}
+local tt = {0x150B40, 0xC0}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = 5}})
 gg.toast("玩法模式修改成功")
 end
 function gamemode4()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x150780, 0xC0}
+local tt = {0x150B40, 0xC0}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = 4}})
 gg.toast("玩法創造修改成功")
@@ -509,7 +512,7 @@ end
 
 function perspective1()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0,0x1A0,0x348,0x318,0x198,0x2A8}
+local tt = {0x2646A0,0x1A0,0x348,0x318,0x198,0x2A8}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = 0}})
 
@@ -519,7 +522,7 @@ local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = 0}})
 
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x1217D8,0x38,0x5C}
+local tt = {0x121B98,0x38,0x5C}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = 0}})
 gg.toast("主視角修改成功")
@@ -527,7 +530,7 @@ end
 
 function perspective2()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0,0x1A0,0x348,0x318,0x198,0x2A8}
+local tt = {0x2646A0,0x1A0,0x348,0x318,0x198,0x2A8}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = 1}})
 
@@ -537,30 +540,31 @@ local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = 1}})
 
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x1217D8,0x38,0x5C}
+local tt = {0x121B98,0x38,0x5C}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = 1}})
 gg.toast("背視角修改成功")
 end
 function perspective3()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0,0x1A0,0x348,0x318,0x198,0x2A8}
+local tt = {0x2646A0,0x1A0,0x348,0x318,0x198,0x2A8}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = 2}})
+
 local t = {"liblibGameApp.so:bss", "Cb"}
 local tt = {0x245A90, 0x20, 0x100, 0x0, 0x178, 0x2A8}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = 2}})
 
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x1217D8,0x38,0x5C}
+local tt = {0x121B98,0x38,0x5C}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = 2}})
 gg.toast("正視角修改成功")
 end
 function perspective4()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0,0x1A0,0x348,0x318,0x198,0x2A8}
+local tt = {0x2646A0,0x1A0,0x348,0x318,0x198,0x2A8}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = 3}})
 
@@ -570,7 +574,7 @@ local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = 3}})
 
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x1217D8,0x38,0x5C}
+local tt = {0x121B98,0x38,0x5C}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = 3}})
 gg.toast("360度視角修改成功")
@@ -578,7 +582,7 @@ end
 
 function perspective5()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0,0x1A0,0x348,0x318,0x198,0x2A8}
+local tt = {0x2646A0,0x1A0,0x348,0x318,0x198,0x2A8}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = 4}})
 
@@ -588,7 +592,7 @@ local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = 4}})
 
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x1217D8,0x38,0x5C}
+local tt = {0x121B98,0x38,0x5C}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = 4}})
 gg.toast("俯視角修改成功")
@@ -596,7 +600,7 @@ end
 
 function perspective6()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0,0x1A0,0x348,0x318,0x198,0x2A8}
+local tt = {0x2646A0,0x1A0,0x348,0x318,0x198,0x2A8}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = 8}})
 
@@ -606,7 +610,7 @@ local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = 8}})
 
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x1217D8,0x38,0x5C}
+local tt = {0x121B98,0x38,0x5C}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = 8}})
 gg.toast("視角靈魂出竅修改成功")
@@ -616,7 +620,7 @@ function movespeed()
 AA3 = gg.prompt({"输入加速倍数"}
 ,{[1]=50},{[1]="number"})[1]
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0, 0x1C8, 0x1C0, 0xB0}
+local tt = {0x2646A0, 0x1C8, 0x1C0, 0xB0}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 16, value = AA3, freeze = true}})
 gg.toast("移動速度修改成功")
@@ -627,7 +631,7 @@ function setstar()
 AA3 = gg.prompt({"输入星星數量"}
 ,{[1]=50},{[1]="number"})[1]
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0,0x1A0,0x1E0,0x160,0x1F0}
+local tt = {0x2646A0,0x1A0,0x1E0,0x160,0x1F0}
 local ttt = S_Pointer(t, tt, true)
 AA3 = AA3*38+945804460
 gg.addListItems({{address = ttt, flags = 4, value = AA3, freeze = true}})
@@ -639,7 +643,7 @@ function runspeed()
 AA3 = gg.prompt({"输入跳高倍数"}
 ,{[1]=100},{[1]="number"})[1]
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0,0x1A0,0x1E0,0xC0}
+local tt = {0x2646A0,0x1A0,0x1E0,0xC0}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 16, value = AA3, freeze = true}})
 gg.toast("跳躍高度修改成功")
@@ -649,52 +653,52 @@ end
 
 function noclip1()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0, 0x1C8, 0x198, 0xA8}
+local tt = {0x2646A0, 0x1C8, 0x198, 0xA8}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = -9999}})
-gg.toast("穿牆開啟成功")
+gg.toast("穿牆已開啟")
 end
 function noclip2()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0, 0x1C8, 0x198, 0xA8}
+local tt = {0x2646A0, 0x1C8, 0x198, 0xA8}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = 180}})
-gg.toast("穿牆關閉成功")
+gg.toast("穿牆已關閉")
 end
 
 function slowfalld1()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x4CF6D0,0x3C0,0x443}
+local tt = {0x7B290,0xF0,0x190,0xB8,0x1B9}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 16, value = 1, freeze = true}})
-gg.toast("緩降開啟成功")
+gg.toast("緩降已開啟")
 end
 
 function slowfalld2()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x4CF6D0,0x3C0,0x443}
+local tt = {0x7B290,0xF0,0x190,0xB8,0x1B9}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 16, value = -1, freeze = false}})
 gg.setValues({{address = ttt, flags = 16, value = 8}})
-gg.toast("緩降關閉成功")
+gg.toast("緩降已關閉")
 end
 
 
 function antoFlyupd1()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0, 0x1C8, 0x198, 0x12C}
+local tt = {0x2646A0, 0x1C8, 0x198, 0x12C}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 16, value = 60, freeze = true}})
-gg.toast("飛升開啟成功")
+gg.toast("飛升已開啟")
 end
 
 function antoFlyupds1()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0, 0x1C8, 0x198, 0x12C}
+local tt = {0x2646A0, 0x1C8, 0x198, 0x12C}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 16, value = 60, freeze = false}})
 gg.setValues({{address = ttt, flags = 16, value = -7}})
-gg.toast("飛升關閉成功")
+gg.toast("飛升已關閉")
 end
 
 
@@ -703,19 +707,19 @@ end
 
 function perspectivef1()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x157128,0x2E8,0x408}
+local tt = {0x1574E8,0x2E8,0x408}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 16, value = 0}})
-gg.toast("透視開啟成功")
+gg.toast("透視已開啟")
 end
 
 
 function perspectivef2()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x157128,0x2E8,0x408}
+local tt = {0x1574E8,0x2E8,0x408}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 16, value = 30000}})
-gg.toast("透視關閉成功")
+gg.toast("透視已關閉")
 end
 
 ikun=0
@@ -725,7 +729,7 @@ repeat
 ai = ai + AA3s
 gg.sleep(10) 
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x1217D8,0x38,0x8}
+local tt = {0x121B98,0x38,0x8}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 16, value =ai}})
 until (ai > 360)
@@ -737,7 +741,21 @@ end end
 
 function autohead2()
 ikun=1
-gg.toast("準心旋轉關閉成功")
+gg.toast("準心旋轉已關閉")
+end
+
+function Pets1()
+gb = gg.prompt({"请输入宠物代码 远古叮叮-3511 房主闪退-3512-请输入宠物代码10001-小泡沫.10002-泡泡团子.10003-四泡团.10004-小孩子.10005-的叶团子.10006-豪华团.10007-小石子.10008-岩石团.10009-巨岩团.10010-小火量.10011-暖暖团.10012-报火团.10013-小HT.10014-跳跳蛙.10015-忍忍娃.10016-小免机.10017-免叫.10018-玉免机.10019-迷你注.10020-旺旺.10021-旺旺警长.10022-小龙蛋10023-黑龙重10024-黑龙糕10025-小菲鹏.10026-球糟鹏10027-全羽鹅网.10028-小灵球.10029-幽酬球.10030-重灵王球.10031-小黑猫.10032-焦炭猫.10033-黑飘远.10034-小球节.10035-球球豹.10036-球豹王子.10037-小擦报.10038-奏乐猴.10039-梵音猴.10040-小孔雀.10041-雏孔雀.10042-丰羽孔雀 虚空幻境-猛3516 虚空幻境-速3515 远古叮叮-3511 房主闪退-3513  爆爆蛋-3109  恢复-10001"}, {[1] = 10023 }, {[1] = "number" }
+)[1] qmnb = {
+{["memory"] = 1},
+{["name"] = "宠物"},
+{["value"] = 10001,["type"] = 4},
+{["lv"] = 1,["offset"] = 4,["type"] = 4},
+}
+qmxg = {
+{["value"] = gb,["offset"] = 8,["type"] = 4},
+}
+xqmnb(qmnb) 
 end
 
 function PlayerSkin()
@@ -745,11 +763,11 @@ skin=gg.prompt({"皮肤的代码:0無角色[還原]1胖达2齐天小圣3兔美�
 if skin < '1' then
 gg.clearResults()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x42BF8, 0x6C}
+local tt = {0x42FB8, 0x6C}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = skin}})
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x42BF8, 0x70}
+local tt = {0x42FB8, 0x70}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = 0}})
 gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = false}})
@@ -758,11 +776,11 @@ gg.toast("皮膚還原成功")
 else
 gg.clearResults()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x42BF8, 0x6C}
+local tt = {0x42FB8, 0x6C}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = skin}})
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x42BF8, 0x70}
+local tt = {0x42FB8, 0x70}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
 gg.toast("皮膚修改成功")
@@ -774,7 +792,7 @@ function playerphotoframe()
 txk1 = gg.prompt({"头像框代码[清凉一夏:20222.........]♡这个修改的自己看不见的，别人能看见。可以联机哦♡([头像框永久]20201-头像框-单身汪，[头像框永久]20202-头像框-莉莉丝，[头像框永久]20203-头像框-鬼斧神工，[头像框永久]20204-头像框-绘影大师，[头像框永久]20205-头像框-建筑大师，[头像框永久]20206-头像框-漫画大师，[头像框永久]20207-头像框-明日之星，[头像框永久]20208-头像框-写作大师，[头像框永久]20209-头像框-宣传委员，[头像框永久]20210-头像框-迷你主播，[头像框永久]20211-头像框-工坊管家，[头像框永久]20212-头像框-志愿者，[头像框永久]20213-头像框-2017，[头像框永久]20214-头像框-二郎神，[头像框永久]20215-头像框-招财猫，[头像框永久]20216-头像框-环保筑梦师，[头像框永久]20217-头像框-迷你世界2周年，[头像框永久]20218-头像框-小船长，[头像框永久]20219-头像框-劳动节，[头像框永久]20220-头像框-鉴赏家，[头像框永久]20221-头像框-儿童节，[头像框永久]20222-头像框-清凉一夏，[头像框永久]20223-头像框-花好月圆，[头像框永久]20224-头像框-侠客之心，[头像框永久]20225-头像框-护眼行动，[头像框永久]20226-头像框-小恶魔，[头像框永久]20227-头像框-圆桌骑士，[头像框永久]20228-头像框-圣诞节，[头像框永久]20229-头像框-2018，[头像框永久]20230-头像框-赛事成就，[头像框永久]20231-头像框-斩浪，[头像框永久]20232-头像框-迷你世界3周年，[头像框永久]20233-头像框-世界守护计划专属，[头像框永久]20234-头像框-初级大神，[头像框永久]20235-头像框-中级大神，[头像框永久]20236-头像框-高级大神，[头像框永久]20237-头像框-复活节，[头像框永久]20238-头像框-友谊之手，[头像框永久]20239-头像框-端午节，[头像框永久]20240-头像框-读书万卷，[头像框永久]20241-头像框-东部联盟，[头像框永久]20242-头像框-西部联盟，[头像框永久]20243-头像框-迷你编程，[头像框永久]20244-头像框-920全民创造节，[头像框永久]20245-头像框-乔克，[头像框永久]20246-头像框-圣诞心意，[头像框永久]20247-头像框-2019年度头像框，[头像框永久]20248-头像框-慕斯，[头像框永久]20249-头像框-金鼠贺岁，[头像框永久]20250-头像框-龙凤呈祥，[头像框永久]20251-头像框-喜团团，[头像框永久]20252-头像框-雪豹守护者，[头像框永久]20253-头像框-迷你4周年，[头像框永久]20254-头像框-齐天小圣，[头像框永久]20255-头像框-繁星共创营，[头像框永久]20256-头像框-甜棕拥护者，[头像框永久]20257-头像框-咸棕拥护者，[头像框永久]20258-头像框-阳光守护，[头像框永久]20259-玩法大作战专属，[头像框永久]20260-抖音专属头像框，[头像框永久]20261-玉兔心愿，[头像框永久]20262-QQ版专属头像框，[头像框永久]20263-慧眼达人，[头像框永久]20264-2020，[头像框永久]20265-2020，[头像框永久]20266-冬之声，[头像框永久]20267-梅之影，[头像框永久]20268-圣诞雪松[头像框永久]20269-雨林征服者，[头像框永久]20270-金牛贺岁，[头像框永久]20271-官版专属头像框，[头像框永久]20272-星光同在，[头像框永久]20273-天籁之窗，[头像框永久]20274-2020人气作者，[头像框永久]20275-2020新锐作者，[头像框永久]20276-2020优秀作者，[头像框永久]20277-金符星球，[头像框永久]20278-蓝电石星球，[头像框永久]20279-梦幻星球，[头像框永久]20280-海焰星球，[头像框永久]20281-绮丽星球，[头像框永久]20282-守望敦煌，[头像框永久]20283-迷你世界5周年，[头像框永久]20284-可爱猫咪，[头像框永久]20285-秋田&柴犬，[头像框永久]20286-福气猫头鹰，[头像框永久]20287-智慧狐狸，[头像框永久]20288-憨憨熊猫，[头像框永久]20289-花之时，[头像框永久]20290-复苏之声，[头像框永久]20291-踏春出游，[头像框永久]20292-妙妙，[头像框永久]33001-樱桃，[头像框永久]33002-旧城，[头像框永久]33003-粉咩羊，[头像框永久]33004-萌虎妹，[头像框永久]33005-墨道，[头像框永久]33006-糖果团，[头像框永久]33007-小烤拉，[头像框永久]33008-小仙仙，[头像框永久]33009-羊家堡，[头像框永久]33010-忆涵，[头像框永久]33023-脆脆法棒，[头像框永久]33024-鲜甜蘑菇"},{[1] = 20210},{[1] = "number"})[1] 
 gg.clearResults()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x3AF10, 0x20}
+local tt = {0x3B2D0, 0x20}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 4, value = txk1, freeze = true}})
 gg.toast("頭相框修改成功")
@@ -784,7 +802,7 @@ function sizexyz()
 playersize = gg.prompt({"输入模型大小（1是正常大小）"}
 ,{[1]=5},{[1]="number"})[1]
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0,0x1A0,0x320}
+local tt = {0x2646A0,0x1A0,0x320}
 local ttt = S_Pointer(t, tt,true)
 gg.setValues({{address = ttt, flags = 16, value = playersize, freeze = true}})
 gg.toast("人物大小修改成功")
@@ -793,55 +811,57 @@ end
 
 function invisible1()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0, 0x1C8, 0x198, 0x12C}
+local tt = {0x2646A0, 0x1C8, 0x198, 0x12C}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 16, value = 1000, freeze = true}})
 gg.sleep(1800)
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0, 0x1C8, 0x198, 0x12C}
+local tt = {0x2646A0, 0x1C8, 0x198, 0x12C}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 16, value = 1000, freeze = false}})
 gg.setValues({{address = ttt, flags = 16, value = -7}})
 gg.sleep(10)
 
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x4CF6D0,0x3C0,0x443}
+local tt = {0x7B290,0xF0,0x190,0xB8,0x1B9}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 16, value = 104716760.0, freeze = true}})
 
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0,0x1A0,0x320}
+local tt = {0x2646A0,0x1A0,0x320}
 local ttt = S_Pointer(t, tt,true)
 gg.setValues({{address = ttt, flags = 16, value = -240, freeze = true}})
-gg.toast("隱身開啟成功")
+gg.toast("隱身已開啟")
 end
 
 
 function invisible2()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0,0x1A0,0x320}
+local tt = {0x2646A0,0x1A0,0x320}
 local ttt = S_Pointer(t, tt,true)
 gg.setValues({{address = ttt, flags = 16, value = 1, freeze = true}})
 
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0, 0x1C8, 0x198, 0x12C}
+local tt = {0x2646A0, 0x1C8, 0x198, 0x12C}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 16, value = -1000, freeze = true}})
 gg.sleep(2500)
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0, 0x1C8, 0x198, 0x12C}
+local tt = {0x2646A0, 0x1C8, 0x198, 0x12C}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 16, value = -1000, freeze = false}})
 gg.setValues({{address = ttt, flags = 16, value = -7}})
 gg.sleep(10)
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x4CF6D0,0x3C0,0x443}
+local tt = {0x7B290,0xF0,0x190,0xB8,0x1B9}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 16, value = 8, freeze = true}})
 
 
-gg.toast("隱身關閉成功")
+gg.toast("隱身已關閉")
 end
+
+
 function teleport()
 mnsj={}
 mnsj.qq=gg.prompt({"橫向座標","高度","竖向坐标"},mnsj.qqa)if mnsj.qq then 
@@ -851,17 +871,17 @@ xc2=mnsj.qq[2].."00"
 xc3=mnsj.qq[3].."00"
 --x
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0, 0x1C8, 0x198, 0xBC}
+local tt = {0x2646A0, 0x1C8, 0x198, 0xBC}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = xc1}})
 --y
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0, 0x1C8, 0x198, 0xC0}
+local tt = {0x2646A0, 0x1C8, 0x198, 0xC0}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = xc2}})
 --z
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0, 0x1C8, 0x198, 0xC4}
+local tt = {0x2646A0, 0x1C8, 0x198, 0xC4}
 local ttt = S_Pointer(t, tt, true)
 
 gg.setValues({{address = ttt, flags = 4, value = xc3}})
@@ -879,20 +899,11 @@ HP = gg.prompt({"输入最大血量:"}
 gg.clearResults()
 --最大生命值
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0, 0x1A0, 0x1E0, 0x7C}
+local tt = {0x2646A0, 0x1A0, 0x1E0, 0x7C}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 16, value = HP}})
 gg.toast("最大血量修改成功")
 end
-
-
-
-
-
-
-
-
-
 function playerhp()
 gg.toast("请选择鎖定开关")
 F = gg.alert("📌请选择是否鎖定 ","🔒鎖定","🔓普通")
@@ -906,7 +917,7 @@ maxHP = gg.prompt({"输入目前血量:"}
 ,{[1]=100},{[1]="number"})[1]
 gg.clearResults()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0, 0x1A0, 0x1E0, 0x78}
+local tt = {0x2646A0, 0x1A0, 0x1E0, 0x78}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 16, value = maxHP}})
 gg.addListItems({{address = ttt, flags = 16, value = maxHP, freeze = true }})
@@ -918,7 +929,7 @@ maxHP = gg.prompt({"输入目前血量:"}
 ,{[1]=100},{[1]="number"})[1]
 gg.clearResults()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0, 0x1A0, 0x1E0, 0x78}
+local tt = {0x2646A0, 0x1A0, 0x1E0, 0x78}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 16, value = maxHP}})
 gg.addListItems({{address = ttt, flags = 16, value = maxHP, freeze = false }})
@@ -938,7 +949,7 @@ reHP = gg.prompt({"输入血量恢復:"}
 gg.clearResults()
 --生命恢復值
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0, 0x1A0, 0x1E0, 0x8C}
+local tt = {0x2646A0, 0x1A0, 0x1E0, 0x8C}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 16, value = reHP}})
 gg.toast("血量恢復修改成功")
@@ -950,44 +961,45 @@ attack = gg.prompt({"输入攻擊力:"}
 ,{[1]=1000},{[1]="number"})[1]
 gg.clearResults()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0, 0x1A0, 0x1E0, 0x188}
+local tt = {0x2646A0, 0x1A0, 0x1E0, 0x188}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 16, value = attack}})
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0, 0x1A0, 0x1E0, 0x18c}
+local tt = {0x2646A0, 0x1A0, 0x1E0, 0x18c}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 16, value = attack}})
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0, 0x1A0, 0x1E0, 0x190}
+local tt = {0x2646A0, 0x1A0, 0x1E0, 0x190}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 16, value = attack}})
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0, 0x1A0, 0x1E0, 0x194}
+local tt = {0x2646A0, 0x1A0, 0x1E0, 0x194}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 16, value = attack}})
 gg.toast("攻擊力修改成功")
 end
 
 function changeday() 
-Day = gg.prompt({"1~23999=1/23999~47999=2 输入天數:"}
-,{[1]=24000},{[1]="number"})[1]
+Day = gg.prompt({"输入天數:"}
+,{[1]=100},{[1]="number"})[1]
 gg.clearResults()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x150780,0x1F8}
+local tt = {0x150B40,0x1F8}
 local ttt = S_Pointer(t, tt, true)
-gg.setValues({{address = ttt, flags = 4, value = Day}})
+gg.setValues({{address = ttt, flags = 4, value = Day*24000-23999}})
 gg.clearResults()
 gg.toast("天數修改成功")
 end
 
+
 function changetime() 
-TIME = gg.prompt({"1000=7時 输入時間:"}
-,{[1]=1000},{[1]="number"})[1]
+TIME = gg.prompt({"输入時間:"}
+,{[1]=12},{[1]="number"})[1]
 gg.clearResults()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x150780,0x1FC}
+local tt = {0x150B40,0x1FC}
 local ttt = S_Pointer(t, tt, true)
-gg.setValues({{address = ttt, flags = 4, value = TIME}})
+gg.setValues({{address = ttt, flags = 4, value = TIME*1000-6000}})
 gg.clearResults()
 gg.toast("時間修改成功")
 end
@@ -1008,7 +1020,7 @@ end
 
 function MountInformation1()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x4141E0,0xD0,0x420,0x2F0,0x28,0x124}
+local tt = {0x4145A0,0xD0,0x420,0x2F0,0x28,0x124}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 4, value = 257, freeze = true }})
 gg.clearResults()
@@ -1020,7 +1032,7 @@ function onMountID1()
 ooid1 = gg.prompt({"『請輸入第一格坐騎代碼』3456-舞獅貓貓3471-深淵咆哮3480-皎月仙宮3486-繽紛幻想3492-浮游山海3485-冰雪傳說3514-遠古巨人3459-星河天馬3462-桃香扇 4503-鹿王本生4200-哮天犬3504-混亂黑龍3497－鏡花水月4507－精靈南瓜車4510－竹蜻蜓4518－烈空戰甲4521－星河戰甲4526－環海洛洛空龍尼 洛洛3434-敏捷小飛鼠3435-機智小飛鼠3436-麒麟3437-普通麒麟3438-祥瑞麒麟3439-小陸行鳥3440-迅捷象躍動鳥3441-歡樂躍動陸行小鳥342 白象3444-盛典白象3445-海豹水手3446-海豹船長3447-超能海豹3448-擎天柱(遊戲版本過低)3449-擎天柱3450-威震天(遊戲版本過低)3451-威 震天3452-大黃蜂(遊戲版過低)3453-大黃蜂3454-貓寶寶3455-福袋貓貓3456-舞獅貓貓3457-天馬寶寶3458-神聖天馬3459-星河天馬3460-青竹坐檯3461- 富貴金轎3462-桃香扇緣3463-紅蜘蛛(遊戲版本過低)3464-紅蜘蛛3465-熱破(遊戲版本過低)3466-熱破3467-驚破天(遊戲版本過低)3468-驚 破天3469-大地領主3470-炎獄魔龍3471-深淵咆哮3472-鋼鎖3473-鋼鎖3474-飛標3475-飛標3476-嚎叫3477-嚎叫3478-月明星3479-玉兔桃花3480  -皎月仙宮3481-兔子先生拉比3482-兔子先生拉比3483-暖冬祝福3484-聖夜驚喜3485-冰雪傳說3486-繽紛幻想3487-繽紛幻想3488-福運哞哞3489-福運哞 3490-攀崖觀日3491-北辰螢火3492-浮游山海3493-牛魔王3494-牛魔王3495-步步生蓮3496-飛花踏雪3497-鏡花水月"}
 ,{[1]=3435},{[1]="number"})[1]
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x4141E0,0xD0,0x420,0x2F0,0x28,0x124}
+local tt = {0x4145A0,0xD0,0x420,0x2F0,0x28,0x124}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 4, value = 257, freeze = true }})
 count=30.0+(154.0*1)-154.0
@@ -1111,7 +1123,7 @@ end
 
 function MountInformation2()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x4141E0,0xD0,0x420,0x2F0,0x28,0x124}
+local tt = {0x4145A0,0xD0,0x420,0x2F0,0x28,0x124}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 4, value = 257, freeze = true }})
 gg.clearResults()
@@ -1123,7 +1135,7 @@ function onMountID2()
 ooid2 = gg.prompt({"『請輸入第二格坐騎代碼』3456-舞獅貓貓3471-深淵咆哮3480-皎月仙宮3486-繽紛幻想3492-浮游山海3485-冰雪傳說3514-遠古巨人3459-星河天馬3462-桃香扇 4503-鹿王本生4200-哮天犬3504-混亂黑龍3497－鏡花水月4507－精靈南瓜車4510－竹蜻蜓4518－烈空戰甲4521－星河戰甲4526－環海洛洛空龍尼 洛洛3434-敏捷小飛鼠3435-機智小飛鼠3436-麒麟3437-普通麒麟3438-祥瑞麒麟3439-小陸行鳥3440-迅捷象躍動鳥3441-歡樂躍動陸行小鳥342 白象3444-盛典白象3445-海豹水手3446-海豹船長3447-超能海豹3448-擎天柱(遊戲版本過低)3449-擎天柱3450-威震天(遊戲版本過低)3451-威 震天3452-大黃蜂(遊戲版過低)3453-大黃蜂3454-貓寶寶3455-福袋貓貓3456-舞獅貓貓3457-天馬寶寶3458-神聖天馬3459-星河天馬3460-青竹坐檯3461- 富貴金轎3462-桃香扇緣3463-紅蜘蛛(遊戲版本過低)3464-紅蜘蛛3465-熱破(遊戲版本過低)3466-熱破3467-驚破天(遊戲版本過低)3468-驚 破天3469-大地領主3470-炎獄魔龍3471-深淵咆哮3472-鋼鎖3473-鋼鎖3474-飛標3475-飛標3476-嚎叫3477-嚎叫3478-月明星3479-玉兔桃花3480  -皎月仙宮3481-兔子先生拉比3482-兔子先生拉比3483-暖冬祝福3484-聖夜驚喜3485-冰雪傳說3486-繽紛幻想3487-繽紛幻想3488-福運哞哞3489-福運哞 3490-攀崖觀日3491-北辰螢火3492-浮游山海3493-牛魔王3494-牛魔王3495-步步生蓮3496-飛花踏雪3497-鏡花水月"}
 ,{[1]=3456},{[1]="number"})[1]
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x4141E0,0xD0,0x420,0x2F0,0x28,0x124}
+local tt = {0x4145A0,0xD0,0x420,0x2F0,0x28,0x124}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 4, value = 257, freeze = true }})
 count=30.0+(154.0*1)-154.0
@@ -1214,7 +1226,7 @@ end
 
 function MountInformation3()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x4141E0,0xD0,0x420,0x2F0,0x28,0x124}
+local tt = {0x4145A0,0xD0,0x420,0x2F0,0x28,0x124}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 4, value = 257, freeze = true }})
 gg.clearResults()
@@ -1226,7 +1238,7 @@ function onMountID3()
 ooid3 = gg.prompt({"『請輸入第三格坐騎代碼』3456-舞獅貓貓3471-深淵咆哮3480-皎月仙宮3486-繽紛幻想3492-浮游山海3485-冰雪傳說3514-遠古巨人3459-星河天馬3462-桃香扇 4503-鹿王本生4200-哮天犬3504-混亂黑龍3497－鏡花水月4507－精靈南瓜車4510－竹蜻蜓4518－烈空戰甲4521－星河戰甲4526－環海洛洛空龍尼 洛洛3434-敏捷小飛鼠3435-機智小飛鼠3436-麒麟3437-普通麒麟3438-祥瑞麒麟3439-小陸行鳥3440-迅捷象躍動鳥3441-歡樂躍動陸行小鳥342 白象3444-盛典白象3445-海豹水手3446-海豹船長3447-超能海豹3448-擎天柱(遊戲版本過低)3449-擎天柱3450-威震天(遊戲版本過低)3451-威 震天3452-大黃蜂(遊戲版過低)3453-大黃蜂3454-貓寶寶3455-福袋貓貓3456-舞獅貓貓3457-天馬寶寶3458-神聖天馬3459-星河天馬3460-青竹坐檯3461- 富貴金轎3462-桃香扇緣3463-紅蜘蛛(遊戲版本過低)3464-紅蜘蛛3465-熱破(遊戲版本過低)3466-熱破3467-驚破天(遊戲版本過低)3468-驚 破天3469-大地領主3470-炎獄魔龍3471-深淵咆哮3472-鋼鎖3473-鋼鎖3474-飛標3475-飛標3476-嚎叫3477-嚎叫3478-月明星3479-玉兔桃花3480  -皎月仙宮3481-兔子先生拉比3482-兔子先生拉比3483-暖冬祝福3484-聖夜驚喜3485-冰雪傳說3486-繽紛幻想3487-繽紛幻想3488-福運哞哞3489-福運哞 3490-攀崖觀日3491-北辰螢火3492-浮游山海3493-牛魔王3494-牛魔王3495-步步生蓮3496-飛花踏雪3497-鏡花水月"}
 ,{[1]=3471},{[1]="number"})[1]
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x4141E0,0xD0,0x420,0x2F0,0x28,0x124}
+local tt = {0x4145A0,0xD0,0x420,0x2F0,0x28,0x124}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 4, value = 257, freeze = true }})
 count=30.0+(154.0*1)-154.0
@@ -1314,9 +1326,10 @@ if  callMount3==36 then MountID3= 4570 MountInformation3() end
 if  callMount3==37 then onMountID3() end
 XGCK=-1
 end
+
 function MountInformation4()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x4141E0,0xD0,0x420,0x2F0,0x28,0x124}
+local tt = {0x4145A0,0xD0,0x420,0x2F0,0x28,0x124}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 4, value = 257, freeze = true }})
 gg.clearResults()
@@ -1328,7 +1341,7 @@ function onMountID4()
 ooid4 = gg.prompt({"『請輸入第四格坐騎代碼』3456-舞獅貓貓3471-深淵咆哮3480-皎月仙宮3486-繽紛幻想3492-浮游山海3485-冰雪傳說3514-遠古巨人3459-星河天馬3462-桃香扇 4503-鹿王本生4200-哮天犬3504-混亂黑龍3497－鏡花水月4507－精靈南瓜車4510－竹蜻蜓4518－烈空戰甲4521－星河戰甲4526－環海洛洛空龍尼 洛洛3434-敏捷小飛鼠3435-機智小飛鼠3436-麒麟3437-普通麒麟3438-祥瑞麒麟3439-小陸行鳥3440-迅捷象躍動鳥3441-歡樂躍動陸行小鳥342 白象3444-盛典白象3445-海豹水手3446-海豹船長3447-超能海豹3448-擎天柱(遊戲版本過低)3449-擎天柱3450-威震天(遊戲版本過低)3451-威 震天3452-大黃蜂(遊戲版過低)3453-大黃蜂3454-貓寶寶3455-福袋貓貓3456-舞獅貓貓3457-天馬寶寶3458-神聖天馬3459-星河天馬3460-青竹坐檯3461- 富貴金轎3462-桃香扇緣3463-紅蜘蛛(遊戲版本過低)3464-紅蜘蛛3465-熱破(遊戲版本過低)3466-熱破3467-驚破天(遊戲版本過低)3468-驚 破天3469-大地領主3470-炎獄魔龍3471-深淵咆哮3472-鋼鎖3473-鋼鎖3474-飛標3475-飛標3476-嚎叫3477-嚎叫3478-月明星3479-玉兔桃花3480  -皎月仙宮3481-兔子先生拉比3482-兔子先生拉比3483-暖冬祝福3484-聖夜驚喜3485-冰雪傳說3486-繽紛幻想3487-繽紛幻想3488-福運哞哞3489-福運哞 3490-攀崖觀日3491-北辰螢火3492-浮游山海3493-牛魔王3494-牛魔王3495-步步生蓮3496-飛花踏雪3497-鏡花水月"}
 ,{[1]=3480},{[1]="number"})[1]
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x4141E0,0xD0,0x420,0x2F0,0x28,0x124}
+local tt = {0x4145A0,0xD0,0x420,0x2F0,0x28,0x124}
 local ttt = S_Pointer(t, tt, true)
 count=30.0+(154.0*1)-154.0
 so({"坐骑",132.0,4,16},{{180.0,4,16},{count,36,16}},{{257,96,4,1},{ooid4,304,4,1}})
@@ -1418,7 +1431,7 @@ end
 
 function MountInformation5()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x4141E0,0xD0,0x420,0x2F0,0x28,0x124}
+local tt = {0x4145A0,0xD0,0x420,0x2F0,0x28,0x124}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 4, value = 257, freeze = true }})
 gg.clearResults()
@@ -1430,7 +1443,7 @@ function onMountID5()
 ooid5 = gg.prompt({"『請輸入第五格坐騎代碼』3456-舞獅貓貓3471-深淵咆哮3480-皎月仙宮3486-繽紛幻想3492-浮游山海3485-冰雪傳說3514-遠古巨人3459-星河天馬3462-桃香扇 4503-鹿王本生4200-哮天犬3504-混亂黑龍3497－鏡花水月4507－精靈南瓜車4510－竹蜻蜓4518－烈空戰甲4521－星河戰甲4526－環海洛洛空龍尼 洛洛3434-敏捷小飛鼠3435-機智小飛鼠3436-麒麟3437-普通麒麟3438-祥瑞麒麟3439-小陸行鳥3440-迅捷象躍動鳥3441-歡樂躍動陸行小鳥342 白象3444-盛典白象3445-海豹水手3446-海豹船長3447-超能海豹3448-擎天柱(遊戲版本過低)3449-擎天柱3450-威震天(遊戲版本過低)3451-威 震天3452-大黃蜂(遊戲版過低)3453-大黃蜂3454-貓寶寶3455-福袋貓貓3456-舞獅貓貓3457-天馬寶寶3458-神聖天馬3459-星河天馬3460-青竹坐檯3461- 富貴金轎3462-桃香扇緣3463-紅蜘蛛(遊戲版本過低)3464-紅蜘蛛3465-熱破(遊戲版本過低)3466-熱破3467-驚破天(遊戲版本過低)3468-驚 破天3469-大地領主3470-炎獄魔龍3471-深淵咆哮3472-鋼鎖3473-鋼鎖3474-飛標3475-飛標3476-嚎叫3477-嚎叫3478-月明星3479-玉兔桃花3480  -皎月仙宮3481-兔子先生拉比3482-兔子先生拉比3483-暖冬祝福3484-聖夜驚喜3485-冰雪傳說3486-繽紛幻想3487-繽紛幻想3488-福運哞哞3489-福運哞 3490-攀崖觀日3491-北辰螢火3492-浮游山海3493-牛魔王3494-牛魔王3495-步步生蓮3496-飛花踏雪3497-鏡花水月"}
 ,{[1]=3486},{[1]="number"})[1]
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x4141E0,0xD0,0x420,0x2F0,0x28,0x124}
+local tt = {0x4145A0,0xD0,0x420,0x2F0,0x28,0x124}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 4, value = 257, freeze = true }})
 count=30.0+(154.0*1)-154.0
@@ -1568,21 +1581,21 @@ repeat
 ai2 = ai2 + AA3s2
 gg.sleep(20) 
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0,0x368,0x88}
+local tt = {0x2646A0,0x368,0x88}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 16, value = ai2, freeze = true}})
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0,0x250,0x50}
+local tt = {0x2646A0,0x250,0x50}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 16, value = ai2, freeze = true}})
 until (ai2 > 180)
 if (ikun2 >0) then
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0,0x368,0x88}
+local tt = {0x2646A0,0x368,0x88}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 16, value = ai2, freeze = false}})
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0,0x250,0x50}
+local tt = {0x2646A0,0x250,0x50}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 16, value = ai2, freeze = false}})
 return
@@ -1592,7 +1605,7 @@ end end
 
 function autodohead2()
 ikun2=1
-gg.toast("轉頭旋轉關閉成功")
+gg.toast("轉頭旋轉已關閉")
 return
 end
 
@@ -1604,21 +1617,21 @@ repeat
 ai3 = ai3 + AA4s2
 gg.sleep(20) 
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0,0x368,0x8C}
+local tt = {0x2646A0,0x368,0x8C}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 16, value = ai3, freeze = true}})
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0,0x250,0x54}
+local tt = {0x2646A0,0x250,0x54}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 16, value = ai3, freeze = true}})
 until (ai3 > 180)
 if (ikun3 >0) then
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0,0x368,0x8C}
+local tt = {0x2646A0,0x368,0x8C}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 16, value = ai3, freeze = false}})
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0,0x250,0x54}
+local tt = {0x2646A0,0x250,0x54}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 16, value = ai3, freeze = false}})
 return
@@ -1628,35 +1641,34 @@ end end
 
 function autoheads2()
 ikun3=1
-gg.toast("旋轉頭部關閉成功")
+gg.toast("旋轉頭部已關閉")
 return
 end
 function headunder1()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0,0x368,0x8C}
+local tt = {0x2646A0,0x368,0x8C}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 16, value = 175, freeze = true}})
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0,0x250,0x54}
+local tt = {0x2646A0,0x250,0x54}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 16, value = 175, freeze = true}})
-gg.toast("頭部貼身開啟成功")
+gg.toast("頭部貼身已開啟")
 end
 function headunder2()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0,0x368,0x8C}
+local tt = {0x2646A0,0x368,0x8C}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 16, value = 175, freeze = false}})
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0,0x250,0x54}
+local tt = {0x2646A0,0x250,0x54}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 16, value = 175, freeze = false}})
-gg.toast("頭部貼身關閉成功")
+gg.toast("頭部貼身已關閉")
 end
-
 function Role1()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x42BF8, 0x48}
+local tt = {0x42FB8, 0x48}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 1, value = 1, freeze = true}})
 gg.toast("酋长修改成功")
@@ -1664,7 +1676,7 @@ end
 
 function Role2()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x42BF8, 0x48}
+local tt = {0x42FB8, 0x48}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 2, value = 1, freeze = true}})
 gg.toast("卡卡修改成功")
@@ -1672,7 +1684,7 @@ end
 
 function Role3()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x42BF8, 0x48}
+local tt = {0x42FB8, 0x48}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 2, value = 3, freeze = true}})
 gg.toast("史提芬教授修改成功")
@@ -1680,7 +1692,7 @@ end
 
 function Role4()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x42BF8, 0x48}
+local tt = {0x42FB8, 0x48}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 2, value = 4, freeze = true}})
 gg.toast("隊長湯姆修改成功")
@@ -1688,7 +1700,7 @@ end
 
 function Role5()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x42BF8, 0x48}
+local tt = {0x42FB8, 0x48}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 2, value = 5, freeze = true}})
 gg.toast("助教彼得修改成功")
@@ -1696,7 +1708,7 @@ end
 
 function Role6()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x42BF8, 0x48}
+local tt = {0x42FB8, 0x48}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 2, value = 6, freeze = true}})
 gg.toast("熊孩子修改成功")
@@ -1704,7 +1716,7 @@ end
 
 function Role7()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x42BF8, 0x48}
+local tt = {0x42FB8, 0x48}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 2, value = 7, freeze = true}})
 gg.toast("酋长夫人修改成功")
@@ -1712,7 +1724,7 @@ end
 
 function Role8()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x42BF8, 0x48}
+local tt = {0x42FB8, 0x48}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 2, value = 8, freeze = true}})
 gg.toast("妮妮修改成功")
@@ -1720,7 +1732,7 @@ end
 
 function Role9()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x42BF8, 0x48}
+local tt = {0x42FB8, 0x48}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 2, value = 9, freeze = true}})
 gg.toast("特工罗拉修改成功")
@@ -1728,7 +1740,7 @@ end
 
 function Role10()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x42BF8, 0x48}
+local tt = {0x42FB8, 0x48}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 2, value = 10, freeze = true}})
 gg.toast("小淘气辛蒂修改成功")
@@ -1736,7 +1748,7 @@ end
 
 function Role11()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x42BF8, 0x48}
+local tt = {0x42FB8, 0x48}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 2, value = 11, freeze = true}})
 gg.toast("十字人修改成功")
@@ -1744,7 +1756,7 @@ end
 
 function Role12()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x42BF8, 0x48}
+local tt = {0x42FB8, 0x48}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 2, value = 12, freeze = true}})
 gg.toast("全裸定制修改成功")
@@ -1752,7 +1764,7 @@ end
 
 function Role13()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x42BF8, 0x48}
+local tt = {0x42FB8, 0x48}
 local ttt = S_Pointer(t, tt, true)
 gg.addListItems({{address = ttt, flags = 2, value = 13, freeze = true}})
 gg.toast("全灰模型修改成功")
@@ -1760,7 +1772,7 @@ end
 
 function Role14()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x42BF8, 0x48}
+local tt = {0x42FB8, 0x48}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 2, value = 0}})
 gg.addListItems({{address = ttt, flags = 2, value = 0, freeze = false}})
@@ -1843,7 +1855,7 @@ if not mnmcc then return end
 mnmc = ":"..mnmcc
 io.open("/sdcard/Capoo名字配置文件.txt", "w") io.open("/sdcard/Capoo名字配置文件.txt", "w"):write("🍀" .. mnmcc.. "🍀"):close()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x42BF8, 0x49}
+local tt = {0x42FB8, 0x49}
 local ttt = S_Pointer(t, tt, true)
 
 -- 定义目标字符串的内存地址
@@ -1869,6 +1881,7 @@ function modifyString(address, newString)
     end
     gg.setValues(values)
 end
+
 -- 调用函数修改字符串
 modifyString(address, newString)
 gg.toast("名字已修改为: " .. newString)
@@ -1908,18 +1921,18 @@ os.exit()
 end
 --準心XY
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x1217D8,0x38,0x8}
+local tt = {0x121B98,0x38,0x8}
 local ttta = S_Pointer(t, tt, true)
-local tt = {0x1217D8,0x38,0xc}
+local tt = {0x121B98,0x38,0xc}
 local tttb = S_Pointer(t, tt, true)
 --自己的座標
-local tt = {0x2642E0, 0x1C8, 0x198, 0xBC}
+local tt = {0x2646A0, 0x1C8, 0x198, 0xBC}
 local ttt = S_Pointer(t, tt, true)
 local tttx = GetValue(ttt, 4)
-local tt = {0x2642E0, 0x1C8, 0x198, 0xC0}
+local tt = {0x2646A0, 0x1C8, 0x198, 0xC0}
 local ttt = S_Pointer(t, tt, true)
 local ttty = GetValue(ttt, 4)
-local tt = {0x2642E0, 0x1C8, 0x198, 0xC4}
+local tt = {0x2646A0, 0x1C8, 0x198, 0xC4}
 local ttt = S_Pointer(t, tt, true)
 local tttz = GetValue(ttt, 4)
 --自瞄目標的座標
@@ -1974,24 +1987,24 @@ addrz = nmbz[1].address
 nnbz=sl[1].value
 while true do
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0,0x368,0x88}
+local tt = {0x2646A0,0x368,0x88}
 local tttxa = S_Pointer(t, tt, true)
-local tt = {0x2642E0,0x250,0x50}
+local tt = {0x2646A0,0x250,0x50}
 local tttxb = S_Pointer(t, tt, true)
 --xpos
-local tt = {0x2642E0,0x368,0x8c}
+local tt = {0x2646A0,0x368,0x8c}
 local tttya = S_Pointer(t, tt, true)
-local tt = {0x2642E0,0x250,0x54}
+local tt = {0x2646A0,0x250,0x54}
 local tttyb = S_Pointer(t, tt, true)
 --ypos
 
-local tt = {0x2642E0, 0x1C8, 0x198, 0xBC}
+local tt = {0x2646A0, 0x1C8, 0x198, 0xBC}
 local ttt = S_Pointer(t, tt, true)
 local tttx = GetValue(ttt, 4)
-local tt = {0x2642E0, 0x1C8, 0x198, 0xC0}
+local tt = {0x2646A0, 0x1C8, 0x198, 0xC0}
 local ttt = S_Pointer(t, tt, true)
 local ttty = GetValue(ttt, 4)
-local tt = {0x2642E0, 0x1C8, 0x198, 0xC4}
+local tt = {0x2646A0, 0x1C8, 0x198, 0xC4}
 local ttt = S_Pointer(t, tt, true)
 local tttz = GetValue(ttt, 4)
 --自瞄目標的座標
@@ -2032,7 +2045,7 @@ function changeteam()
 teams = gg.prompt({"⬜0-白隊,🟥1-紅隊,🟦2-藍隊,🟩3綠隊,🟨4黃隊,🟧5橙隊,🟪6紫隊,👁️999旁觀者"}
 ,{[1]=1},{[1]="number"})[1]
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x10CCC8,0x48,0x4A8,0x70}
+local tt = {0x2646A0,0x1A0,0x300,0x70}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 1, value = teams}})
 end
@@ -2042,7 +2055,7 @@ function player_TPCollision1()
 stoptppd = 0
 if datauploadTime == nil then
 datauploadTime = gg.prompt({"输入傳送間隙時間"},{[1]="1"},{[1]="number"})[1]
-gg.toast("傳送光環開啟成功")
+gg.toast("傳送光環已開啟")
 end
     local gameportal = gg.getRangesList("liblibGameApp.so:bss")[1].start
     local playerself_addr = GotoPointer(gameportal + 0x7B50, {0x88, 0xC0})
@@ -2066,13 +2079,13 @@ end
 gg.sleep(datauploadTime)
 gg.toast("迷你號:"..miniUID)
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0, 0x1C8, 0x198, 0xBC}
+local tt = {0x2646A0, 0x1C8, 0x198, 0xBC}
 local tttXX = S_Pointer(t, tt, true)
 
-local tt = {0x2642E0, 0x1C8, 0x198, 0xC0}
+local tt = {0x2646A0, 0x1C8, 0x198, 0xC0}
 local tttYY = S_Pointer(t, tt, true)
 
-local tt = {0x2642E0, 0x1C8, 0x198, 0xC4}
+local tt = {0x2646A0, 0x1C8, 0x198, 0xC4}
 local tttZZ = S_Pointer(t, tt, true)
 
 local TPLocation = {tttXX,tttYY,tttZZ}
@@ -2081,18 +2094,16 @@ gg.setValues({{address = TPLocation[1],flags = 4,value = one_x},{address = TPLoc
     return Table, GotoPointer(playerself_addr)
 end
 end
-
-
 function player_TPCollision2()
 stoptppd = 1
 datauploadTime = nil
-gg.toast("傳送光環關閉成功")
+gg.toast("傳送光環已關閉")
 end
 
 function ca1() 
 a9aa=o5v
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x434600,0x2B8,0x70,0x2D0,0x90}
+local tt = {0x4349C0,0x2B8,0x70,0x2D0,0x90}
 local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 4, value = a9a}})
 gg.toast(a9aa.."人房間修改成功")
@@ -2129,22 +2140,24 @@ function playerAimbot1()
 readthevalueff = gg.prompt({"输入自瞄範圍,1=1格方塊","排除的隊伍(⬜0-白隊,🟥1-紅隊,🟦2-藍隊,🟩3綠隊,🟨4黃隊,🟧5橙隊,🟪6紫隊,👁️999旁觀者)"},{[1]="8",[2]="-1"},{[1]="number",[2]="number"})
 theMaxdistance = readthevalueff[1] * 100
 noaimtean = readthevalueff[2]
+nearestDistance = theMaxdistance
+nearestEnemy = nil
 -- 準心XY
-gg.toast("靠近玩家準心自瞄已成功")
+gg.toast("靠近玩家準心自瞄已開啟")
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x1217D8, 0x38, 0x8}
+local tt = {0x121B98, 0x38, 0x8}
 local ttta = S_Pointer(t, tt, true)
-local tt = {0x1217D8, 0x38, 0xc}
+local tt = {0x121B98, 0x38, 0xc}
 local tttb = S_Pointer(t, tt, true)
 
 -- 自己的座標
-local tt = {0x2642E0, 0x1C8, 0x198, 0xBC}
+local tt = {0x2646A0, 0x1C8, 0x198, 0xBC}
 local tttx = S_Pointer(t, tt, true)
 local tttx_value = GetValue(tttx, 4)
-local tt = {0x2642E0, 0x1C8, 0x198, 0xC0}
+local tt = {0x2646A0, 0x1C8, 0x198, 0xC0}
 local ttty = S_Pointer(t, tt, true)
 local ttty_value = GetValue(ttty, 4)
-local tt = {0x2642E0, 0x1C8, 0x198, 0xC4}
+local tt = {0x2646A0, 0x1C8, 0x198, 0xC4}
 local tttz = S_Pointer(t, tt, true)
 local tttz_value = GetValue(tttz, 4)
 
@@ -2169,17 +2182,22 @@ local function setViewAngle(disx, disy, disz, distance)
 end
 ikumstopaim = 0
 while true do
+local nearestDistance = theMaxdistance  -- 初始化最大距離
+    local nearestEnemy = nil  -- 用來保存最近敵人的內存地址
+    local nearestDisx, nearestDisy, nearestDisz = 0, 0, 0  -- 保存最近敵人的位置差異
   for lid = 0, 39 do
     local addr = oneself_addr + lid * 0x8
     local addrX = GotoPointer(addr + 0x0)
     local uidvalue = GetValue(addrX + 0x0, 4)
     local pdvalue = GetValue(addrX + 0xB0, 4)
     local pdteam = GetValue(addrX + 0x24, 4)
+    local playerhp = GetValue(addrX + 0x10, 16)
     if ikumstopaim == 1 then
     os.exit()
     return end 
     if uidvalue ~= 0 and uidvalue ~= nil then
     if pdvalue > 0 and pdvalue < 3 then
+    if playerhp >0 then
        one_x = addrX + 0x14
        one_y = addrX + 0x18
        one_z = addrX + 0x1C
@@ -2201,45 +2219,56 @@ while true do
       local distance = calculateDistance(enemyX, enemyY, enemyZ, playerX, playerY, playerZ)
       
       -- 如果距離小於某個閾值，則自動瞄準
-      if distance < theMaxdistance then
+      if distance < nearestDistance then
       if pdteam ~= noaimtean then
-        setViewAngle(disx, disy, disz, distance)
+            nearestDistance = distance
+            nearestEnemy = addrX
+            nearestDisx, nearestDisy, nearestDisz = disx, disy, disz
+         
        end
        end
       end
     end
   end
+ end
+ if nearestEnemy~=nil then
+ setViewAngle(nearestDisx, nearestDisy, nearestDisz, nearestDistance)
+ end
   -- 等待一段時間再進行下一次檢測
-  gg.sleep(2)
+  gg.sleep(1)
 end
 end
+
+
 
 
 function playermvAimbot1()
 readthevalueff = gg.prompt({"输入自瞄範圍,1=1格方塊","排除的隊伍(⬜0-白隊,🟥1-紅隊,🟦2-藍隊,🟩3綠隊,🟨4黃隊,🟧5橙隊,🟪6紫隊,👁️999旁觀者)"},{[1]="8",[2]="-1"},{[1]="number",[2]="number"})
 theMaxdistance = readthevalueff[1] * 100
 noaimtean = readthevalueff[2]
+nearestDistance = theMaxdistance
+nearestEnemy = nil
 ikummvstopaim = 0
 -- 準心XY
-gg.toast("靠近玩家動作自瞄已成功")
+gg.toast("靠近玩家動作自瞄已開啟")
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x2642E0,0x368,0x88}
+local tt = {0x2646A0,0x368,0x88}
 local ttta = S_Pointer(t, tt, true)
-local tt = {0x2642E0,0x250,0x50}
+local tt = {0x2646A0,0x250,0x50}
 local tttb = S_Pointer(t, tt, true)
 --xpos
-local tt = {0x2642E0,0x368,0x8c}
+local tt = {0x2646A0,0x368,0x8c}
 local tttaa = S_Pointer(t, tt, true)
-local tt = {0x2642E0,0x250,0x54}
+local tt = {0x2646A0,0x250,0x54}
 local tttbb = S_Pointer(t, tt, true)
 -- 自己的座標
-local tt = {0x2642E0, 0x1C8, 0x198, 0xBC}
+local tt = {0x2646A0, 0x1C8, 0x198, 0xBC}
 local tttx = S_Pointer(t, tt, true)
 local tttx_value = GetValue(tttx, 4)
-local tt = {0x2642E0, 0x1C8, 0x198, 0xC0}
+local tt = {0x2646A0, 0x1C8, 0x198, 0xC0}
 local ttty = S_Pointer(t, tt, true)
 local ttty_value = GetValue(ttty, 4)
-local tt = {0x2642E0, 0x1C8, 0x198, 0xC4}
+local tt = {0x2646A0, 0x1C8, 0x198, 0xC4}
 local tttz = S_Pointer(t, tt, true)
 local tttz_value = GetValue(tttz, 4)
 
@@ -2266,12 +2295,16 @@ gg.addListItems({{address = tttaa,flags = 16,value = angleX, freeze = true},{add
 
 end
 while true do
+local nearestDistance = theMaxdistance  -- 初始化最大距離
+    local nearestEnemy = nil  -- 用來保存最近敵人的內存地址
+    local nearestDisx, nearestDisy, nearestDisz = 0, 0, 0  -- 保存最近敵人的位置差異
   for lid = 0, 39 do
     local addr = oneself_addr + lid * 0x8
     local addrX = GotoPointer(addr + 0x0)
     local uidvalue = GetValue(addrX + 0x0, 4)
     local pdvalue = GetValue(addrX + 0xB0, 4)
     local pdteam = GetValue(addrX + 0x24, 4)
+    local playerhp = GetValue(addrX + 0x10, 16)
     if ikummvstopaim == 1 then
    gg.addListItems({{address = ttta,flags = 16,value = angleX, freeze = false},{address = tttb,flags = 16,value = angleY, freeze = false}})
 gg.addListItems({{address = tttaa,flags = 16,value = angleX, freeze = false},{address = tttbb,flags = 16,value = angleY, freeze = false}})
@@ -2279,6 +2312,7 @@ gg.addListItems({{address = tttaa,flags = 16,value = angleX, freeze = false},{ad
     return end 
     if uidvalue ~= 0 and uidvalue ~= nil then
     if pdvalue > 0 and pdvalue < 3 then
+    if playerhp >0 then
        one_x = addrX + 0x14
        one_y = addrX + 0x18
        one_z = addrX + 0x1C
@@ -2300,18 +2334,22 @@ gg.addListItems({{address = tttaa,flags = 16,value = angleX, freeze = false},{ad
       local distance = calculateDistance(enemyX, enemyY, enemyZ, playerX, playerY, playerZ)
       
       -- 如果距離小於某個閾值，則自動瞄準
-      if distance < theMaxdistance then
+      if distance < nearestDistance then
       if pdteam ~= noaimtean then
-        setViewAngle(disx, disy, disz, distance)
+            nearestDistance = distance
+            nearestEnemy = addrX
+            nearestDisx, nearestDisy, nearestDisz = disx, disy, disz
        end
        end
       end
     end
   end
+  end
+  if nearestEnemy~=nil then
+ setViewAngle(nearestDisx, nearestDisy, nearestDisz, nearestDistance)
+ end
   -- 等待一段時間再進行下一次檢測
-  gg.sleep(2)
-   gg.addListItems({{address = ttta,flags = 16,value = angleX, freeze = false},{address = tttb,flags = 16,value = angleY, freeze = false}})
-gg.addListItems({{address = tttaa,flags = 16,value = angleX, freeze = false},{address = tttbb,flags = 16,value = angleY, freeze = false}})
+  gg.sleep(1)
 end
 end
 
@@ -2326,34 +2364,392 @@ ikummvstopaim = 1
 gg.toast("靠近玩家動作自瞄已關閉")
 end
 
+function attack_animation1()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x121B98,0x38,0xB8,0x20}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 16, value = -88, freeze = true}})
+gg.toast("攻擊動畫已開啟")
+end
+
+
+function attack_animation2()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x121B98,0x38,0xB8,0x20}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 16, value = 0, freeze = false}})
+gg.toast("攻擊動畫已關閉")
+end
 
 
 function readmyname()
 local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x42BF8, 0x49}
+local tt = {0x42FB8, 0x49}
 local ttt = S_Pointer(t, tt, true)
 
 -- 定义内存地址和长度（这需要根据你的具体情况调整）
 local address = ttt
 local length = 32
-
--- 读取内存中的字符串
--- 读取内存中的字符串
-function readString(address, length)
-    local char = {}
-    for i = 0, length - 1 do
-        local value = GetValue(address + i * 0x1, 1)
-        if value ~= 0 then
-            char[#char + 1] = value & 0xFF
-        else break end
-    end
-    return string.char(table.unpack(char))
-end
-
 -- 输出读取到的字符串
 local result = readString(address, length)
 gg.alert("遊戲名稱: " .. result)
 end
+
+function readplayer()
+gg.toast("正在讀取玩家...")
+-- 定义一些常量，比如玩家数量
+local PLAYER_COUNT = 39
+-- 定义一个函数，用于查找玩家位置
+-- 读取内存中的字符串
+function getPlayerPositions()
+    local positions = {}
+ local portal = gg.getRangesList("liblibGameApp.so:bss")[1].start
+local oneself_addr = GotoPointer(portal + 0x7B50, {0x88, 0xC0})
+    for i = 0, PLAYER_COUNT - 1 do
+     local addr = oneself_addr + i * 0x8
+    local baseAddress = GotoPointer(addr + 0x0)
+    local uidvalue = GetValue(baseAddress + 0x0, 4)
+    local pdvalue = GetValue(baseAddress + 0xB0, 4)
+    local pdteam = GetValue(baseAddress + 0x24, 4)
+    local playerHP = GetValue(baseAddress + 0x10, 16)
+    if uidvalue ~= 0 and uidvalue ~= nil then
+    if uidvalue > 100000000 and uidvalue < 3060036488 then
+    if pdteam > -1 and pdteam < 7 then
+    if pdvalue > 0 and pdvalue < 3 then
+       one_gx = baseAddress + 0x14
+       one_gy = baseAddress + 0x18
+       one_gz = baseAddress + 0x1C
+    -- 遍历所有玩家
+        local x = gg.getValues({{address = one_gx, flags = gg.TYPE_DWORD}})[1].value
+        local y = gg.getValues({{address = one_gy, flags = gg.TYPE_DWORD}})[1].value
+        local z = gg.getValues({{address = one_gz, flags = gg.TYPE_DWORD}})[1].value
+        tttname = baseAddress + 0x38
+         address = tttname
+         length = 32
+ result = readString(address, length)
+-- 输出读取到的字符串
+table.insert(positions, {x = x/100, y = y/100, z = z/100,f= result,db= uidvalue,hp = playerHP})
+    end
+    end
+    end
+    end
+    end
+    return positions
+end
+capooikun = "--[玩家列表]--\n"
+-- 定义一个函数，用于绘制玩家的框架
+local function drawPlayerBoxes(positions)
+    for i, pos in ipairs(positions) do
+pname = string.format("\n[玩家%d]: ".. pos.f,i)
+pminiuid = string.format(" \n[迷你號]: " .. pos.db)
+php = string.format(" \n[血量]: " .. pos.hp)
+pside = string.format(" \n[坐標]: (X%.2f, Y%.2f, Z%.2f)", i, pos.x, pos.y, pos.z)
+capooikun = (capooikun .. pname .. pminiuid .. php .. pside)
+
+end
+gg.toast("请选择")
+F = gg.alert(capooikun ,"取消","複製")
+ if  F~=1 and F~=2 then
+  gg.toast("你未选择开关默认取消")
+    gg.toast("你未选择｛开 关｝")
+  else 
+  end
+if  F== 1 then
+os.exit()
+ elseif  F== 2 then
+ gg.copyText(capooikun)
+        -- 这里可以添加实际绘制框架的代码
+        -- 例如，可以调用绘图函数，绘制在游戏屏幕上
+    end
+end
+    -- 获取玩家位置
+     positions = getPlayerPositions()
+    -- 绘制玩家框架
+    drawPlayerBoxes(positions)
+end
+
+function effectact1()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x2646A0,0x250,0x558} 
+local ttt = S_Pointer(t, tt,true)
+gg.addListItems({{address = ttt, flags = 4, value = peffect1, freeze = true}}) 
+gg.toast("人物特效修改成功")
+end
+
+function loopeffect1()  
+menu1= gg.choice({
+    "𒅒🔰紫色月亮🔰𒅒",
+    "𒅒🔰碧琪特效🔰𒅒",
+    "𒅒🔰绿色特效🔰𒅒",
+    "𒅒🔰彩虹拖尾🔰𒅒",
+    "𒅒🔰️蓝色特效🔰𒅒",
+    "𒅒🔰️花小楼特效🔰𒅒",
+    "𒅒🔰️冰公主特效🔰𒅒",
+    "𒅒🔰️叶萝莉特效🔰𒅒",
+   "𒅒🔰恢复动作️特效🔰𒅒", 
+    "𒅒🎡返 回 主 页🎡𒅒",},2018,os.date("𒅒快来装逼啊！𒅒"))
+if menu1==1 then peffect1=12 effectact1() end
+if menu1==2 then peffect1=13 effectact1() end
+if menu1==3 then peffect1=14 effectact1() end
+if menu1==4 then peffect1=15 effectact1() end
+if menu1==5 then peffect1=16 effectact1() end
+if menu1==6 then peffect1=17 effectact1() end
+if menu1==7 then peffect1=18 effectact1() end
+if menu1==8 then peffect1=19 effectact1() end
+if menu1==9 then peffect1=0 effectact1()  gg.clearList() end
+if menu1==10 then Main1() end
+XGCK=-1 end
+
+
+function bullets1()
+gg.toast("请选择鎖定开关")
+F = gg.alert("📌请选择是否鎖定 ","🔒鎖定","🔓普通")
+ if  F~=1 and F~=2 then
+  gg.toast("你未选择开关默认取消")
+    gg.toast("你未选择｛开 关｝")
+  else 
+  end
+if  F== 1 then
+changebullet = gg.prompt({"输入子彈數量:"}
+,{[1]=114514},{[1]="number"})[1]
+gg.clearResults()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x4D00E0,0x188,0xA0,0xC0,0x160,0x10,0x14}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = changebullet}})
+gg.addListItems({{address = ttt, flags = 4, value = changebullet, freeze = true }})
+gg.setValues({{address = ttt, flags = 4, value = changebullet}})
+gg.toast("鎖定子彈數量修改成功")
+
+elseif  F== 2 then
+changebullet = gg.prompt({"输入子彈數量:"}
+,{[1]=114514},{[1]="number"})[1]
+gg.clearResults()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x4D00E0,0x188,0xA0,0xC0,0x160,0x10,0x14}
+local ttt = S_Pointer(t, tt, true)
+gg.setValues({{address = ttt, flags = 4, value = changebullet}})
+gg.addListItems({{address = ttt, flags = 4, value = changebullet, freeze = false }})
+gg.setValues({{address = ttt, flags = 4, value = changebullet}})
+gg.toast("子彈數量修改成功")
+end
+end
+
+function bulletconcentration1()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x4D00E0,0x188,0xA0,0xC0,0x160,0x10,0x18}
+local ttt = S_Pointer(t, tt,true)
+gg.addListItems({{address = ttt, flags = 4, value = -1, freeze = true}})
+gg.toast("子彈集中已開啟")
+end
+
+
+function bulletconcentration2()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x4D00E0,0x188,0xA0,0xC0,0x160,0x10,0x18}
+local ttt = S_Pointer(t, tt,true)
+gg.addListItems({{address = ttt, flags = 4, value = 1086324736, freeze = false}})
+gg.setValues({{address = ttt, flags = 4, value = 1086324736}})
+gg.toast("子彈集中已關閉")
+end
+
+function norecoil1()
+local t = {"liblibGameApp.so:bss", "Cb"} 
+local tt = {0x4D00E0,0x188,0xA0,0xC0,0x160,0x10,0x38}
+local ttt = S_Pointer(t, tt,true)
+gg.addListItems({{address = ttt, flags = 4, value = -1, freeze = true}})
+gg.toast("無後座力已開啟")
+end
+
+function norecoil2()
+local t = {"liblibGameApp.so:bss", "Cb"} 
+local tt = {0x4D00E0,0x188,0xA0,0xC0,0x160,0x10,0x38}
+local ttt = S_Pointer(t, tt,true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = false}})
+gg.setValues({{address = ttt, flags = 4, value = 0}})
+gg.toast("無後座力已關閉")
+end
+
+
+function scope1()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x4D00E0,0x188,0xA0,0xC0,0x160,0x10,0x40}
+local ttt = S_Pointer(t, tt,true)
+gg.setValues({{address = ttt, flags = 16, value = 75}})
+gg.toast("槍械鏡頭已開啟")
+end
+
+function scope2()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x4D00E0,0x188,0xA0,0xC0,0x160,0x10,0x40}
+local ttt = S_Pointer(t, tt,true)
+gg.setValues({{address = ttt, flags = 16, value = 0}})
+gg.toast("槍械鏡頭已關閉")
+end
+
+
+function aEnhancedGun1()
+ qmnb = {
+{["memory"] = 262207},
+{["name"] = "狙击枪强化"},
+{["value"] = 1155186688, ["type"] = 4},
+{["lv"] = 1152319488, ["offset"] = 4, ["type"] = 4},
+{["lv"] = 1137836032, ["offset"] = 8, ["type"] = 4},
+}
+qmxg = {
+{["value"] = 1, ["offset"] = 20, ["type"] = 4},
+{["value"] = 1, ["offset"] = -4, ["type"] = 4},
+{["value"] = 0, ["offset"] = -16, ["type"] = 4},
+{["value"] = 0, ["offset"] = -28, ["type"] = 16},
+{["value"] = 0, ["offset"] = -44, ["type"] = 16},
+}
+xqmnb(qmnb)
+end
+
+function aEnhancedGun2()
+ qmnb = {
+{["memory"] = 262207},
+{["name"] = "冲锋枪强化"},
+{["value"] = 1154613248, ["type"] = 4},
+{["lv"] = 1149861888, ["offset"] = 4, ["type"] = 4},
+{["lv"] = 1123024896, ["offset"] = 8, ["type"] = 4},
+}
+qmxg = {
+{["value"] = 1, ["offset"] = 20, ["type"] = 4},
+{["value"] = 40, ["offset"] = -8, ["type"] = 4},
+{["value"] = 0, ["offset"] = -16, ["type"] = 4},
+{["value"] = 0, ["offset"] = -28, ["type"] = 16},
+{["value"] = 0, ["offset"] = -44, ["type"] = 16},
+}
+xqmnb(qmnb)
+end
+
+function aEnhancedGun3()
+ qmnb = {
+{["memory"] = 262207},
+{["name"] = "重机枪强化"},
+{["value"] = 1157840896, ["type"] = 4},
+{["lv"] = 1149861888, ["offset"] = 4, ["type"] = 4},
+{["lv"] = 1123024896, ["offset"] = 8, ["type"] = 4},
+}
+qmxg = {
+{["value"] = 1, ["offset"] = 20, ["type"] = 4},
+{["value"] = 40, ["offset"] = -8, ["type"] = 4},
+{["value"] = 0, ["offset"] = -16, ["type"] = 4},
+{["value"] = 0, ["offset"] = -28, ["type"] = 16},
+{["value"] = 0, ["offset"] = -44, ["type"] = 16},
+}
+xqmnb(qmnb)
+end
+
+function aEnhancedGun4()
+ qmnb = {
+{["memory"] = 262207},
+{["name"] = "手枪强化"},
+{["value"] = 1155186688, ["type"] = 4},
+{["lv"] = 1150681088, ["offset"] = 4, ["type"] = 4},
+{["lv"] = 1130102784, ["offset"] = 8, ["type"] = 4},
+}
+qmxg = {
+{["value"] = 1, ["offset"] = 20, ["type"] = 4},
+{["value"] = 40, ["offset"] = -8, ["type"] = 4},
+{["value"] = 0, ["offset"] = -16, ["type"] = 4},
+{["value"] = 0, ["offset"] = -28, ["type"] = 16},
+{["value"] = 65522175, ["offset"] = -40, ["type"] = 4},
+{["value"] = 0, ["offset"] = -44, ["type"] = 16},
+}
+xqmnb(qmnb)
+end
+
+function EnhancedGun1()
+ A4 = gg.prompt({"『输入子弹代码』15003子弹-12299擎天柱炮弹-12300星星弹-15509燃烧激光-15510冰冻激光-15511爆炸激光-15512岩石海啸-15513冰球-15518特效炸弹-15519岩浆弹-15520混乱球_15521_15051燃烧箭-15052燃烧雪球-15053泡泡球-15056熔岩弹-15057混乱弹-15058炸弹-15059冰锥[不可放置方块]-15060熔岩球-15062冰锥-15064冰炸弹-15065火炸弹-15066冰雪弹-15067紫球-15068紫箭"}
+,{[1]=15003},{[1]="number"})[1]
+ qmnb = {
+{["memory"] = 262207},
+{["name"] = "狙击枪强化"},
+{["value"] = 1155186688, ["type"] = 4},
+{["lv"] = 1152319488, ["offset"] = 4, ["type"] = 4},
+{["lv"] = 1137836032, ["offset"] = 8, ["type"] = 4},
+}
+qmxg = {
+{["value"] = A4, ["offset"] = 24, ["type"] = 4},
+{["value"] = 2, ["offset"] = 16, ["type"] = 4},
+{["value"] = 1, ["offset"] = 20, ["type"] = 4},
+{["value"] = 1, ["offset"] = -4, ["type"] = 4},
+{["value"] = 0, ["offset"] = -16, ["type"] = 4},
+{["value"] = 0, ["offset"] = -28, ["type"] = 16},
+{["value"] = 0, ["offset"] = -44, ["type"] = 16},
+}
+xqmnb(qmnb)
+end
+
+function EnhancedGun2()
+ A5 = gg.prompt({"『输入子弹代码』15003子弹-12299擎天柱炮弹-12300星星弹-15509燃烧激光-15510冰冻激光-15511爆炸激光-15512岩石海啸-15513冰球-15518特效炸弹-15519岩浆弹-15520混乱球_15521_15051燃烧箭-15052燃烧雪球-15053泡泡球-15056熔岩弹-15057混乱弹-15058炸弹-15059冰锥[不可放置方块]-15060熔岩球-15062冰锥-15064冰炸弹-15065火炸弹-15066冰雪弹-15067紫球-15068紫箭"}
+,{[1]=15003},{[1]="number"})[1]
+ qmnb = {
+{["memory"] = 262207},
+{["name"] = "冲锋枪强化"},
+{["value"] = 1154613248, ["type"] = 4},
+{["lv"] = 1149861888, ["offset"] = 4, ["type"] = 4},
+{["lv"] = 1123024896, ["offset"] = 8, ["type"] = 4},
+}
+qmxg = {
+{["value"] = A5, ["offset"] = 24, ["type"] = 4},
+{["value"] = 2, ["offset"] = 16, ["type"] = 4},
+{["value"] = 1, ["offset"] = 20, ["type"] = 4},
+{["value"] = 40, ["offset"] = -8, ["type"] = 4},
+{["value"] = 0, ["offset"] = -16, ["type"] = 4},
+{["value"] = 0, ["offset"] = -28, ["type"] = 16},
+{["value"] = 0, ["offset"] = -44, ["type"] = 16},
+}
+xqmnb(qmnb)
+end
+
+function EnhancedGun3()
+ A6 = gg.prompt({"『输入子弹代码』15003子弹-12299擎天柱炮弹-12300星星弹-15509燃烧激光-15510冰冻激光-15511爆炸激光-15512岩石海啸-15513冰球-15518特效炸弹-15519岩浆弹-15520混乱球_15521_15051燃烧箭-15052燃烧雪球-15053泡泡球-15056熔岩弹-15057混乱弹-15058炸弹-15059冰锥[不可放置方块]-15060熔岩球-15062冰锥-15064冰炸弹-15065火炸弹-15066冰雪弹-15067紫球-15068紫箭"}
+,{[1]=15003},{[1]="number"})[1]
+ qmnb = {
+{["memory"] = 262207},
+{["name"] = "重机枪强化"},
+{["value"] = 1157840896, ["type"] = 4},
+{["lv"] = 1149861888, ["offset"] = 4, ["type"] = 4},
+{["lv"] = 1123024896, ["offset"] = 8, ["type"] = 4},
+}
+qmxg = {
+{["value"] = A6, ["offset"] = 24, ["type"] = 4},
+{["value"] = 2, ["offset"] = 16, ["type"] = 4},
+{["value"] = 1, ["offset"] = 20, ["type"] = 4},
+{["value"] = 40, ["offset"] = -8, ["type"] = 4},
+{["value"] = 0, ["offset"] = -16, ["type"] = 4},
+{["value"] = 0, ["offset"] = -28, ["type"] = 16},
+{["value"] = 0, ["offset"] = -44, ["type"] = 16},
+}
+xqmnb(qmnb)
+end
+
+function EnhancedGun4()
+ A6 = gg.prompt({"『输入子弹代码』15003子弹-12299擎天柱炮弹-12300星星弹-15509燃烧激光-15510冰冻激光-15511爆炸激光-15512岩石海啸-15513冰球-15518特效炸弹-15519岩浆弹-15520混乱球_15521_15051燃烧箭-15052燃烧雪球-15053泡泡球-15056熔岩弹-15057混乱弹-15058炸弹-15059冰锥[不可放置方块]-15060熔岩球-15062冰锥-15064冰炸弹-15065火炸弹-15066冰雪弹-15067紫球-15068紫箭"}
+,{[1]=15003},{[1]="number"})[1]
+ qmnb = {
+{["memory"] = 262207},
+{["name"] = "手枪强化"},
+{["value"] = 1155186688, ["type"] = 4},
+{["lv"] = 1150681088, ["offset"] = 4, ["type"] = 4},
+{["lv"] = 1130102784, ["offset"] = 8, ["type"] = 4},
+}
+qmxg = {
+{["value"] = A6, ["offset"] = 24, ["type"] = 4},
+{["value"] = 2, ["offset"] = 16, ["type"] = 4},
+{["value"] = 1, ["offset"] = 20, ["type"] = 4},
+{["value"] = 40, ["offset"] = -8, ["type"] = 4},
+{["value"] = 0, ["offset"] = -16, ["type"] = 4},
+{["value"] = 0, ["offset"] = -28, ["type"] = 16},
+{["value"] = 65522175, ["offset"] = -40, ["type"] = 4},
+{["value"] = 0, ["offset"] = -44, ["type"] = 16},
+}
+xqmnb(qmnb)
+end
+
 
 _ENV["悬浮窗图标"] = 'https://www.pnglog.com/7CSPjJ.png'
 --写图片文件直链
@@ -2368,12 +2764,11 @@ _ENV["分页"] = {
 	'聯機功能',
 	'房主功能',
 	'美化功能',
+	'槍械功能',
 	'輔助設置',
 	--'设置',--这样添加新页面
 
 }
-
-
 init()    --传递变量勿动
 
 uistart({ --每一个功能页面需要有上边分页名字对应，多出来的不显示，少了需要补充
@@ -2382,7 +2777,7 @@ uistart({ --每一个功能页面需要有上边分页名字对应，多出来�
 
 
 
-		CAtext('SkyCapoo_v2.2 公益輔助', '#FFD306', '12sp', true),
+		CAtext(''..scriptAuthor..'_v'..scriptVersion..' 公益輔助', '#FFD306', '12sp', true),
 
 		CAbutton(
 			'日期時間',
@@ -2443,8 +2838,16 @@ uistart({ --每一个功能页面需要有上边分页名字对应，多出来�
                player_TPCollision2()
 			end,
 			'單區域傳送'),
+            CAswitch(
+			"攻擊動畫",
+			function()
+               attack_animation1()
+			end,
+			function()
+               attack_animation2()
+			end,
+			'手部震動'),
 		}),
-
 
 		CAtext('分區'),
 
@@ -2539,7 +2942,8 @@ uistart({ --每一个功能页面需要有上边分页名字对应，多出来�
 			end,
 			'自瞄'),
 }, { --3
-   CAtext('聯機功能', '#005BFF', '14sp'),
+
+     CAtext('聯機功能', '#005BFF', '14sp'),
      CAbox({
          "偽房主",
 			CAtext('房間環境', '#ffffff', '12sp', true),
@@ -2665,6 +3069,11 @@ CAbutton(
 				function()
                    handitemID()
 				end),
+CAbutton(
+				'房員信息',
+				function()
+                   readplayer()
+				end),
 		CAtext('自定義修改區'),
 
 		CAswitch(
@@ -2672,7 +3081,7 @@ CAbutton(
 			function()
 			AA3s = gg.prompt({"输入旋轉速度"}
              ,{[1]=10},{[1]="number"})[1]
-             gg.toast("準心旋轉開啟成功")
+             gg.toast("準心旋轉已開啟")
              ikun=0
                autohead1()
 			end,
@@ -2685,7 +3094,7 @@ CAbutton(
 			function()
 AA3s2 = gg.prompt({"输入旋轉速度"}
              ,{[1]=10},{[1]="number"})[1]
-             gg.toast("轉頭旋轉開啟成功")
+             gg.toast("轉頭旋轉已開啟")
              ikun2=0
                autodohead1()
 			end,
@@ -2698,7 +3107,7 @@ AA3s2 = gg.prompt({"输入旋轉速度"}
 			function()
 AA4s2 = gg.prompt({"输入旋轉速度"}
              ,{[1]=10},{[1]="number"})[1]
-             gg.toast("旋轉頭部開啟成功")
+             gg.toast("旋轉頭部已開啟")
              ikun3=0
                autodoheads1()
 			end,
@@ -2823,6 +3232,12 @@ CAbutton(
 				end,
 			'#FF77FF'),
 CAbutton(
+				'人物特效',
+				function()
+                   loopeffect1()
+				end,
+			'#FF77FF'),
+CAbutton(
 				'修改寵物',
 				function()
                    Pets1()
@@ -2867,7 +3282,87 @@ CAbutton(
 			'#F9F900'),
 
 }, { --6
-
+CAtext('槍械功能', '#005BFF', '14sp'),
+CAtext('僅房主'),
+CAbutton(
+				'子彈數量',
+				function()
+                   bullets1()
+				end),
+CAtext('可聯機'),
+CAswitch(
+				'子彈集中',
+				function()
+                   bulletconcentration1()
+				end,
+		function()
+            bulletconcentration2()
+		end),
+CAswitch(
+				'無後座力',
+				function()
+                   norecoil1()
+				end,
+		function()
+            norecoil2()
+		end),
+CAswitch(
+		"槍械開鏡",
+		function()
+            scope1()
+		end,
+		function()
+            scope2()
+		end),
+CAbox({
+         "房主槍械加強",
+			CAtext('僅房主', '#ffffff', '12sp', true),
+			CAbutton(
+				'狙擊槍強化',
+				function()
+                   aEnhancedGun1()
+				end),
+			CAbutton(
+				'衝鋒槍強化',
+				function()
+                   aEnhancedGun2()
+				end),
+			CAbutton(
+				'重機槍強化',
+				function()
+                   aEnhancedGun3()
+				end),
+			CAbutton(
+				'手槍強化',
+				function()
+                   aEnhancedGun4()
+				end),
+}),
+CAbox({
+         "聯機槍械加強",
+			CAtext('可聯機', '#ffffff', '12sp', true),
+			CAbutton(
+				'狙擊槍強化',
+				function()
+                   EnhancedGun1()
+				end),
+			CAbutton(
+				'衝鋒槍強化',
+				function()
+                   EnhancedGun2()
+				end),
+			CAbutton(
+				'重機槍強化',
+				function()
+                   EnhancedGun3()
+				end),
+			CAbutton(
+				'手槍強化',
+				function()
+                   EnhancedGun4()
+				end),
+}),
+}, { --7
 	CAswitch(
 		"退出輔助",
 		function()
@@ -2880,10 +3375,7 @@ CAbutton(
 		function()
 
 		end),
-
-
-}, { --7
-
+}, { --8
 },
 })
 
