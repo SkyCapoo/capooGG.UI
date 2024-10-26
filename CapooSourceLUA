@@ -3406,26 +3406,26 @@ CAbox({
 			CAbutton(
 				'狙擊槍強化',
 				function()
+				gg.toast("正在強化...")
                    aEnhancedGun1()
-                   gg.toast("正在強化...")
 				end),
 			CAbutton(
 				'衝鋒槍強化',
 				function()
+				gg.toast("正在強化...")
                    aEnhancedGun2()
-                   gg.toast("正在強化...")
 				end),
 			CAbutton(
 				'重機槍強化',
 				function()
+				gg.toast("正在強化...")
                    aEnhancedGun3()
-                   gg.toast("正在強化...")
 				end),
 			CAbutton(
 				'手槍強化',
 				function()
+				gg.toast("正在強化...")
                    aEnhancedGun4()
-                   gg.toast("正在強化...")
 				end),
 }),
 CAbox({
@@ -3434,26 +3434,26 @@ CAbox({
 			CAbutton(
 				'狙擊槍強化',
 				function()
+				gg.toast("正在強化...")
                    EnhancedGun1()
-                   gg.toast("正在強化...")
 				end),
 			CAbutton(
 				'衝鋒槍強化',
 				function()
+				gg.toast("正在強化...")
                    EnhancedGun2()
-                   gg.toast("正在強化...")
 				end),
 			CAbutton(
 				'重機槍強化',
 				function()
+				gg.toast("正在強化...")
                    EnhancedGun3()
-                   gg.toast("正在強化...")
 				end),
 			CAbutton(
 				'手槍強化',
 				function()
+				gg.toast("正在強化...")
                    EnhancedGun4()
-                   gg.toast("正在強化...")
 				end),
 }),
 }, { --7
