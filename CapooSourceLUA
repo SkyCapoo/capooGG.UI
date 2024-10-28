@@ -103,10 +103,28 @@ gg.toast("95％...")
 function GetValue(address, flag) return gg.getValues({{address = address, flags = flag}})[1].value end 
 function GotoPointer(address, offset) local Addr = GetValue(address, 32) & 0xFFFFFFFFFF if offset then for k, v in pairs(offset) do Addr = GetValue(Addr + v, 32) & 0xFFFFFFFFFF end end return Addr end 
 gg.toast("100％...")
+function stringToBytes(str)
+    local bytes = {}
+    for i = 1, #str do
+        table.insert(bytes, string.byte(str, i))
+    end
+    table.insert(bytes, 0)  -- 添加字符串结束符
+    return bytes
+end
+
+-- 修改内存中的字符串
+function modifyString(address, newString)
+    local bytes = stringToBytes(newString)
+    local values = {}
+    for i = 1, #bytes do
+        table.insert(values, {address = address + i - 1, flags = gg.TYPE_BYTE, value = bytes[i]})
+    end
+    gg.setValues(values)
+end
 gg.sleep(1020)
 gg.toast("代碼整合完畢. . .")
 
-
+gg.sleep(1020)
 -- 顯示啟動訊息
 if startToast ~= '' then startToast = '\n'..startToast end
 gg.toast(scriptName..' v'..scriptVersion..' by '..scriptAuthor..startToast)
@@ -1568,7 +1586,7 @@ xg2= gg.choice({
     "☯️第四格坐騎添加/修改☯️",   
     "☯️第五格坐騎添加/修改☯️",
     " ☯️🔷 ✖️返 回 ✖️🔷☯️ ",
-},2018,os.date("格數坐騎修以/添加--[只限房主和雲服修改]"))
+},2018,os.date("首次使用需要先打开召唤坐骑面板,不然会修改失败--[只限房主和雲服修改]"))
 if xg2==1 then xgms="第一格坐騎" MountUIID1() end--第一格坐騎
 if xg2==2 then xgms="第二格坐騎" MountUIID2() end---第二格坐騎
 if xg2==3 then xgms="第三格坐騎" MountUIID3() end---第三格坐騎
@@ -1581,26 +1599,45 @@ function itemschangehack()
 XY = gg.prompt({"请输入要改的物品代码\n输入12239恢复"},{[1]=10500},{[1]="number"})[1]
 gg.toast(so({"噴漆改物",12240,4,4},{{200,-432,4},{2,0x8,4}},{{XY,-640,4,1}})) gg.toast("噴漆修改成功")end
 
+local originalValuesc = {}
+-- 還原函數
+function restoreWorldToolItemBlocks()
+  if #originalValuesc == 0 then
+    gg.toast("nil")
+    return
+  end
+
+  gg.setValues(originalValuesc)
+  originalValuesc = {}
+end
+
 
 function setworldtoolitemblocks()
-xsd3 = gg.prompt({"请输入你要改的编辑器填充物代码,三个祭台140,141,142,三个圣遗物587,588,589,卡图方块1049,老版本炸药桶835,刷怪方块1080"},{[1]=835},{[1]="number"})[1]
-gg.searchNumber("104", gg.TYPE_DOUBLE, false, gg.SIGN_EQUAL, 0, -1, 0)
-gg.processResume()--搜索值
-gg.refineNumber("104", gg.TYPE_DOUBLE, false, gg.SIGN_EQUAL, 0, -1, 0)
-gg.processResume()--移动值
-gg.refineNumber("104", gg.TYPE_DOUBLE, false, gg.SIGN_EQUAL, 0, -1, 0)
-gg.processResume()--移动值
-gg.refineNumber("104", gg.TYPE_DOUBLE, false, gg.SIGN_EQUAL, 0, -1, 0)
-gg.processResume()--移动值
-revert = gg.getResults(10000, nil, nil, nil, nil, nil, nil, nil, nil)
-gg.editAll(xsd3, gg.TYPE_DOUBLE)
-revert = gg.getResults(10000, nil, nil, nil, nil, nil, nil, nil, nil)--修改值
-gg.editAll(xsd3, gg.TYPE_DOUBLE)--修改值
-
-gg.clearResults()--退出值
-gg.processResume()--退出值
-gg.toast("填充物修改成功")
+if xsd3 then
+restoreWorldToolItemBlocks()
 end
+ xsd3 = gg.prompt(
+    {"请输入你要改的编辑器填充物代码,三个祭台140,141,142,三个圣遗物587,588,589,卡图方块1049,老版本炸药桶835,刷怪方块1080"},
+    {[1] = 835},
+    {[1] = "number"}
+  )[1]
+  -- 搜索並獲取所有匹配結果
+  gg.searchNumber("104", gg.TYPE_DOUBLE, false, gg.SIGN_EQUAL, 0, -1, 0)
+  gg.processResume()
+  gg.refineNumber("104", gg.TYPE_DOUBLE, false, gg.SIGN_EQUAL, 0, -1, 0)
+  gg.processResume()
+  
+  -- 獲取搜尋結果並儲存原始值
+  originalValuesc = gg.getResults(10000)
+  
+  -- 修改所有結果
+  gg.editAll(xsd3, gg.TYPE_DOUBLE)
+
+  gg.clearResults()
+  gg.processResume()
+  gg.toast("填充物修改成功")
+end
+
 
 
 ikun2=0
@@ -1893,24 +1930,7 @@ local address = ttt  -- 替换为实际的内存地址
 local newString = mnmcc  -- 替换为你想要的文字
 
 -- 将字符串转换为字节表
-function stringToBytes(str)
-    local bytes = {}
-    for i = 1, #str do
-        table.insert(bytes, string.byte(str, i))
-    end
-    table.insert(bytes, 0)  -- 添加字符串结束符
-    return bytes
-end
 
--- 修改内存中的字符串
-function modifyString(address, newString)
-    local bytes = stringToBytes(newString)
-    local values = {}
-    for i = 1, #bytes do
-        table.insert(values, {address = address + i - 1, flags = gg.TYPE_BYTE, value = bytes[i]})
-    end
-    gg.setValues(values)
-end
 
 -- 调用函数修改字符串
 modifyString(address, newString)
@@ -2141,19 +2161,29 @@ gg.setValues({{address = ttt, flags = 4, value = a9a}})
 gg.toast(a9aa.."人房間修改成功")
 end
 
+function ca2()
+local Aa3=gg.prompt({"开启功能后,再开房间就行了"},{"40"},{"number"})
+local num=tonumber(Aa3[1])
+if Aa3 then if num>40 or num<1 then gg.alert("只能开启1~40人的房间") else
+gg.toast(so({"大房间",1078198272,4,4},{{1077805056,-0x10},{1077149696,-0x20},{1076101120,-0x30},{1075052544,-0x50}},{{num,-0x44,64}}))
+end end end
+
 function changeroomplayerquantity()
 SHff = gg.choice({
    "𒅒🔰開10人房間🔰𒅒",
    "𒅒🔰開20人房間🔰𒅒",
    "𒅒🔰開30人房間🔰𒅒",
    "𒅒🔰️開40人房間🔰𒅒",
-},2018,os.date("𒅒開启成功后直接開房間就行了,建议每次開房間前都開一次这功能𒅒"))
+   "𒅒🔰️自定義房間🔰𒅒",
+},2018,os.date("𒅒使用前先選任意人數,開启成功后直接開房間就行了,建议每次開房間前都開一次这功能𒅒"))
 if SHff==1 then a9a=7 o5v=10 ca1()end
 if SHff==2 then a9a=8 o5b=20 ca1()end
 if SHff==3 then a9a=9 o5v=30 ca1()end
 if SHff==4 then a9a=10 o5v=40 ca1()end
+if SHff==5 then ca2() end
 XGCK=-1
 end
+
 
 local function getCoordinates(addr)
   local result = gg.getValues({{address = addr, flags = 4}})
