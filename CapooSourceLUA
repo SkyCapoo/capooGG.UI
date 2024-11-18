@@ -2065,7 +2065,7 @@ end
 shutaim = 0
 gg.setRanges(4)
 local dataType = 4
-local tb1 = {{minijuidss, 0},{1120403456, 704},{1120403456,716},{1120403456,712},}
+local tb1 = {{minijuidss, 0},{1120403456,716},{1120403456,712},}
 local tb2 = {{ 20 }, }
 local tb3 = {{ 24 }, }
 local tb4 = {{ 28 }, }
@@ -2142,7 +2142,7 @@ end
 shutactionaimbot = 0
 gg.setRanges(4)
 local dataType = 4
-local tb1 = {{minijuidnn, 0},{1120403456, 704},{1120403456,716},{1120403456,712},}
+local tb1 = {{minijuidnn, 0},{1120403456,716},{1120403456,712},}
 local tb2 = {{ 20 }, }
 local tb3 = {{ 24 }, }
 local tb4 = {{ 28 }, }
@@ -2230,14 +2230,17 @@ local ttt = S_Pointer(t, tt, true)
 gg.setValues({{address = ttt, flags = 1, value = teams}})
 end
 
-
+local puttass = false
 function player_TPCollision1()
 stoptppd = 0
+if puttass == false then
 datauploadTime = gg.prompt({"输入傳送間隙時間"},{[1]="1"},{[1]="number"})[1]
 gg.toast("傳送光環已開啟")
+end
+    while true do
+    puttass = true
     local gameportal = gg.getRangesList("liblibGameApp.so:bss")[1].start
     local playerself_addr = GotoPointer(gameportal + 0x7B50, {0x88, 0xC0})
-    while true do
     local Table = {}
     for lid = 0, 39 do
          addr = playerself_addr + lid * 0x8
@@ -2276,6 +2279,7 @@ end
 
 function player_TPCollision2()
 stoptppd = 1
+puttass = false
 gg.toast("傳送光環已關閉")
 end
 
