@@ -1,4 +1,4 @@
--- 腳本信息
+- 腳本信息
 local scriptName = [=====[ Mod menu for Mini World]=====]
 local scriptVersion = '2.5'
 local scriptAuthor = 'SkyCapoo'
@@ -103,7 +103,6 @@ function stringToBytes(str)
     table.insert(bytes, 0)  -- 添加字符串结束符
     return bytes
 end
-
 -- 修改内存中的字符串
 function modifyString(address, newString)
     local bytes = stringToBytes(newString)
@@ -113,9 +112,23 @@ function modifyString(address, newString)
     end
     gg.setValues(values)
 end
+function modifyAndFreezeString(address, newString)
+    -- 將字串轉換為字節數據
+    local bytes = stringToBytes(newString)
+    local values = {}
+    for i = 1, #bytes do
+        table.insert(values, {
+            address = address + i - 1,
+            flags = gg.TYPE_BYTE,
+            value = bytes[i],
+            freeze = true  -- 設置為凍結值
+        })
+    end
+    gg.setValues(values)
+    gg.addListItems(values)
+end
 lde = {}
 lde.gre, lde.sbr, lde.srg, lde.crs = gg.getResults, gg.searchNumber, gg.setRanges, gg.clearResults
-
 -- 用於範圍解析的優化函數
 function bv(a, sep)
     sep = sep or ","  -- 設定默認的分隔符
@@ -2025,36 +2038,45 @@ end
 if CGa==14 then
 	 Role14()
 end
-FX1=-1
+CGa=-1
 end
 function changename()
-e = io.open("/sdcard/Capoo名字配置文件.txt", "rb") if e ==nil then mznb 
-="" else
-e = io.open("/sdcard/Capoo名字配置文件.txt"):read("*a") mznb = e:match("🍀(.-)🍀") if e == "" then mznb = "" end end
+    local configPath = "/sdcard/Capoo名字配置文件.txt"
+    local file = io.open(configPath, "rb")
+    local mznb = ""
+    if file then
+        local content = file:read("*a")
+        file:close()
+        mznb = content:match("🍀(.-)🍀") or ""
+    end
 
-mnmc2 = ":w"
-mnmcc = gg.prompt({"房主能彩名，修改後進入房間才有效果"}
-,{[1]=mznb},{[1]="text"})[1]
---32
-if not mnmcc then return end
-mnmc = ":"..mnmcc
-io.open("/sdcard/Capoo名字配置文件.txt", "w") io.open("/sdcard/Capoo名字配置文件.txt", "w"):write("🍀" .. mnmcc.. "🍀"):close()
-local t = {"liblibGameApp.so:bss", "Cb"}
-local tt = {0x42FB8, 0x49}
-local ttt = S_Pointer(t, tt, true)
+    local mnmcc = gg.prompt({"請輸入新名稱"}, {[1] = mznb}, {[1] = "text"})[1]
+    if not mnmcc or mnmcc == "" then
+        gg.toast("未輸入有效名稱，操作取消")
+        return
+    end
 
--- 定义目标字符串的内存地址
-local address = ttt  -- 替换为实际的内存地址
-local newString = mnmcc  -- 替换为你想要的文字
+    file = io.open(configPath, "w")
+    if file then
+        file:write("🍀" .. mnmcc .. "🍀")
+        file:close()
+    else
+        gg.toast("無法寫入配置文件")
+        return
+    end
 
--- 将字符串转换为字节表
+    local t = {"liblibGameApp.so:bss", "Cb"}
+    local tt = {0x42FB8, 0x49}
+    local ttt = S_Pointer(t, tt, true)
 
+    if not ttt then
+        gg.toast("內存地址無效")
+        return
+    end
 
--- 调用函数修改字符串
-modifyString(address, newString)
-gg.toast("名字已修改为: " .. newString)
+    modifyAndFreezeString(ttt, mnmcc)
+    gg.toast("名字已修改為: " .. mnmcc)
 end
-
 function fpsaimbot1()
     minijuid = gg.prompt({"输入自瞄目標迷你號"},{[1]="1000"},{[1]="number"})[1]
 if tonumber(minijuid)<1000000000 then
