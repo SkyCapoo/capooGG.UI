@@ -95,12 +95,15 @@ function Get_Address(N_So, Offset, ti_bit) local ti = gg.getTargetInfo() local S
 gg.toast("95％...")
 function GetValue(address, flag) return gg.getValues({{address = address, flags = flag}})[1].value end 
 function GotoPointer(address, offset) local Addr = GetValue(address, 32) & 0xFFFFFFFFFF if offset then for k, v in pairs(offset) do Addr = GetValue(Addr + v, 32) & 0xFFFFFFFFFF end end return Addr end 
+local modifiedValues = {}
+
+-- 函數：將字串轉換為字節
 function stringToBytes(str)
     local bytes = {}
     for i = 1, #str do
         table.insert(bytes, string.byte(str, i))
     end
-    table.insert(bytes, 0)  -- 添加字符串结束符
+    table.insert(bytes, 0) -- 添加字符串結束符
     return bytes
 end
 -- 修改内存中的字符串
@@ -112,16 +115,34 @@ function modifyString(address, newString)
     end
     gg.setValues(values)
 end
-function modifyAndFreezeString(address, newString)
-    -- 將字串轉換為字節數據
+
+-- 函數：修改並記錄內存值
+function modifyAndFreezeString(address, newString, maxLength)
+    -- 確保 maxLength 有值，默認為 32
+    maxLength = maxLength or 64
+
+    -- 將新字串轉換為字節
     local bytes = stringToBytes(newString)
+
+    -- 讀取原內存值並記錄
+    for i = 0, maxLength - 1 do
+        local originalValue = gg.getValues({{address = address + i, flags = gg.TYPE_BYTE}})
+        if not modifiedValues[address + i] then
+            modifiedValues[address + i] = originalValue[1].value -- 記錄原始值
+        end
+    end
+    -- 填充不足部分為 0x00
+    while #bytes < maxLength do
+        table.insert(bytes, 0)
+    end
+
     local values = {}
     for i = 1, #bytes do
         table.insert(values, {
             address = address + i - 1,
             flags = gg.TYPE_BYTE,
             value = bytes[i],
-            freeze = true  -- 設置為凍結值
+            freeze = true
         })
     end
     gg.setValues(values)
@@ -2040,7 +2061,16 @@ if CGa==14 then
 end
 CGa=-1
 end
+
 function changename()
+gg.toast("请选择鎖定开关")
+F = gg.alert("📌请选择是否鎖定改名 ","🔒改名","🔓還原")
+ if  F~=1 and F~=2 then
+  gg.toast("你未选择开关默认取消")
+    gg.toast("你未选择｛开 关｝")
+  else 
+  end
+if  F== 1 then
     local configPath = "/sdcard/Capoo名字配置文件.txt"
     local file = io.open(configPath, "rb")
     local mznb = ""
@@ -2074,8 +2104,32 @@ function changename()
         return
     end
 
-    modifyAndFreezeString(ttt, mnmcc)
+    -- 修改並凍結新名稱
+    modifyAndFreezeString(ttt, mnmcc, 64)
     gg.toast("名字已修改為: " .. mnmcc)
+elseif  F== 2 then
+    if next(modifiedValues) == nil then
+        gg.toast("沒有需要還原的內存值")
+        return
+    end
+
+    -- 構造還原數據表
+    local restoreValues = {}
+    for address, originalValue in pairs(modifiedValues) do
+        table.insert(restoreValues, {
+            address = address,
+            flags = gg.TYPE_BYTE,
+            value = originalValue
+        })
+    end
+     -- 解凍內存值
+    gg.removeListItems(restoreValues)
+    -- 還原原始內存值
+    gg.setValues(restoreValues)
+    -- 清空記錄
+    modifiedValues = {}
+    gg.toast("名字已解凍並還原")
+end
 end
 function fpsaimbot1()
     minijuid = gg.prompt({"输入自瞄目標迷你號"},{[1]="1000"},{[1]="number"})[1]
@@ -2605,7 +2659,7 @@ local ttt = S_Pointer(t, tt, true)
 
 -- 定义内存地址和长度（这需要根据你的具体情况调整）
 local address = ttt
-local length = 32
+local length = 64
 -- 输出读取到的字符串
 local result = readString(address, length)
 gg.alert("遊戲名稱: " .. result)
