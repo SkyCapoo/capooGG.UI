@@ -1,6 +1,6 @@
 -- 腳本信息
 local scriptName = [=====[ Mod menu for Mini World]=====]
-local scriptVersion = '2.5'
+local scriptVersion = '2.6'
 local scriptAuthor = 'SkyCapoo'
 local startToast = ''
 -- 0 - 無檢查；1 - 檢查包名；2 - 檢查包名和版本
@@ -3065,6 +3065,99 @@ gg.toast("自動跳躍關閉成功")
 end
 
 
+
+
+-- 保存數據的文件路徑
+local saveFile = gg.EXT_STORAGE .. "/cheungKuitems_data.txt"
+
+-- 保存數據到文件
+function saveDataToFile(data)
+    local file = io.open(saveFile, "w")
+    if file then
+        file:write(table.concat(data, ","))
+        file:close()
+        gg.toast("數據已保存")
+    else
+        gg.toast("保存數據失敗")
+    end
+end
+
+-- 從文件讀取數據
+function loadDataFromFile()
+    local file = io.open(saveFile, "r")
+    if file then
+        local content = file:read("*all")
+        file:close()
+        local data = {}
+        for value in string.gmatch(content, "([^,]+)") do
+            table.insert(data, tonumber(value))
+        end
+        if #data == 3 then
+            gg.toast("數據加載成功")
+            return data
+        else
+            gg.toast("數據文件格式錯誤，使用默認值")
+        end
+    else
+        gg.toast("未找到保存的數據，使用默認值")
+    end
+    return {12964, 1, 10500} -- 默認數值
+end
+
+local originalValuesssc={}
+function restorecheungkuitems()
+  if #originalValuesssc == 0 then
+    gg.toast("nil")
+    return
+  end
+
+  gg.setValues(originalValuesssc)
+  originalValuesssc = {}
+end
+
+-- 修改倉庫物品功能
+function cloudcheangeitems()
+    local cheungKuitems = loadDataFromFile()
+    local result = gg.prompt(
+        {"輸入倉庫物品ID", "輸入倉庫物品數量", "輸入修改物品ID"},
+        {[1] = cheungKuitems[1], [2] = cheungKuitems[2], [3] = cheungKuitems[3]},
+        {[1] = "number", [2] = "number", [3] = "number"}
+    )
+    if not result then
+        gg.toast("操作取消")
+        return
+    end
+    restorecheungkuitems()
+    -- 保存用戶輸入的數據到文件
+    saveDataToFile(result)
+
+    local CVitems = result[1]
+    local CVnumber = result[2]
+    local Changeitems = result[3]
+    gg.toast("正在修改中...①")
+    gg.searchNumber(CVitems .. ".000000;" .. CVnumber .. "::41", gg.TYPE_DOUBLE, false, gg.SIGN_EQUAL, 0, -1, 0)
+    gg.sleep(10)
+    gg.toast("正在修改中...②")
+    gg.refineNumber(CVitems, gg.TYPE_DOUBLE, false, gg.SIGN_EQUAL, 0, -1, 0)
+    gg.sleep(10)
+    -- 獲取搜尋結果並儲存原始值
+    originalValuesssc = gg.getResults(10000)
+    -- 修改所有結果
+    gg.editAll(Changeitems, gg.TYPE_DOUBLE)
+    gg.clearResults()
+    gg.sleep(10)
+    gg.toast("正在修改中...③")
+    gg.sleep(10)
+    gg.toast(so({"倉庫取物", CVitems, 4, 64}, {{CVnumber, 40, 64}}, {{Changeitems, 4, 64}}))
+    gg.sleep(10)
+    gg.toast(so({"解鎖取物", Changeitems, 4, 4}, {{"100~200", 208, 4}, {5, 220, 4}}, {{2, 8, 4, 1}}))
+end
+
+
+
+
+
+
 -------------------------------------------------------------------------------------------------介面設定-----------------------------------------------------------------------------------------------------
 
 _ENV["悬浮窗图标"] = 'https://www.pnglog.com/7CSPjJ.png'
@@ -3397,6 +3490,11 @@ uistart({ --每一个功能页面需要有上边分页名字对应，多出来�
 		
 
 		}),
+CAbutton(
+				'倉庫取物',
+				function()
+                   cloudcheangeitems()
+				end),
 CAbutton(
 				'手中物品ID',
 				function()
