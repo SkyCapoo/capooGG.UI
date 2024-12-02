@@ -3065,9 +3065,13 @@ gg.toast("自動跳躍關閉成功")
 end
 
 
+local qnmboriginalValues = {}
+function xeexg(szpy, qmxg) for x = 1, #(qmxg) do xgpy = szpy + qmxg[x]["offset"] xglx = qmxg[x]["type"] xgsz = qmxg[x]["value"] xgdj = qmxg[x]["freeze"] local currentValue = gg.getValues({{address = xgpy, flags = xglx}}) table.insert(qnmboriginalValues, {address = xgpy, flags = xglx, value = currentValue[1].value}) if xgdj == nil or xgdj == "" then gg.setValues({[1] = {address = xgpy, flags = xglx, value = xgsz}}) else gg.addListItems({[1] = {address = xgpy, flags = xglx, freeze = xgdj, value = xgsz}}) end xgsl = xgsl + 1 xgjg = true end end
+function restoreqnmboriginalValues() if #qnmboriginalValues == 0 then gg.toast("沒有需要還原的值") return end gg.setValues(qnmboriginalValues) qnmboriginalValues = {} end
+function xcnmb(qmnb) gg.clearResults() gg.setRanges(qmnb[1]["memory"]) gg.searchNumber(qmnb[3]["value"], qmnb[3]["type"]) if gg.getResultCount() == 0 then gg.toast(qmnb[2]["name"] .. "开启失败") else gg.refineNumber(qmnb[3]["value"], qmnb[3]["type"]) gg.refineNumber(qmnb[3]["value"], qmnb[3]["type"]) gg.refineNumber(qmnb[3]["value"], qmnb[3]["type"]) if gg.getResultCount() == 0 then gg.toast(qmnb[2]["name"] .. "开启失败") else sl = gg.getResults(999999) sz = gg.getResultCount() xgsl = 0 if sz > 999999 then sz = 999999 end for i = 1, sz do pdsz = true for v = 4, #(qmnb) do if pdsz == true then pysz = {} pysz[1] = {} pysz[1].address = sl[i].address + qmnb[v]["offset"] pysz[1].flags = qmnb[v]["type"] szpy = gg.getValues(pysz) pdpd = qmnb[v]["lv"] .. ";" .. szpy[1].value szpd = split(pdpd, ";") tzszpd = szpd[1] pyszpd = szpd[2] if tzszpd == pyszpd then pdjg = true pdsz = true else pdjg = false pdsz = false end end end if pdjg == true then szpy = sl[i].address xeexg(szpy, qmxg) end end if xgjg == true then gg.toast(qmnb[2]["name"] .. "开启成功,改" .. xgsl .. "条数据") else gg.toast(qmnb[2]["name"] .. "开启失败") end end end end
 
 
--- 保存數據的文件路徑
+
 local saveFile = gg.EXT_STORAGE .. "/cheungKuitems_data.txt"
 
 -- 保存數據到文件
@@ -3081,8 +3085,6 @@ function saveDataToFile(data)
         gg.toast("保存數據失敗")
     end
 end
-
--- 從文件讀取數據
 function loadDataFromFile()
     local file = io.open(saveFile, "r")
     if file then
@@ -3103,22 +3105,9 @@ function loadDataFromFile()
     end
     return {12964, 1, 10500} -- 默認數值
 end
-
-local originalValuesssc={}
-function restorecheungkuitems()
-  if #originalValuesssc == 0 then
-    gg.toast("nil")
-    return
-  end
-
-  gg.setValues(originalValuesssc)
-  originalValuesssc = {}
-end
-
--- 修改倉庫物品功能
 function cloudcheangeitems()
     local cheungKuitems = loadDataFromFile()
-    local result = gg.prompt(
+result = gg.prompt(
         {"輸入倉庫物品ID", "輸入倉庫物品數量", "輸入修改物品ID"},
         {[1] = cheungKuitems[1], [2] = cheungKuitems[2], [3] = cheungKuitems[3]},
         {[1] = "number", [2] = "number", [3] = "number"}
@@ -3127,31 +3116,27 @@ function cloudcheangeitems()
         gg.toast("操作取消")
         return
     end
-    restorecheungkuitems()
+    restoreqnmboriginalValues()
     -- 保存用戶輸入的數據到文件
     saveDataToFile(result)
-
-    local CVitems = result[1]
-    local CVnumber = result[2]
-    local Changeitems = result[3]
-    gg.toast("正在修改中...①")
-    gg.searchNumber(CVitems .. ".000000;" .. CVnumber .. "::41", gg.TYPE_DOUBLE, false, gg.SIGN_EQUAL, 0, -1, 0)
-    gg.sleep(10)
-    gg.toast("正在修改中...②")
-    gg.refineNumber(CVitems, gg.TYPE_DOUBLE, false, gg.SIGN_EQUAL, 0, -1, 0)
-    gg.sleep(10)
-    -- 獲取搜尋結果並儲存原始值
-    originalValuesssc = gg.getResults(10000)
-    -- 修改所有結果
-    gg.editAll(Changeitems, gg.TYPE_DOUBLE)
-    gg.clearResults()
-    gg.sleep(10)
-    gg.toast("正在修改中...③")
-    gg.sleep(10)
-    gg.toast(so({"倉庫取物", CVitems, 4, 64}, {{CVnumber, 40, 64}}, {{Changeitems, 4, 64}}))
-    gg.sleep(10)
-    gg.toast(so({"解鎖取物", Changeitems, 4, 4}, {{"100~200", 208, 4}, {5, 220, 4}}, {{2, 8, 4, 1}}))
+ local CVitems = result[1]
+ local CVnumber = result[2]
+ local Changeitems = result[3]
+ qmnb = {
+{["memory"] = 4},
+{["name"] = "修改倉庫物品"},
+{["value"] =CVitems..".0", ["type"] = 64},
+{["lv"] = 0, ["offset"] = 40, ["type"] = 4},
+{["lv"] = CVnumber..".0", ["offset"] = 40, ["type"] = 64}
+}
+qmxg = {
+{["value"] = Changeitems, ["offset"] = 0,["type"] = 64}
+}
+xcnmb(qmnb)
+gg.sleep(10)
+gg.toast(so({"解鎖取物", Changeitems, 4, 4}, {{"100~200", 208, 4}, {5, 220, 4}}, {{2, 8, 4}}))
 end
+
 
 
 
