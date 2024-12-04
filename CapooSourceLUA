@@ -3022,7 +3022,7 @@ qmxg = {
 xqmnb(qmnb)
 end
 function unlockallitems()
-gg.toast(so({"解鎖全物品",10000,4,4},{{5,-8,4},{"1~250",-4,4},{"1~999",4,4}},{{0,-4,4}}))
+gg.toast(so({"解鎖全物品",10000,4,4},{{200,160,4}},{{0,-4,4}}))
 gg.toast("解鎖全部物品開啟成功")
 end
 
@@ -3134,12 +3134,92 @@ qmxg = {
 }
 xcnmb(qmnb)
 gg.sleep(10)
-gg.toast(so({"解鎖取物", Changeitems, 4, 4}, {{"100~200", 208, 4}, {5, 220, 4}}, {{2, 8, 4}}))
+gg.toast(so({"解鎖取物1", Changeitems, 4, 4}, { {150323855360, 8, 32}, {"100~200", 208, 4}}, {{2, 8, 4}}))
+gg.toast(so({"解鎖取物2", Changeitems, 4, 4}, { {"100~200", 208, 4}, {5, 220, 4}}, {{2, 8, 4}}))
+end
+
+function skinmedal()
+local t = {"liblibGameApp.so:bss", "Cb"}
+local tt = {0x42FB8, 0x6C}
+local ttt = S_Pointer(t, tt, true)
+myskin = GetValue(ttt,4)
+gg.toast(so({"刷華麗變身",220,4,4},{{60,-4},{120,8},{180,-8},{120,4},{"1~200",-0x764},{"0~6",-0x438}},{{myskin,-0x764}}))
+gg.toast("華麗變身刷取成功")
+end
+
+function plantlvmedal()
+qmnb = {
+{["memory"] = 4},
+{["name"] = "刷茁壯成長勳章"},
+{["value"] =4634626229029306368, ["type"] = 32},
+{["lv"] = 13963984896, ["offset"] = 4, ["type"] = 32},
+{["lv"] = 117, ["offset"] = -4, ["type"] = 32},
+{["lv"] = 4607182418800017408, ["offset"] = 40, ["type"] = 32},
+{["lv"] = 13957595136, ["offset"] = 44, ["type"] = 32}}
+qmxg = {
+{["value"] = 25, ["offset"] = -40,["type"] = 64}}
+xqmnb(qmnb)
+gg.toast("茁壯成長刷取成功")
 end
 
 
+local hostitemsaveFilePath = gg.getFile() .. "_host_items_saved_data.txt"
+-- 函數：保存數據到文件
+local function hostitemssaveData(data)
+    local file = io.open(hostitemsaveFilePath, "w")
+    if file then
+        file:write(table.concat(data, ","))
+        file:close()
+    end
+end
+-- 函數：讀取保存的數據
+local function hostitemsloadData()
+    local file = io.open(hostitemsaveFilePath, "r")
+    if file then
+        local content = file:read("*all")
+        file:close()
+        if content and #content > 0 then
+            local data = {}
+            for value in string.gmatch(content, "([^,]+)") do
+                table.insert(data, tonumber(value))
+            end
+            return data
+        end
+    end
+    return nil
+end
+-- 主函數：處理物品邏輯
+function hostitemshack()
+    -- 讀取保存的數據
+    local defaultData = hostitemsloadData() or {15056, 200, 32000, 1}
 
+    -- 顯示提示窗口，預設使用保存的數據
+    local wp = gg.prompt(
+        {"要取的物品ID", "物品數量[1;200]", "物品耐久[-1;32000]", "添加格數[1;8]"},
+        {defaultData[1], defaultData[2], defaultData[3], defaultData[4]},
+        {"number", "number", "number", "number"}
+    )
+    if not wp then
+        gg.toast("操作取消")
+        return
+    end
 
+    -- 保存用戶輸入的數據
+    hostitemssaveData(wp)
+
+    -- 處理物品邏輯
+    gg.toast(so({"獲取物品ID", (wp[1]), 4, 4}, {{200, -432, 4}, {0, -0x4, 4}, {0, 0x8, 4}, {"100~200", 208, 4}}, {{nil, 0, 4, 2}}))
+    for i, v in ipairs(gg.getListItems()) do
+        if v.value == wp[1] then
+            WPDM = {[1] = (v.address), [2] = (gg.getValues({{address = v.address + 0x5C, flags = 4}}))}
+        end
+    end
+    if WPDM and WPDM[2] then
+        gg.toast(so({"添加物品", "(945804300~945804599)", 4, 4}, {{(wp[4] + 999), -4, 4}}, {{945804460~wp[2], 0, 4}, {wp[3], 4, 4}, {WPDM[1], 120, 4}, {(WPDM[2][1].value), 124, 4}}))
+        gg.sleep(10)
+        gg.toast("添加物品开启成功")
+    end
+end
 
 
 
@@ -3585,6 +3665,30 @@ CAbutton(
                    setworldtoolitemblocks()
 				end,
 			'#F9F900'),
+     CAbox({
+         "刷勳章",
+			CAtext('勳章類型', '#ffffff', '12sp', true),
+			CAbutton(
+				'茁壯成長',
+				function()
+                   plantlvmedal()
+				end),
+			CAbutton(
+				'華麗變身',
+				function()
+                   skinmedal()
+				end),
+			CAbutton(
+				'預留功能',
+				function()
+                   
+				end),
+			CAbutton(
+				'預留功能',
+				function()
+                   
+				end),
+		}),
 
 }, { --4
      CAtext('房主功能', '#005BFF', '14sp'),
@@ -3614,6 +3718,12 @@ CAbutton(
 				end,
 			'#00CC00'),
 	CAtext('其他','#FFFFFF', '12sp', true),
+CAbutton(
+				'房主取物',
+				function()
+                   hostitemshack()
+				end,
+			'#00CC00'),
 CAbutton(
 				'定點傳送',
 				function()
