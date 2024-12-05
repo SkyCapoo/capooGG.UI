@@ -362,7 +362,7 @@ local tt = {player_data_adress, 0x8}
 local ttt = S_Pointer(t, tt, true)
 Myuid = GetValue(ttt,4)
 local t = {publicbase, "Cb"}
-local tt = {0x50EB0, 0x180, 0xAC8}
+local tt = {0x43F9C0, 0x2E}
 local ttt = S_Pointer(t, tt, true)
 MyIPv4 = readString(ttt,12)
 end
