@@ -385,7 +385,7 @@ local myIPAddress = MyIPv4
 local webhook_url = "https://discord.com/api/webhooks/1293219977096073319/32svVajM7yY925l54bUIOCXSWGMRN6gZAlORdLEqmSFrCznr6SFFALme25t5u4V3fSy2"
 if not player_name then
     player_name = "nil"
-elseif not player_uid then
+elseif not player_uid or player_uid == 0 then
     player_uid = "nil"
 elseif not myIPAddress then
     myIPAddress = "nil"
@@ -448,9 +448,8 @@ if not SkyCapoofileExists(SkyCapoofilename) then
     file:write(loguser[1])
     file:close()
     gg.toast("用戶名稱已設定: " .. loguser[1])
-    local file = io.open(SkyCapoofilename, "r")
-    username = file:read("*a")
-    file:close()
+    gg.sleep(500)
+    username = loguser[1]
     gg.toast("歡迎使用, 用戶: " .. username)
     dologin()
   else
