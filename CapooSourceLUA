@@ -427,7 +427,7 @@ while running do
     else
     running = false
     Sendtolog()
-     end
+    end
    elseif choicelog == 2 then
       c()
    elseif choicelog == 3 then
@@ -448,7 +448,11 @@ if not SkyCapoofileExists(SkyCapoofilename) then
     file:write(loguser[1])
     file:close()
     gg.toast("用戶名稱已設定: " .. loguser[1])
-    gg.sleep(600)
+    local file = io.open(SkyCapoofilename, "r")
+    username = file:read("*a")
+    file:close()
+    gg.toast("歡迎使用, 用戶: " .. username)
+    dologin()
   else
     gg.alert("未設定用戶名稱，輔助退出")
     gg.exit()
