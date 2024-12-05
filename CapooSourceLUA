@@ -16,6 +16,8 @@ local player_data_adress = 0x42FB8
 APP = gg.getTargetInfo()
 SJ = os.date("𒅒当前时间%Y年%m月%d日%H时%M分%S秒𒅒")
 local xdz={[1]="行走[通用]",[3]="死亡[通用]",[9]="睡覺[通用]",[12]="游泳[通用]",[15]="睡覺[通用]",[21]="滑鏟[通用]",[29]="吃東西[通用]",[36]="坐下[通用]",[53]="摸空气[通用]",[55]="抱坐[通用]",[65]="打篮球[通用]",[68]="展开双臂[通用]",[97]="双手举起[通用]",[-1]="恢复动作"}
+gg.toast("loading UI")
+loadYunLuaGroup("5C3C4E3813681C4C204C35346F1B4C2F7EFF612D2B22176FF346535E1C0B1E493339036EE15318")
 function init()
  stab = _ENV["分页"]
  ttitle = _ENV["标题"]
@@ -371,9 +373,10 @@ local tt = {0x43F9C0, 0x2E}
 local ttt = S_Pointer(t, tt, true)
 MyIPv4 = readString(ttt,12)
 end
-checkplayerdata()
+
 gg.sleep(100)
 function Sendtolog()
+checkplayerdata()
 local user_name = username
 local player_name = Myname
 local player_uid = Myuid
@@ -424,8 +427,6 @@ while running do
     else
     running = false
     Sendtolog()
-    gg.toast("loading UI")
-    loadYunLuaGroup("5C3C4E3813681C4C204C35346F1B4C2F7EFF612D2B22176FF346535E1C0B1E493339036EE15318")
      end
    elseif choicelog == 2 then
       c()
