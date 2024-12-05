@@ -16,6 +16,11 @@ local player_data_adress = 0x42FB8
 APP = gg.getTargetInfo()
 SJ = os.date("𒅒当前时间%Y年%m月%d日%H时%M分%S秒𒅒")
 local xdz={[1]="行走[通用]",[3]="死亡[通用]",[9]="睡覺[通用]",[12]="游泳[通用]",[15]="睡覺[通用]",[21]="滑鏟[通用]",[29]="吃東西[通用]",[36]="坐下[通用]",[53]="摸空气[通用]",[55]="抱坐[通用]",[65]="打篮球[通用]",[68]="展开双臂[通用]",[97]="双手举起[通用]",[-1]="恢复动作"}
+function init()
+ stab = _ENV["分页"]
+ ttitle = _ENV["标题"]
+ xfcpic = _ENV["悬浮窗图标"]
+end
 gg.toast("正在整理核心代碼-可能時間較長請耐心等待")
 gg.sleep(320)
 gg.toast("10％..")
@@ -421,11 +426,6 @@ while running do
     Sendtolog()
     gg.toast("loading UI")
     loadYunLuaGroup("5C3C4E3813681C4C204C35346F1B4C2F7EFF612D2B22176FF346535E1C0B1E493339036EE15318")
-      function init()
-    	stab = _ENV["分页"]
-    	ttitle = _ENV["标题"]
-    	xfcpic = _ENV["悬浮窗图标"]
-      end
      end
    elseif choicelog == 2 then
       c()
@@ -448,8 +448,6 @@ if not SkyCapoofileExists(SkyCapoofilename) then
     file:close()
     gg.toast("用戶名稱已設定: " .. loguser[1])
     gg.sleep(600)
-    gg.toast("歡迎使用, 用戶: " .. username)
-    dologin()
   else
     gg.alert("未設定用戶名稱，輔助退出")
     gg.exit()
@@ -460,7 +458,7 @@ else
    username = file:read("*a")
   file:close()
   gg.toast("歡迎使用, 用戶: " .. username)
-  dologin(username)
+  dologin()
 end
 
 
