@@ -3983,6 +3983,7 @@ end
 
 local running = false
 function dologin()
+gg.toast("🔰點擊修改器圖標登陸輔助")
 running = true
 while running do
   if gg.isVisible(true) then
