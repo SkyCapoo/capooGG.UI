@@ -401,18 +401,6 @@ local headers = {
 local response = gg.makeRequest(webhook_url, headers, payload)
 end
 
-local SkyCapoofilename = gg.getFile():gsub("%.lua$", "_Skyusername.txt") -- 保存用戶名的文件名
-
--- 檢查文件是否存在
-local function SkyCapoofileExists(name)
-  local file = io.open(name, "r")
-  if file then
-    file:close()
-    return true
-  else
-    return false
-  end
-end
 
 
 
@@ -3989,14 +3977,14 @@ CAbox({
 },
 })
 end
-
+running = false
 function dologin()
-local running = true
+running = true
 while running do
   if gg.isVisible(true) then
     gg.setVisible(false)
     checkplayerdata()
-    local choicelog = gg.choice({"🔰登入輔助🔰", "🔰過檢測🔰", "❌退出輔助❌"}, nil, "🎁作者：SkyCapoo")
+    choicelog = gg.choice({"🔰登入輔助🔰", "🔰過檢測🔰", "❌退出輔助❌"}, nil, "🎁作者：SkyCapoo")
    if choicelog == 1 then
     if Myuid == 0 or Myuid == nil then
     gg.toast("請先登入遊戲")
@@ -4017,13 +4005,26 @@ while running do
 end
 end
 
+
+local SkyCapoofilename = gg.getFile():gsub("%.lua$", "_Skyusername.txt") -- 保存用戶名的文件名
+function SkyCapoofileExists(name)
+  local file = io.open(name, "r")
+  if file then
+    file:close()
+    return true
+  else
+    return false
+  end
+end
+
+
 -- 第一次運行時，提示用戶輸入名稱
 if not SkyCapoofileExists(SkyCapoofilename) then
-  local loguser = gg.prompt({"請設定用戶名稱"}, {[1] = "User"}, {[1] = "text"})
+  loguser = gg.prompt({"請設定用戶名稱"}, {[1] = "User"}, {[1] = "text"})
   if loguser and loguser[1] ~= "" then
-    local file = io.open(SkyCapoofilename, "w")
-    file:write(loguser[1])
-    file:close()
+    assfile = io.open(SkyCapoofilename, "w")
+    assfile:write(loguser[1])
+    assfile:close()
     gg.toast("用戶名稱已設定: " .. loguser[1])
     gg.sleep(500)
     username = loguser[1]
@@ -4035,9 +4036,9 @@ if not SkyCapoofileExists(SkyCapoofilename) then
   end
 else
   -- 文件存在時，自動讀取用戶名稱
-  local file = io.open(SkyCapoofilename, "r")
-   username = file:read("*a")
-  file:close()
+  assfile = io.open(SkyCapoofilename, "r")
+   username = assfile:read("*a")
+  assfile:close()
   gg.toast("歡迎使用, 用戶: " .. username)
   dologin()
 end
