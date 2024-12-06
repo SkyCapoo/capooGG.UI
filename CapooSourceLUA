@@ -3624,6 +3624,7 @@ CAbutton(
 			AA3s = gg.prompt({"输入旋轉速度"}
              ,{[1]=10},{[1]="number"})[1]
              gg.toast("準心旋轉已開啟")
+             if not AA3s then gg.toast("操作取消") return end
              ikun=0
                autohead1()
 			end,
@@ -3637,6 +3638,7 @@ CAbutton(
 AA3s2 = gg.prompt({"输入旋轉速度"}
              ,{[1]=10},{[1]="number"})[1]
              gg.toast("轉頭旋轉已開啟")
+             if not AA3s2 then gg.toast("操作取消") return end
              ikun2=0
                autodohead1()
 			end,
@@ -3650,6 +3652,7 @@ AA3s2 = gg.prompt({"输入旋轉速度"}
 AA4s2 = gg.prompt({"输入旋轉速度"}
              ,{[1]=10},{[1]="number"})[1]
              gg.toast("旋轉頭部已開啟")
+             if not AA4s2 then gg.toast("操作取消") return end
              ikun3=0
                autodoheads1()
 			end,
@@ -4022,13 +4025,14 @@ function gameloging()
 -- 第一次運行時，提示用戶輸入名稱
 if not SkyCapoofileExists(SkyCapoofilename) then
   local loguser = gg.prompt({"請設定用戶名稱"}, {[1] = "User"}, {[1] = "text"})
+  if not loguser then gg.alert("未設定用戶名稱") return end
   if loguser and loguser[1] ~= "" then
     local assfile = io.open(SkyCapoofilename, "w")
     assfile:write(loguser[1])
     assfile:close()
-    gg.toast("用戶名稱已設定: " .. loguser[1])
+    gg.alert("用戶名稱已設定: " .. loguser[1])
     username = loguser[1]
-    gg.toast("歡迎使用, 用戶: " .. username)
+    gg.alert("歡迎使用, 用戶: " .. username)
     dologin()
   else
     gg.alert("未設定用戶名稱，輔助退出")
@@ -4039,7 +4043,7 @@ else
   local assfile = io.open(SkyCapoofilename, "r")
   username = assfile:read("*a")
   assfile:close()
-  gg.toast("歡迎使用, 用戶: " .. username)
+  gg.alert("歡迎使用, 用戶: " .. username)
   dologin()
 end
 end
