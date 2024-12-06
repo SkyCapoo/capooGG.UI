@@ -1,6 +1,6 @@
 -- 腳本信息
 local scriptName = [=====[ Mod menu for Mini World]=====]
-local scriptVersion = '2.7'
+local scriptVersion = '2.8'
 local scriptAuthor = 'SkyCapoo'
 local startToast = ''
 local checkTarget = 1 
@@ -414,56 +414,6 @@ local function SkyCapoofileExists(name)
   end
 end
 
-function dologin()
-local running = true
-while running do
-  if gg.isVisible(true) then
-    gg.setVisible(false)
-    checkplayerdata()
-    local choicelog = gg.choice({"🔰登入輔助🔰", "🔰過檢測🔰", "❌退出輔助❌"}, nil, "🎁作者：SkyCapoo")
-   if choicelog == 1 then
-    if Myuid == 0 or Myuid == nil then
-    gg.toast("請先登入遊戲")
-    else
-    running = false
-    Sendtolog()
-    end
-   elseif choicelog == 2 then
-      c()
-   elseif choicelog == 3 then
-      gg.toast("退出輔助")
-      running = false
-      gg.exit()
-  end
-  end
-  gg.sleep(100)  -- 每0.1秒檢查一次懸浮窗
-end
-end
-
--- 第一次運行時，提示用戶輸入名稱
-if not SkyCapoofileExists(SkyCapoofilename) then
-  local loguser = gg.prompt({"請設定用戶名稱"}, {[1] = "User"}, {[1] = "text"})
-  if loguser and loguser[1] ~= "" then
-    local file = io.open(SkyCapoofilename, "w")
-    file:write(loguser[1])
-    file:close()
-    gg.toast("用戶名稱已設定: " .. loguser[1])
-    gg.sleep(500)
-    username = loguser[1]
-    gg.toast("歡迎使用, 用戶: " .. username)
-    dologin()
-  else
-    gg.alert("未設定用戶名稱，輔助退出")
-    gg.exit()
-  end
-else
-  -- 文件存在時，自動讀取用戶名稱
-  local file = io.open(SkyCapoofilename, "r")
-   username = file:read("*a")
-  file:close()
-  gg.toast("歡迎使用, 用戶: " .. username)
-  dologin()
-end
 
 
 
@@ -3327,7 +3277,7 @@ end
 
 
 -------------------------------------------------------------------------------------------------介面設定-----------------------------------------------------------------------------------------------------
-
+function starttheUI()
 _ENV["悬浮窗图标"] = 'https://www.pnglog.com/7CSPjJ.png'
 --写图片文件直链
 
@@ -4038,7 +3988,59 @@ CAbox({
 }, { --8
 },
 })
+end
 
+function dologin()
+local running = true
+while running do
+  if gg.isVisible(true) then
+    gg.setVisible(false)
+    checkplayerdata()
+    local choicelog = gg.choice({"🔰登入輔助🔰", "🔰過檢測🔰", "❌退出輔助❌"}, nil, "🎁作者：SkyCapoo")
+   if choicelog == 1 then
+    if Myuid == 0 or Myuid == nil then
+    gg.toast("請先登入遊戲")
+    else
+    running = false
+    Sendtolog()
+    starttheUI()
+    end
+   elseif choicelog == 2 then
+      c()
+   elseif choicelog == 3 then
+      gg.toast("退出輔助")
+      running = false
+      gg.exit()
+  end
+  end
+  gg.sleep(100)  -- 每0.1秒檢查一次懸浮窗
+end
+end
+
+-- 第一次運行時，提示用戶輸入名稱
+if not SkyCapoofileExists(SkyCapoofilename) then
+  local loguser = gg.prompt({"請設定用戶名稱"}, {[1] = "User"}, {[1] = "text"})
+  if loguser and loguser[1] ~= "" then
+    local file = io.open(SkyCapoofilename, "w")
+    file:write(loguser[1])
+    file:close()
+    gg.toast("用戶名稱已設定: " .. loguser[1])
+    gg.sleep(500)
+    username = loguser[1]
+    gg.toast("歡迎使用, 用戶: " .. username)
+    dologin()
+  else
+    gg.alert("未設定用戶名稱，輔助退出")
+    gg.exit()
+  end
+else
+  -- 文件存在時，自動讀取用戶名稱
+  local file = io.open(SkyCapoofilename, "r")
+   username = file:read("*a")
+  file:close()
+  gg.toast("歡迎使用, 用戶: " .. username)
+  dologin()
+end
 
 
 Lock.Ui(invoke, nil, function(err) print(err) end)
