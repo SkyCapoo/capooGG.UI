@@ -195,7 +195,122 @@ gg.sleep(1020)
 -- 顯示啟動訊息
 if startToast ~= '' then startToast = '\n'..startToast end
 gg.toast(scriptName..' v'..scriptVersion..' by '..scriptAuthor..startToast)
+function c()
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x10}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
 
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x480}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x4B4}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x4B8}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x6F8}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x778}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x7CC}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x7E4}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x7F0}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x908}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x19E0}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x1A18}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x1B18}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x1BD0}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x1C48}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x19B8}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x1BA8}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x458}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x6D0}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+
+local t = {"libanogs.so:bss", "Cb"}
+local tt = {0x750}
+local ttt = S_Pointer(t, tt, true)
+gg.addListItems({{address = ttt, flags = 4, value = 0, freeze = true}})
+gg.toast("過檢測已開啟")
+end
+function checkplayerdata()
+local t = {publicbase, "Cb"}
+local tt = {player_data_adress, 0x49}
+local tttrr = S_Pointer(t, tt, true)
+Myname = readString(tttrr, 64)
+local t = {publicbase, "Cb"}
+local tt = {player_data_adress, 0x8}
+local tttdd = S_Pointer(t, tt, true)
+Myuid = GetValue(tttdd,4)
+local t = {publicbase, "Cb"}
+local tt = {0x43F9C0, 0x2E}
+local tttyy = S_Pointer(t, tt, true)
+MyIPv4 = readString(tttyy,12)
+end
 function a()
 	gg.alert(SJ)
 end
