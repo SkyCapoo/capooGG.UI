@@ -3185,37 +3185,9 @@ gg.toast("茁壯成長刷取成功")
 end
 
 
-function hostitemssaveData(hostitemdata)
-    local file = io.open(gg.getFile() .. "_host_items_saved_data.txt", "w")
-    if file then
-        file:write(table.concat(hostitemdata, ","))
-        file:close()
-    end
-end
--- 函數：讀取保存的數據
-function hostitemsloadData()
-    local file = io.open(gg.getFile() .. "_host_items_saved_data.txt", "r")
-    if file then
-        local content = file:read("*all")
-        file:close()
-        if content and #content > 0 then
-            local hostitemdata = {}
-            for value in string.gmatch(content, "([^,]+)") do
-                table.insert(hostitemdata, tonumber(value))
-            end
-            return hostitemdata
-        end
-    end
-    return nil
-end
 -- 主函數：處理物品邏輯
 function hostitemshack()
-    -- 讀取保存的數據
-    local defaultData = hostitemsloadData() 
-    if defaultData and hostitemsloadData() then
-    else
-    defaultData =  {15056, 200, 32000, 1}
-    end
+    local defaultData = {15056, 200, 32000, 1}
     -- 顯示提示窗口，預設使用保存的數據
     local wp = gg.prompt(
         {"要取的物品ID", "物品數量[1;200]", "物品耐久[-1;32000]", "添加格數[1;8]"},
@@ -3226,9 +3198,6 @@ function hostitemshack()
         gg.toast("操作取消")
         return
     end
-
-    -- 保存用戶輸入的數據
-    hostitemssaveData(wp)
 
     -- 處理物品邏輯
     gg.toast(so({"獲取物品ID", (wp[1]), 4, 4}, {{200, -432, 4}, {0, -0x4, 4}, {0, 0x8, 4}, {"100~200", 208, 4}}, {{nil, 0, 4, 2}}))
