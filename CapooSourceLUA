@@ -46,6 +46,9 @@ function process(flines) local spots={} local funnames={} local result="" for i=
 function raw(s) for w in string.gmatch(s, "") do s=string.gsub(s,""..w,string.char(w),1) end return s end 
 gg.sleep(320)
 gg.toast("30％...")
+function LO(ina,out) local _FOR_=function() return _FOR_ end local _ENV=function() return _ENV end local _UPVALUE0_=function() return _UPVALUE0_ end file=io.open(ina,"") script=file:read("") file:close() lines=Split(script,"") flines=LS(lines) unraw=process(flines) file=io.open(out,"") file:write(unraw) file:close() final=raw(unraw) file=io.open(out,"") file:write(final) file:close() end 
+function LOO(ina) local _FOR_=function() return _FOR_ end local _ENV=function() return _ENV end local _UPVALUE0_=function() return _UPVALUE0_ end LO(ina,ina) end ggg = {} for k, v in pairs(gg) do ggg[k] = v end lde,mnsj={},{Dj="0.01",dv={},lz="/sdcard/.zbb",r={}} 
+gg.toast("32％...")
 function lde.qb()table.remove(bc,#bc)table.remove(bc,#bc)end 
 gg.toast("35％...")
 function readValue(read) local bf={} for i,v in ipairs(read) do bf[i]={address=v[1],flags=v[2]} end bf=gg.getValues(bf) for i=1,#bf do bf[i]=bf[i].value end return bf end 
