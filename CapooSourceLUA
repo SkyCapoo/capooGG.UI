@@ -3185,32 +3185,30 @@ gg.toast("茁壯成長刷取成功")
 end
 
 
--- 主函數：處理物品邏輯
 function hostitemshack()
 gg.toast("添加物品中 . . . ")
-    -- 顯示提示窗口，預設使用保存的數據
-    local wp = gg.prompt(
+    local wssp = gg.prompt(
         {"要取的物品ID", "物品數量[1;200]", "物品耐久[-1;32000]", "添加格數[1;8]"},
-        {[1]="15056",[2]="1",[3]="32000",[4]="1"},{[1]="number",[2]="number",[3]="number",[4]="number"})
-    if not wp then
+        {[1]="15056",[2]="1",[3]="32000",[4]="1"},
+        {[1]="number",[2]="number",[3]="number",[4]="number"})
+    if not wssp then
         gg.toast("操作取消")
         return
     end
-
-    -- 處理物品邏輯
-    gg.toast(so({"獲取物品ID", (wp[1]), 4, 4}, {{200, -432, 4}, {0, -0x4, 4}, {0, 0x8, 4}, {"100~200", 208, 4}}, {{nil, 0, 4, 2}}))
+    gg.toast(so({"獲取物品ID", (wssp[1]), 4, 4}, {{200, -432, 4}, {0, -0x4, 4}, {0, 0x8, 4}, {"100~200", 208, 4}}, {{nil, 0, 4, 2}}))
     for i, v in ipairs(gg.getListItems()) do
-        if v.value == wp[1] then
-            WPDM = {[1] = (v.address), [2] = (gg.getValues({{address = v.address + 0x5C, flags = 4}}))}
+        if v.value == wssp[1] then
+            PWPDM = {[1] = (v.address), [2] = (gg.getValues({{address = v.address + 0x5C, flags = 4}}))}
         end
     end
-    if WPDM and WPDM[2] then
-        gg.toast(so({"添加物品", "(945804300~945804599)", 4, 4}, {{(wp[4] + 999), -4, 4}}, {{945804460~wp[2], 0, 4}, {wp[3], 4, 4}, {WPDM[1], 120, 4}, {(WPDM[2][1].value), 124, 4}}))
+    if PWPDM and PWPDM[2] then
+        gg.toast(so({"添加物品", "(945804300~945804599)", 4, 4}, {{(wssp[4] + 999), -4, 4}}, {{945804460~wssp[2], 0, 4}, {wssp[3], 4, 4}, {PWPDM[1], 120, 4}, {(PWPDM[2][1].value), 124, 4}}))
         gg.sleep(10)
-        gg.toast("添加物品开启成功")
+        gg.toast("添加物品成功")
+        else
+        gg.toast("添加物品失敗")
     end
 end
-
 
 
 -------------------------------------------------------------------------------------------------介面設定-----------------------------------------------------------------------------------------------------
