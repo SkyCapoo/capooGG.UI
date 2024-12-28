@@ -3154,6 +3154,7 @@ gg.toast(so({"解鎖取物2", Changeitems, 4, 4}, { {"100~200", 208, 4}, {5, 220
 end
 
 function skinmedal()
+gg.toast("華麗變身刷取中 . . .")
 local t = {publicbase, "Cb"}
 local tt = {player_data_adress, 0x6C}
 local ttt = S_Pointer(t, tt, true)
@@ -3163,17 +3164,23 @@ gg.toast("華麗變身刷取成功")
 end
 
 function plantlvmedal()
-qmnb = {
-{["memory"] = 4},
-{["name"] = "刷茁壯成長勳章"},
-{["value"] =4634626229029306368, ["type"] = 32},
-{["lv"] = 13963984896, ["offset"] = 4, ["type"] = 32},
-{["lv"] = 117, ["offset"] = -4, ["type"] = 32},
-{["lv"] = 4607182418800017408, ["offset"] = 40, ["type"] = 32},
-{["lv"] = 13957595136, ["offset"] = 44, ["type"] = 32}}
-qmxg = {
-{["value"] = 25, ["offset"] = -40,["type"] = 64}}
-xqmnb(qmnb)
+plantlevel = gg.prompt({"输入當前植物等級"},{[1]="1"},{[1]="number"})[1]
+if not plantlevel then
+gg.toast("操作取消")
+end
+gg.toast("茁壯成長刷取中 . . . ")
+	 gg.clearResults()
+	 gg.setRanges(4)
+	 gg.searchNumber("".. plantlevel .."E;4634626229029306368Q", gg.TYPE_DOUBLE, false, gg.SIGN_EQUAL, 0, -1)
+	 gg.searchNumber(plantlevel, gg.TYPE_DOUBLE, false, gg.SIGN_EQUAL, 0, -1)
+	 jg=gg.getResults(1500)
+	 sl=gg.getResultCount()
+	 if sl>1500 then sl=1500 end
+	 for i = 1, sl do
+	 	 dzy=jg[i].address
+	 	 gg.addListItems({[1] = {address = dzy,flags = gg.TYPE_DOUBLE,freeze = true,value = 25}})
+	 end
+	 gg.clearResults()
 gg.toast("茁壯成長刷取成功")
 end
 
