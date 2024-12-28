@@ -1,6 +1,6 @@
 -- 腳本信息
 local scriptName = [=====[ Mod menu for Mini World]=====]
-local scriptVersion = '2.8'
+local scriptVersion = '2.9'
 local scriptAuthor = 'SkyCapoo'
 local startToast = ''
 local checkTarget = 1 
@@ -3191,7 +3191,7 @@ gg.toast("添加物品中 . . . ")
     -- 顯示提示窗口，預設使用保存的數據
     local wp = gg.prompt(
         {"要取的物品ID", "物品數量[1;200]", "物品耐久[-1;32000]", "添加格數[1;8]"},
-        {[1]="",[2]="",[3]=""},{[1]="number",[2]="number",[3]="number"})
+        {[1]="15056",[2]="1",[3]="32000",[4]="1"},{[1]="number",[2]="number",[3]="number",[4]="number"})
     if not wp then
         gg.toast("操作取消")
         return
