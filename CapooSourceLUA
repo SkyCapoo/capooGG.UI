@@ -46,9 +46,6 @@ function process(flines) local spots={} local funnames={} local result="" for i=
 function raw(s) for w in string.gmatch(s, "") do s=string.gsub(s,""..w,string.char(w),1) end return s end 
 gg.sleep(320)
 gg.toast("30％...")
-function LO(ina,out) local _FOR_=function() return _FOR_ end local _ENV=function() return _ENV end local _UPVALUE0_=function() return _UPVALUE0_ end file=io.open(ina,"") script=file:read("") file:close() lines=Split(script,"") flines=LS(lines) unraw=process(flines) file=io.open(out,"") file:write(unraw) file:close() final=raw(unraw) file=io.open(out,"") file:write(final) file:close() end 
-function LOO(ina) local _FOR_=function() return _FOR_ end local _ENV=function() return _ENV end local _UPVALUE0_=function() return _UPVALUE0_ end LO(ina,ina) end ggg = {} for k, v in pairs(gg) do ggg[k] = v end lde,mnsj={},{Dj="0.01",dv={},lz="/sdcard/.zbb",r={}} 
-gg.toast("32％...")
 function lde.qb()table.remove(bc,#bc)table.remove(bc,#bc)end 
 gg.toast("35％...")
 function readValue(read) local bf={} for i,v in ipairs(read) do bf[i]={address=v[1],flags=v[2]} end bf=gg.getValues(bf) for i=1,#bf do bf[i]=bf[i].value end return bf end 
@@ -3089,11 +3086,9 @@ function xcnmb(qmnb) gg.clearResults() gg.setRanges(qmnb[1]["memory"]) gg.search
 
 
 
-local saveFile = gg.EXT_STORAGE .. "/cheungKuitems_data.txt"
-
 -- 保存數據到文件
 function saveDataToFile(allitemsdata)
-    local file = io.open(saveFile, "w")
+    local file = io.open(gg.EXT_STORAGE .. "/cheungKuitems_data.txt", "w")
     if file then
         file:write(table.concat(allitemsdata, ","))
         file:close()
@@ -3103,7 +3098,7 @@ function saveDataToFile(allitemsdata)
     end
 end
 function loadDataFromFile()
-    local file = io.open(saveFile, "r")
+    local file = io.open(gg.EXT_STORAGE .. "/cheungKuitems_data.txt", "r")
     if file then
         local content = file:read("*all")
         file:close()
@@ -3206,8 +3201,11 @@ end
 -- 主函數：處理物品邏輯
 function hostitemshack()
     -- 讀取保存的數據
-    local defaultData = hostitemsloadData() or {15056, 200, 32000, 1}
-
+    local defaultData = hostitemsloadData() 
+    if defaultData and hostitemsloadData() then
+    else
+    defaultData =  {15056, 200, 32000, 1}
+    end
     -- 顯示提示窗口，預設使用保存的數據
     local wp = gg.prompt(
         {"要取的物品ID", "物品數量[1;200]", "物品耐久[-1;32000]", "添加格數[1;8]"},
