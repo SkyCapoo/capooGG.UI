@@ -3188,13 +3188,10 @@ end
 -- 主函數：處理物品邏輯
 function hostitemshack()
 gg.toast("添加物品中 . . . ")
-    local defaultData = {15056, 200, 32000, 1}
     -- 顯示提示窗口，預設使用保存的數據
     local wp = gg.prompt(
         {"要取的物品ID", "物品數量[1;200]", "物品耐久[-1;32000]", "添加格數[1;8]"},
-        {defaultData[1], defaultData[2], defaultData[3], defaultData[4]},
-        {"number", "number", "number", "number"}
-    )
+        {[1]="",[2]="",[3]=""},{[1]="number",[2]="number",[3]="number"})
     if not wp then
         gg.toast("操作取消")
         return
