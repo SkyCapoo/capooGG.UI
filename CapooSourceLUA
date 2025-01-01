@@ -14,6 +14,7 @@ local gameProcessName = "mini world"
 local username = ""
 local publicbase = "liblibGameApp.so:bss"
 local player_data_adress = 0x42FB8
+local announcement = "願2025外挂永昌"
 APP = gg.getTargetInfo()
 SJ = os.date("𒅒当前时间%Y年%m月%d日%H时%M分%S秒𒅒")
 local xdz={[1]="行走[通用]",[3]="死亡[通用]",[9]="睡覺[通用]",[12]="游泳[通用]",[15]="睡覺[通用]",[21]="滑鏟[通用]",[29]="吃東西[通用]",[36]="坐下[通用]",[53]="摸空气[通用]",[55]="抱坐[通用]",[65]="打篮球[通用]",[68]="展开双臂[通用]",[97]="双手举起[通用]",[-1]="恢复动作"}
@@ -3238,10 +3239,8 @@ gg.toast("正在注入🔓")
 uistart({ --每一个功能页面需要有上边分页名字对应，多出来的不显示，少了需要补充
 	{     --1
 		CAtext('公告', '#005BFF', '14sp'),
-
-
-
-		CAtext(''..scriptAuthor..'_v'..scriptVersion..' 公益輔助', '#FFD306', '12sp', true),
+        CAtext(''..scriptAuthor..'_v'..scriptVersion..' 公益輔助', '#FFD306', '12sp', true),
+		CAtext(announcement, '#ffffff', '13sp', true),
         CAbutton(
 			'使用者名稱: '.. username,
 			function()
